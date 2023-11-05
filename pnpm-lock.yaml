@@ -33,8 +33,8 @@ dependencies:
     specifier: 3.3.5
     version: 3.3.5
   typescript:
-    specifier: 5.1.3
-    version: 5.1.3
+    specifier: 5.2.2
+    version: 5.2.2
 
 devDependencies:
   '@types/node':
@@ -1079,8 +1079,8 @@ packages:
       is-typedarray: 1.0.0
     dev: false
 
-  /typescript@5.1.3:
-    resolution: {integrity: sha512-XH627E9vkeqhlZFQuL+UsyAXEnibT0kWR2FWONlr4sTjvxyJYnyefgrkyECLzM5NenmKzRAy2rR/OlYLA1HkZw==}
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
