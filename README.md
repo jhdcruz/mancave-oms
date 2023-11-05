@@ -10,18 +10,47 @@
 
 - Axiom
 
-### Utilities
+### Tooling
 
 - Codacy
 - Renovate
 - Snyk
 - Vercel
 
+## Development
+
+### Prerequisites
+
+- Node.js 20+
+- PNPM
+- Supabase Credentials
+
+### Setup
+
+1. Clone the repository
+
+   ```bash
+   git clone https://github.com/jhdcruz/erp.git
+   ```
+
+2. Install pnpm & dependencies
+
+    - Run `scripts/setup.bat` on Windows; or,
+    - Manually, using the command prompt:
+
+   ```bash
+   https://pnpm.io/installation#using-winget
+   ```
+
+3. Make your changes.
+
 ## Deployment
 
 ### Clone and run locally
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+1. You'll first need a Supabase credentials:
+    - shared in GC; or,
+    - Create your own [via the Supabase dashboard](https://database.new)
 
 2. Rename `.env.local.example` to `.env.local` and update the following:
 
@@ -36,10 +65,8 @@
 3. You can now run the Next.js local development server:
 
    ```bash
-   npm run dev
+   pnpm dev
    ```
-
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also
 > run Supabase locally.
