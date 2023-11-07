@@ -1,5 +1,3 @@
-"use client";
-
 import { HTMLAttributes } from "react";
 import { Mail } from "lucide-react";
 import Image from "next/image";
@@ -13,7 +11,7 @@ interface AuthFormProps extends HTMLAttributes<HTMLDivElement> {
   action: ((formData: FormData) => void) | undefined;
 }
 
-export function AuthForm({ action, className, ...props }: AuthFormProps) {
+export default function AuthForm({ action, className, ...props }: AuthFormProps) {
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form action={action}>
@@ -46,8 +44,8 @@ export function AuthForm({ action, className, ...props }: AuthFormProps) {
               autoCorrect="off"
             />
           </div>
-          <Button>
-            <Mail className="mr-2" size={20} /> Sign In with Email
+          <Button type="submit">
+            <Mail className="mr-2" size={18} /> Sign In with Email
           </Button>
         </div>
       </form>

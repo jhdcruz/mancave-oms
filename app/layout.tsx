@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { AxiomWebVitals } from "next-axiom";
 import { GeistSans } from "geist/font";
 
-import { ThemeProvider } from "@/components/theme-provider";
+import ThemeProvider from "@/components/theme-provider";
 
 import "./globals.css";
 
@@ -27,9 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
-            {children}
-          </main>
+          <main className="min-h-screen">{children}</main>
         </ThemeProvider>
       </body>
     </html>

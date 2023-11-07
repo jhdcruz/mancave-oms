@@ -1,12 +1,17 @@
+import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { AlertCircle, Boxes } from "lucide-react";
+import { AlertCircle, Boxes, Wifi } from "lucide-react";
 
-import { AuthForm } from "@/components/auth-form";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import AuthForm from "@/components/auth-form";
 
 import { createClient } from "@/utils/supabase/server";
+
+const ThemeSwitcher = dynamic(() => import("@/components/theme-switcher"), {
+  ssr: false,
+});
 
 export function Announcements() {
   return (
@@ -30,6 +35,16 @@ export default async function Index({
 }) {
   const cookieStore = cookies();
 
+  const canInitSupabaseClient = async () => {
+    try {
+      createClient(cookieStore);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+  const isSupabaseConnected = await canInitSupabaseClient();
+
   const signIn = async (formData: FormData) => {
     "use server";
 
@@ -50,16 +65,6 @@ export default async function Index({
 
     return redirect("/");
   };
-
-  const canInitSupabaseClient = () => {
-    try {
-      createClient(cookieStore);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-  const isSupabaseConnected = canInitSupabaseClient();
 
   return (
     <>
@@ -102,6 +107,24 @@ export default async function Index({
             )}
 
             <AuthForm action={signIn} />
+
+            {/* Check if there is back-end connection */}
+            <Badge
+              variant="outline"
+              className="w-fit p-1 px-5 text-center mx-auto mb-5 mt-auto"
+            >
+              {isSupabaseConnected ? (
+                <>
+                  <Wifi className="mr-2" size={20} color="#4fff38" />
+                  All systems normal
+                </>
+              ) : (
+                <>
+                  <Wifi className="mr-2" size={20} color="#ff3838" />
+                  System under maintenance
+                </>
+              )}
+            </Badge>
           </div>
         </div>
       </div>
