@@ -5,6 +5,7 @@ import { AlertCircle, Boxes, Wifi } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import Announcements from "@/components/Announcements";
 import AuthForm from "@/components/auth-form";
 
 import { createClient } from "@/utils/supabase/server";
@@ -12,21 +13,6 @@ import { createClient } from "@/utils/supabase/server";
 const ThemeSwitcher = dynamic(() => import("@/components/theme-switcher"), {
   ssr: false,
 });
-
-export function Announcements() {
-  return (
-    <div className="relative z-20 mt-10">
-      <blockquote className="space-y-2">
-        <h2 className="text-2xl font-semibold">Announcments</h2>
-        <p className="text-lg">
-          &ldquo;This library has saved me countless hours of work and helped me
-          deliver stunning designs to my clients faster than ever before.&rdquo;
-        </p>
-        <footer className="text-sm">Sofia Davis</footer>
-      </blockquote>
-    </div>
-  );
-}
 
 export default async function Index({
   searchParams,
