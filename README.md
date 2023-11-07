@@ -2,20 +2,25 @@
 
 ## Tech Stack
 
-- Next.js 14
-- shadcn/ui
-- Supabase
+- [Next.js 14](https://nextjs.org)
+- [shadcn/ui](ui.shadcn.com)
+- [Supabase](https://supabase.com)
+- [Lucide Icons](https://lucide.dev/)
 
-### Monitoring and Analytics
+### Monitoring & Analytics
 
-- Axiom
+- [Axiom](https://axiom.co)
+
+### Utilities
+
+- [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/)
 
 ### Tooling
 
-- Codacy
-- Renovate
-- Snyk
-- Vercel
+- [Codacy](https://codacy.com)
+- [Renovate](https://www.mend.io/renovate/)
+- [Snyk](https://snyk.io)
+- [Vercel](https://vercel.com)
 
 ## Development
 
@@ -35,12 +40,8 @@
 
 2. Install pnpm & dependencies
 
-    - Run `scripts/setup.bat` on Windows; or,
-    - Manually, using the command prompt:
-
-   ```bash
-   https://pnpm.io/installation#using-winget
-   ```
+   - Run `scripts/setup.bat` on Windows; or,
+   - [Manually](https://pnpm.io/installation#using-winget)
 
 3. Make your changes.
 
@@ -49,8 +50,9 @@
 ### Clone and run locally
 
 1. You'll first need a Supabase credentials:
-    - shared in GC; or,
-    - Create your own [via the Supabase dashboard](https://database.new)
+
+   - Shared in GC; or,
+   - Create your own [via the Supabase dashboard](https://database.new)
 
 2. Rename `.env.local.example` to `.env.local` and update the following:
 
@@ -70,4 +72,3 @@
 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also
 > run Supabase locally.
-

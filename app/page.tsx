@@ -1,17 +1,57 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/SignUpUserSteps";
-import Header from "@/components/Header";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { AlertCircle, Boxes } from "lucide-react";
 
-export default async function Index() {
+import { AuthForm } from "@/components/auth-form";
+import { ThemeSwitcher } from "@/components/theme-switcher";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+import { createClient } from "@/utils/supabase/server";
+
+export function Announcements() {
+  return (
+    <div className="relative z-20 mt-10">
+      <blockquote className="space-y-2">
+        <h2 className="text-2xl font-semibold">Announcments</h2>
+        <p className="text-lg">
+          &ldquo;This library has saved me countless hours of work and helped me
+          deliver stunning designs to my clients faster than ever before.&rdquo;
+        </p>
+        <footer className="text-sm">Sofia Davis</footer>
+      </blockquote>
+    </div>
+  );
+}
+
+export default async function Index({
+  searchParams,
+}: {
+  searchParams: { title: string; message: string };
+}) {
   const cookieStore = cookies();
 
+  const signIn = async (formData: FormData) => {
+    "use server";
+
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const supabase = createClient(cookieStore);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      return redirect(
+        "?title=Invalid Credentials&message=Wrong username or password.",
+      );
+    }
+
+    return redirect("/");
+  };
+
   const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
     try {
       createClient(cookieStore);
       return true;
@@ -19,39 +59,52 @@ export default async function Index() {
       return false;
     }
   };
-
   const isSupabaseConnected = canInitSupabaseClient();
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
+    <>
+      <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+          <div className="absolute inset-0 bg-zinc-900" />
+
+          {/* Branding */}
+          <div className="relative z-20 flex items-center text-lg font-medium">
+            <Boxes className="mr-2" size={26} />
+            Company A
+          </div>
+
+          <Announcements />
         </div>
-      </nav>
 
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
+        <div className="lg:p-8">
+          {/* Branding */}
+          <div className="absolute top-10 right-10 z-20 flex items-center">
+            <ThemeSwitcher />
+          </div>
+
+          <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+            <div className="flex flex-col space-y-2 text-center">
+              <h1 className="text-2xl font-semibold tracking-tight">
+                Good to see you!
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Enter your credentials below to login.
+              </p>
+            </div>
+
+            {/* Invalid Crednetials Alert */}
+            {searchParams?.message && (
+              <Alert variant="destructive" className="text-left text-sm">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>{searchParams.title}</AlertTitle>
+                <AlertDescription>{searchParams.message}</AlertDescription>
+              </Alert>
+            )}
+
+            <AuthForm action={signIn} />
+          </div>
+        </div>
       </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
-    </div>
+    </>
   );
 }
