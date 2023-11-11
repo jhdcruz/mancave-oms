@@ -69,8 +69,9 @@
     "eslint-config-next": "14.0.2",
     "eslint-config-prettier": "9.0.0",
     "husky": "8.0.3",
-    "lint-staged": "15.0.2",
-    "prettier": "3.0.3"
+    "lint-staged": "15.1.0",
+    "prettier": "3.0.3",
+    "prettier-plugin-tailwindcss": "0.5.7"
   },
   "lint-staged": {
     "*.(md,json,yml)": "prettier --write",
@@ -79,9 +80,21 @@
     ]
   },
   "prettier": {
-    "trailingComma": "all",
+    "trailingComma": "es5",
     "arrowParens": "always",
     "printWidth": 80,
-    "tabWidth": 2
+    "tabWidth": 2,
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "next",
+      "prettier"
+    ],
+    "rules": {
+      "react/no-unescaped-entities": "off"
+    }
   }
 }
