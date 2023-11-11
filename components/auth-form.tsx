@@ -1,17 +1,24 @@
+"use client";
+
 import { HTMLAttributes } from "react";
 import { Mail } from "lucide-react";
 import Image from "next/image";
 
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Button } from "@/ui/button";
+
 import { cn } from "@/utils";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
 
 interface AuthFormProps extends HTMLAttributes<HTMLDivElement> {
   action: ((formData: FormData) => void) | undefined;
 }
 
-export default function AuthForm({ action, className, ...props }: AuthFormProps) {
+export default function AuthForm({
+  action,
+  className,
+  ...props
+}: AuthFormProps) {
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form action={action}>
@@ -30,6 +37,7 @@ export default function AuthForm({ action, className, ...props }: AuthFormProps)
               autoCorrect="off"
             />
           </div>
+
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Password
@@ -44,6 +52,7 @@ export default function AuthForm({ action, className, ...props }: AuthFormProps)
               autoCorrect="off"
             />
           </div>
+
           <Button type="submit">
             <Mail className="mr-2" size={18} /> Sign In with Email
           </Button>
@@ -53,12 +62,14 @@ export default function AuthForm({ action, className, ...props }: AuthFormProps)
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
+
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
             Or continue with
           </span>
         </div>
       </div>
+
       <Button variant="outline" type="button">
         <Image
           width={20}

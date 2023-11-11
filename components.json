@@ -10,6 +10,7 @@
     "cssVariables": true
   },
   "aliases": {
+    "ui": "@/ui",
     "components": "@/components",
     "utils": "@/utils"
   }
