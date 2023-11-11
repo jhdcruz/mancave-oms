@@ -48,7 +48,7 @@ export default async function Index({
 
       {/* Right-side panel */}
       <div className="lg:p-8">
-        <div className="absolute top-10 right-10 z-20 flex items-center">
+        <div className="absolute right-10 top-10 z-20 flex items-center">
           <ThemeSwitcher />
         </div>
 
@@ -97,7 +97,7 @@ const SystemStatus = async () => {
   return (
     <Badge
       variant="outline"
-      className="w-fit p-1 px-5 text-center mx-auto mb-2 mt-auto"
+      className="mx-auto mb-2 mt-auto w-fit p-1 px-5 text-center"
     >
       {isSupabaseConnected ? (
         <>
@@ -130,7 +130,7 @@ const googleSignIn = async () => {
     await log.flush();
 
     return redirect(
-      "?title=Something went wrong&message=You may have used the wrong google account.",
+      "?title=Something went wrong&message=You may have used the wrong google account."
     );
   }
 
@@ -156,7 +156,7 @@ const formSignIn = async (formData: FormData) => {
     await log.flush();
 
     return redirect(
-      "?title=Invalid Credentials&message=Wrong username or password.",
+      "?title=Invalid Credentials&message=Wrong username or password."
     );
   }
 
@@ -181,7 +181,7 @@ const forgotAction = async () => {
     await log.flush();
 
     return redirect(
-      "?title=Something went wrong&message=Contact your IT Administrator for troubleshooting.",
+      "?title=Something went wrong&message=Contact your IT Administrator for troubleshooting."
     );
   }
 

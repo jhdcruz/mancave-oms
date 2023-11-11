@@ -61,7 +61,7 @@ export default function AuthForm({
           <Button type="submit">
             <Mail className="mr-2" size={18} /> Sign In with Email
           </Button>
-          <Button variant="link" className="py-0 my-0" onClick={forgotAction}>
+          <Button variant="link" className="my-0 py-0" onClick={forgotAction}>
             Forgot your password?
           </Button>
         </div>

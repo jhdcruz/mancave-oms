@@ -24,11 +24,11 @@ const AnnouncementItem = ({
   headline,
   href,
 }: AnnouncementItemProps) => (
-  <div className="rounded-lg border py-5 px-6 mb-4">
+  <div className="mb-4 rounded-lg border px-6 py-5">
     <h4 className="font-semibold">{title}</h4>
-    <p className="text-sm text-muted-foreground my-1">{formatDateTime(date)}</p>
+    <p className="my-1 text-sm text-muted-foreground">{formatDateTime(date)}</p>
 
-    <p className="text-base my-4 break-words">{headline}</p>
+    <p className="my-4 break-words text-base">{headline}</p>
 
     <Button className="ml-0 pl-0 text-sm font-semibold" variant="link" asChild>
       <Link href={href}>Read More &#8594;</Link>

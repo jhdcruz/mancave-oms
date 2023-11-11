@@ -18,12 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <AxiomWebVitals />
 
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <main className="min-h-screen">{children}</main>
         </ThemeProvider>
       </body>
