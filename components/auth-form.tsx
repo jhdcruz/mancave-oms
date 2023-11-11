@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, MouseEventHandler } from "react";
 import { Mail } from "lucide-react";
 import Image from "next/image";
 
@@ -10,18 +10,23 @@ import { Button } from "@/ui/button";
 
 import { cn } from "@/utils";
 
-interface AuthFormProps extends HTMLAttributes<HTMLDivElement> {
-  action: ((formData: FormData) => void) | undefined;
-}
+export type AuthFormProps = HTMLAttributes<HTMLDivElement> & {
+  formAction: ((formData: FormData) => void) | undefined;
+  googleAction: MouseEventHandler<HTMLButtonElement> | undefined;
+
+  forgotAction: MouseEventHandler<HTMLButtonElement> | undefined;
+};
 
 export default function AuthForm({
-  action,
+  formAction,
+  googleAction,
+  forgotAction,
   className,
   ...props
 }: AuthFormProps) {
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
-      <form action={action}>
+    <div className={cn("grid gap-3", className)} {...props}>
+      <form action={formAction}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -56,9 +61,14 @@ export default function AuthForm({
           <Button type="submit">
             <Mail className="mr-2" size={18} /> Sign In with Email
           </Button>
+          <Button variant="link" className="py-0 my-0" onClick={forgotAction}>
+            Forgot your password?
+          </Button>
         </div>
       </form>
-      <div className="relative">
+
+      {/* Divider */}
+      <div className="relative mb-1">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
@@ -70,7 +80,8 @@ export default function AuthForm({
         </div>
       </div>
 
-      <Button variant="outline" type="button">
+      {/* Additional login types */}
+      <Button variant="outline" type="button" onClick={googleAction}>
         <Image
           width={20}
           height={20}
