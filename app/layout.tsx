@@ -3,12 +3,9 @@ import { AxiomWebVitals } from "next-axiom";
 import { GeistSans } from "geist/font/sans";
 
 import ThemeProvider from "@/components/theme-provider";
+import { defaultUrl } from "@/utils";
 
 import "./globals.css";
-
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
