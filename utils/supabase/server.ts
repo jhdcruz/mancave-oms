@@ -1,6 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
-import { Logger } from "next-axiom";
 import { cookies } from "next/headers";
+import { Logger } from "next-axiom";
 
 export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
   const log = new Logger();
