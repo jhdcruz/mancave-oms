@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { AxiomWebVitals } from "next-axiom";
-import { GeistSans } from "geist/font";
+import { GeistSans } from "geist/font/sans";
 
 import ThemeProvider from "@/components/theme-provider";
 
