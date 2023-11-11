@@ -5,7 +5,7 @@ import { AlertCircle, Boxes, Wifi } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import Announcements from "@/components/Announcements";
+import Announcements from "@/components/announcements";
 import AuthForm from "@/components/auth-form";
 
 import { createClient } from "@/utils/supabase/server";
