@@ -3,7 +3,7 @@
 ## Tech Stack
 
 - [Next.js 14](https://nextjs.org)
-- [shadcn/ui](ui.shadcn.com)
+- [shadcn/ui](https://ui.shadcn.com)
 - [Supabase](https://supabase.com)
 - [Lucide Icons](https://lucide.dev/)
 
@@ -18,8 +18,9 @@
 ### Tooling
 
 - [Codacy](https://codacy.com)
-- [Renovate](https://www.mend.io/renovate/)
-- [Snyk](https://snyk.io)
+- [Mend Renovate](https://www.mend.io/renovate-free/)
+- [Mend Bolt](https://www.mend.io/free-developer-tools/bolt/)
+- [Checkly](https://vercel.com/integrations/checkly)
 - [Vercel](https://vercel.com)
 
 ## Development
