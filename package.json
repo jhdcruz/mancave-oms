@@ -80,7 +80,7 @@
     ]
   },
   "prettier": {
-    "trailingComma": "es5",
+    "trailingComma": "all",
     "arrowParens": "always",
     "printWidth": 80,
     "tabWidth": 2,
