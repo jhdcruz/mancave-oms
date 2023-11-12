@@ -11,10 +11,10 @@ import { Skeleton } from "@/ui/skeleton";
 
 import Announcements from "@/components/announcements";
 import type { AuthFormProps } from "@/components/auth-form";
+import LabeledDivider from "@/components/labeled-divider";
 
 import { defaultUrl } from "@/utils";
 import { createClient } from "@/utils/supabase/server";
-import LabeledDivider from "@/components/labeled-divider";
 
 const ThemeSwitcher = dynamic(() => import("@/components/theme-switcher"), {
   ssr: false,
@@ -46,8 +46,8 @@ const AuthForm = dynamic(() => import("@/components/auth-form"), {
 });
 
 export default async function Index({
-                                      searchParams,
-                                    }: {
+  searchParams,
+}: {
   searchParams: { title: string; message: string };
 }) {
   const authActions: AuthFormProps = {
@@ -57,8 +57,7 @@ export default async function Index({
   };
 
   return (
-    <div
-      className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       {/* Left-side panel */}
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
@@ -158,15 +157,15 @@ const googleSignIn = async () => {
   });
 
   if (error) {
-    log.with(error).info("Google login failed attempt");
+    log.with(error).error("Google login failed attempt");
     await log.flush();
 
     return redirect(
-      "?title=Something went wrong&message=You may have used the wrong google account.",
+      "/login?title=Something went wrong&message=You may have used the wrong google account.",
     );
   }
 
-  return redirect("/dashboard");
+  // redirect is automatically handled here
 };
 
 const formSignIn = async (formData: FormData) => {
@@ -188,11 +187,11 @@ const formSignIn = async (formData: FormData) => {
     await log.flush();
 
     return redirect(
-      "?title=Invalid Credentials&message=Wrong username or password.",
+      "/login?title=Invalid Credentials&message=Wrong username or password.",
     );
   }
 
-  return redirect("/dashboard");
+  return redirect("/");
 };
 
 const forgotAction = async () => {
@@ -205,15 +204,15 @@ const forgotAction = async () => {
   // TODO: Update password action
   //       https://supabase.com/docs/guides/auth/auth-password-reset#update-password
   const { error } = await supabase.auth.resetPasswordForEmail("", {
-    redirectTo: `${defaultUrl}/auth/callback?next=/profile/reset-password`,
+    redirectTo: `${defaultUrl}/auth?next=/profile/reset-password`,
   });
 
   if (error) {
-    log.with(error).info("Error reset password request", { email: "TODO" });
+    log.with(error).error("Error reset password request", { email: "TODO" });
     await log.flush();
 
     return redirect(
-      "?title=Something went wrong&message=Contact your IT Administrator for troubleshooting.",
+      "/login?title=Something went wrong&message=Contact your IT Administrator for troubleshooting.",
     );
   }
 
