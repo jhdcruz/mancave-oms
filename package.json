@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fmt": "next lint --fix",
+    "lint:fix": "next lint --fix",
+    "fmt": "prettier --write src",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -76,6 +77,7 @@
   "lint-staged": {
     "*.(md,json,yml)": "prettier --write",
     "*.(js?(x),ts?(x))": [
+      "prettier --write",
       "next lint --fix --file"
     ]
   },
