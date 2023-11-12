@@ -13,9 +13,7 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl).href, {
-      status: 401,
-    });
+    return NextResponse.redirect(new URL("/login", req.nextUrl).href);
   }
 
   // TODO: Protected routes
