@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
-import { type AxiomRequest } from "next-axiom";
+import { NextRequest, NextResponse } from "next/server";
 
 import { createClient } from "@/utils/supabase/middleware";
 
-export async function middleware(req: AxiomRequest) {
+export async function middleware(req: NextRequest) {
   const { supabase, response } = createClient(req);
 
   // Refresh session if expired - required for Server Components
@@ -12,8 +11,6 @@ export async function middleware(req: AxiomRequest) {
     data: { session },
     error,
   } = await supabase.auth.getSession();
-
-  if (error) req.log.error("Error getting session", { error });
 
   if (!session) {
     return NextResponse.redirect(new URL("/login", req.nextUrl).href, {
