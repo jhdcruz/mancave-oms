@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/ui/card";
@@ -30,7 +29,7 @@ const AnnouncementItem = ({
 
     <p className="my-4 break-words text-base">{headline}</p>
 
-    <Button className="ml-0 pl-0 text-sm font-semibold" variant="link" asChild>
+    <Button className="ml-0 p-0 text-sm font-semibold" variant="link" asChild>
       <Link href={href}>Read More &#8594;</Link>
     </Button>
   </div>
@@ -46,7 +45,7 @@ export default function Announcements() {
             Public announcement from the management.
           </CardDescription>
         </CardHeader>
-        <CardContent className="max-h-[70vh] overflow-y-scroll">
+        <CardContent className="max-h-[74vh] overflow-y-scroll">
           {/* Sample data */}
           <AnnouncementItem
             title="Welcome to the Inventory Management System!"

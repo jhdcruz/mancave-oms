@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
-import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function ThemeSwitcher() {
+  const [mounted, setMounted] = useState(false);
   const { setTheme } = useTheme();
+
+  // values returned from useTheme will be undefined until mounted on the client.
+  // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#avoid-hydration-mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <DropdownMenu>

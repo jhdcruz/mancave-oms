@@ -1,22 +1,53 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 
 import { AlertCircle, Boxes, Wifi } from "lucide-react";
 import { Logger } from "next-axiom";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/ui/skeleton";
 
 import Announcements from "@/components/announcements";
-import AuthForm, { type AuthFormProps } from "@/components/auth-form";
-import ThemeSwitcher from "@/components/theme-switcher";
+import type { AuthFormProps } from "@/components/auth-form";
 
-import { createClient } from "@/utils/supabase/server";
 import { defaultUrl } from "@/utils";
+import { createClient } from "@/utils/supabase/server";
+import LabeledDivider from "@/components/labeled-divider";
+
+const ThemeSwitcher = dynamic(() => import("@/components/theme-switcher"), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[2.5rem] w-[2.5rem] rounded-lg" />,
+});
+
+// Skeleton form
+const AuthForm = dynamic(() => import("@/components/auth-form"), {
+  ssr: false,
+  loading: () => {
+    return (
+      <div className="grid gap-4">
+        <div className="grid gap-2">
+          <div className="mb-1 grid gap-1">
+            <Skeleton className="h-10 rounded-lg" />
+            <Skeleton className="h-10 rounded-lg" />
+
+            <Skeleton className="h-10 rounded-lg" />
+            <Skeleton className="h-10 rounded-lg" />
+          </div>
+        </div>
+
+        <LabeledDivider text="or continue with" />
+
+        <Skeleton className="h-10 rounded-lg" />
+      </div>
+    );
+  },
+});
 
 export default async function Index({
-  searchParams,
-}: {
+                                      searchParams,
+                                    }: {
   searchParams: { title: string; message: string };
 }) {
   const authActions: AuthFormProps = {
@@ -26,7 +57,8 @@ export default async function Index({
   };
 
   return (
-    <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div
+      className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       {/* Left-side panel */}
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
@@ -126,11 +158,11 @@ const googleSignIn = async () => {
   });
 
   if (error) {
-    log.info("Google login failed attempt", { error: error });
+    log.with(error).info("Google login failed attempt");
     await log.flush();
 
     return redirect(
-      "?title=Something went wrong&message=You may have used the wrong google account."
+      "?title=Something went wrong&message=You may have used the wrong google account.",
     );
   }
 
@@ -152,11 +184,11 @@ const formSignIn = async (formData: FormData) => {
   });
 
   if (error) {
-    log.info("User login failed attempt", { email: email, error: error });
+    log.with(error).info("User login failed attempt", { email: email });
     await log.flush();
 
     return redirect(
-      "?title=Invalid Credentials&message=Wrong username or password."
+      "?title=Invalid Credentials&message=Wrong username or password.",
     );
   }
 
@@ -177,11 +209,11 @@ const forgotAction = async () => {
   });
 
   if (error) {
-    log.info("Error reset password request", { email: "TODO", error: error });
+    log.with(error).info("Error reset password request", { email: "TODO" });
     await log.flush();
 
     return redirect(
-      "?title=Something went wrong&message=Contact your IT Administrator for troubleshooting."
+      "?title=Something went wrong&message=Contact your IT Administrator for troubleshooting.",
     );
   }
 
