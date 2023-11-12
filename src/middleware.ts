@@ -13,6 +13,8 @@ export async function middleware(req: AxiomRequest) {
     error,
   } = await supabase.auth.getSession();
 
+  if (error) req.log.error("Error getting session", { error });
+
   if (!session) {
     return NextResponse.redirect(new URL("/login", req.nextUrl).href, {
       status: 401,
