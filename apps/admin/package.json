@@ -24,7 +24,7 @@
     "recharts": "2.9.3"
   },
   "devDependencies": {
-    "@erp/eslint-config-shared": "workspace:*",
+    "@erp/eslint-config": "workspace:*",
     "@erp/tooling": "workspace:*",
     "@types/node": "20.9.0",
     "@types/react": "18.2.37",

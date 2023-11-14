@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@erp/eslint-config-shared",
+  "name": "@erp/eslint-config",
   "version": "0.1.0",
   "devDependencies": {
     "eslint-config-next": "14.0.2",

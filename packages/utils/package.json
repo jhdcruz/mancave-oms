@@ -9,7 +9,7 @@
     "tailwindcss": "3.3.5"
   },
   "devDependencies": {
-    "@erp/eslint-config-shared": "workspace:*",
+    "@erp/eslint-config": "workspace:*",
     "@erp/tooling": "workspace:*",
     "@types/node": "20.9.0"
   },
