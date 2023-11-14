@@ -26,5 +26,5 @@
       "next lint --fix --file"
     ]
   },
-  "packageManager": "pnpm@8.10.4"
+  "packageManager": "pnpm@8.10.5"
 }
