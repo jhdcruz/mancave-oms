@@ -2,7 +2,7 @@
 
 ## Structure
 
-<img src="./docs/structure.svg" width="680px" />
+<img src="./docs/structure.svg" width="100%" />
 
 ## Development
 
