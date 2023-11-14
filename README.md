@@ -10,18 +10,15 @@
 ### Monitoring & Analytics
 
 - [Axiom](https://axiom.co)
+- [Checkly](https://vercel.com/integrations/checkly)
 
 ### Utilities
-
-- [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/)
-
-### Tooling
 
 - [Codacy](https://codacy.com)
 - [Mend Renovate](https://www.mend.io/renovate-free/)
 - [Mend Bolt](https://www.mend.io/free-developer-tools/bolt/)
-- [Checkly](https://vercel.com/integrations/checkly)
 - [Vercel](https://vercel.com)
+- [Turborepo](https://turbo.build/)
 
 ## Development
 

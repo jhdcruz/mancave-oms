@@ -1,4 +1,4 @@
-import prettierConfig from "@erp/tooling/prettier/base.json";
+const prettierConfig = require("@erp/tooling/prettier/base.json");
 
 module.exports = {
   ...prettierConfig,

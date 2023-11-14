@@ -6,7 +6,6 @@
     "noEmit": true,
     "declaration": false,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "bundler",
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"]

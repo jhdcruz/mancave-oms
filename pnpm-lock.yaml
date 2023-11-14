@@ -148,6 +148,9 @@ importers:
 
   packages/tooling:
     devDependencies:
+      '@types/node':
+        specifier: 20.9.0
+        version: 20.9.0
       prettier-plugin-tailwindcss:
         specifier: 0.5.7
         version: 0.5.7(prettier@3.1.0)

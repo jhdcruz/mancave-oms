@@ -3,10 +3,5 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "plugins": [
-    {
-      "name": "next"
-    }
-  ],
   "include": ["components", "containers", "globals.css"]
 }
