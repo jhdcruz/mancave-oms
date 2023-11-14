@@ -1,0 +1,135 @@
+# LAYOUT = ELK
+direction: down
+
+***.style.border-radius: 12
+
+# Internal Entities
+customer: Client Portal {
+  shape: cloud
+}
+admin: Admin Portal {
+  shape: cloud
+}
+
+# Foreign Entities
+clients: {
+  shape: person
+}
+admins: {
+  shape: person
+  style: {
+    fill: black
+  }
+}
+
+source: Source {
+  shape: image
+  icon: https://icons.terrastruct.com/dev%2Fsourcetree.svg
+  width: 80
+  height: 80
+}
+
+github: GitHub {
+  shape: image
+  icon: https://icons.terrastruct.com/dev/github.svg
+  width: 80
+  height: 80
+}
+
+sec: CQ/SAST {
+  style: {
+    fill: transparent
+  }
+
+  codacy: Codacy {
+    shape: image
+    icon: https://static-00.iconduck.com/assets.00/codacy-icon-512x512-m4xhtnao.png
+    width: 80
+    height: 80
+  }
+
+  renovate: Mend Renovate {
+    shape: image
+    icon: https://docs.renovatebot.com/assets/images/logo.png
+    width: 80
+    height: 80
+  }
+
+  bolt: Mend Bolt {
+    shape: image
+    icon: https://www.mend.io/wp-content/media/2023/04/mend-io-logo-circle.png
+    width: 80
+    height: 80
+  }
+
+  cql: CodeQL {
+    shape: image
+    icon: https://pbs.twimg.com/media/EwEJGEeXMAgJOHH.png
+    width: 80
+    height: 80
+  }
+}
+
+ci: CI/CD {
+  style: {
+    fill: transparent
+  }
+
+  vercel: Vercel {
+    shape: image
+    icon: https://static.wikia.nocookie.net/logopedia/images/a/a7/Vercel_favicon.svg
+    width: 80
+    height: 80
+  }
+
+  gha: GitHub Actions {
+    shape: image
+    icon: https://avatars.githubusercontent.com/u/44036562?s=280&v=4.png
+    width: 80
+    height: 80
+  }
+}
+
+checkly: Checkly {
+  shape: image
+  icon: https://cdn2.opsmatters.com/sites/default/files/logos/checkly-thumb2.png
+  width: 80
+  height: 80
+}
+
+runtime: Runtime {
+  style: {
+    fill: transparent
+  }
+
+  axiom: Axiom {
+    shape: image
+    icon: https://avatars.githubusercontent.com/u/21122348?s=200&v=4.png
+    width: 80
+    height: 80
+  }
+
+  supabase: Supabase {
+    shape: image
+    icon: https://avatars.githubusercontent.com/u/54469796?s=280&v=4
+    width: 80
+    height: 80
+  }
+}
+
+# General connections
+source -> github
+github -> ci
+
+github <- sec
+sec -> ci
+ci -> checkly
+
+checkly -> admin
+checkly -> customer
+
+admin <-> runtime
+customer <-> runtime
+
+customer <- clients
+admin <- admins

@@ -1,58 +1,31 @@
 # ERP
 
-## Tech Stack
+## Structure
 
-- [Next.js 14](https://nextjs.org)
-- [shadcn/ui](https://ui.shadcn.com)
-- [Supabase](https://supabase.com)
-- [Lucide Icons](https://lucide.dev/)
-
-### Monitoring & Analytics
-
-- [Axiom](https://axiom.co)
-- [Checkly](https://vercel.com/integrations/checkly)
-
-### Utilities
-
-- [Codacy](https://codacy.com)
-- [Mend Renovate](https://www.mend.io/renovate-free/)
-- [Mend Bolt](https://www.mend.io/free-developer-tools/bolt/)
-- [Vercel](https://vercel.com)
-- [Turborepo](https://turbo.build/)
+<img src="./docs/structure.svg" width="680px" />
 
 ## Development
 
 ### Prerequisites
 
-- Node.js 20+
-- PNPM
+- [Node.js LTS](https://nodejs.org/en)
+- [PNPM](https://pnpm.io/installation#using-winget)
 - Supabase Credentials
 
 ### Setup
 
-1. Clone the repository
+1. Clone and install deps:
 
    ```bash
-   git clone https://github.com/jhdcruz/erp.git
+   git clone https://github.com/jhdcruz/erp.git --depth 10 && cd erp & pnpm i
    ```
 
-2. Install pnpm & dependencies
-
-   - Run `scripts/setup.bat` on Windows; or,
-   - [Manually](https://pnpm.io/installation#using-winget)
-
-3. Make your changes.
-
-## Deployment
-
-### Clone and run locally
-
-1. You'll first need a Supabase credentials:
+2. You'll need a Supabase credentials:
 
    - Shared in GC; or,
    - Create your own [via the Supabase dashboard](https://database.new)
 
-2. Rename `.env.local.example` to `.env.local` and update the following:
+3. Rename `.env.local.example` to `.env.local` and update the following:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
@@ -60,9 +33,9 @@
    ```
 
    Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found
-   in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
+   in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api).
 
-3. You can now run the Next.js local development server:
+4. You can now run the Next.js local development server:
 
    ```bash
    pnpm dev
