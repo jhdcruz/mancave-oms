@@ -1,0 +1,3 @@
+{
+  "extends": "@erp/tooling/tsconfig/library.json"
+}

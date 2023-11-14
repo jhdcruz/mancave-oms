@@ -1,0 +1,3 @@
+{
+  "extends": ["@erp/eslint-config-shared/next"]
+}

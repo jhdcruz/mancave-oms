@@ -1,0 +1,12 @@
+{
+  "extends": "@erp/tooling/tsconfig/next.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "plugins": [
+    {
+      "name": "next"
+    }
+  ],
+  "include": ["components", "containers", "globals.css"]
+}

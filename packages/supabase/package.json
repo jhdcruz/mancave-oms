@@ -1,0 +1,24 @@
+{
+  "name": "@erp/supabase",
+  "description": "Supabase utils/helper functions.",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "dependencies": {
+    "@supabase/ssr": "0.0.10",
+    "@supabase/supabase-js": "2.38.4"
+  },
+  "peerDependencies": {
+    "next": "^14",
+    "next-axiom": "^1.1"
+  },
+  "devDependencies": {
+    "@erp/eslint-config-shared": "workspace:*",
+    "@erp/tooling": "workspace:*",
+    "@types/node": "20.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jhdcruz/erp.git"
+  },
+  "private": true
+}
