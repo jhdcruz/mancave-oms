@@ -1,0 +1,3 @@
+{
+  "plugins": ["@erp/prettier-config-base"]
+}

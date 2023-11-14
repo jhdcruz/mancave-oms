@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "@erp/prettier-config-tw",
+  "version": "0.1.0",
+  "main": "index.js",
+  "dependencies": {
+    "@erp/prettier-config-base": "workspace:*",
+    "prettier-plugin-tailwindcss": "0.5.7"
+  },
+  "peerDependencies": {
+    "prettier": "^3"
+  }
+}

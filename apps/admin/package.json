@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@erp/eslint-config": "workspace:*",
+    "@erp/prettier-config-tw": "workspace:*",
     "@erp/tooling": "workspace:*",
     "@types/node": "20.9.0",
     "@types/react": "18.2.37",

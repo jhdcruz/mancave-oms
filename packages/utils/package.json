@@ -3,15 +3,21 @@
   "version": "0.1.0",
   "description": "Shared utilities/helper functions.",
   "main": "index.ts",
+  "scripts": {
+    "fmt": "prettier --write ./**/*.{ts,tsx}"
+  },
   "dependencies": {
     "clsx": "2.0.0",
-    "tailwind-merge": "2.0.0",
-    "tailwindcss": "3.3.5"
+    "tailwind-merge": "2.0.0"
   },
   "devDependencies": {
     "@erp/eslint-config": "workspace:*",
+    "@erp/prettier-config-base": "workspace:*",
     "@erp/tooling": "workspace:*",
     "@types/node": "20.9.0"
+  },
+  "peerDependencies": {
+    "tailwindcss": "3.3.5"
   },
   "repository": {
     "type": "git",

@@ -7,7 +7,6 @@
     "start": "turbo start",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
-    "fmt": "prettier --write \"**/*.{js,jsx,ts,tsx,json,yml,md}\"",
     "prepare": "husky install"
   },
   "devDependencies": {

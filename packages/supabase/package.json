@@ -3,6 +3,9 @@
   "description": "Supabase utils/helper functions.",
   "version": "0.1.0",
   "main": "index.ts",
+  "scripts": {
+    "fmt": "prettier --write ./**/*.{ts,tsx}"
+  },
   "dependencies": {
     "@supabase/ssr": "0.0.10",
     "@supabase/supabase-js": "2.38.4"
@@ -13,6 +16,7 @@
   },
   "devDependencies": {
     "@erp/eslint-config": "workspace:*",
+    "@erp/prettier-config-base": "workspace:*",
     "@erp/tooling": "workspace:*",
     "@types/node": "20.9.0"
   },
