@@ -14,6 +14,7 @@
     "@mcsph/supabase": "workspace:*",
     "@mcsph/ui": "workspace:*",
     "@mcsph/utils": "workspace:*",
+    "@rollbar/react": "0.11.2",
     "geist": "1.1.0",
     "lucide-react": "0.292.0",
     "next": "14.0.2",
@@ -21,7 +22,8 @@
     "next-themes": "0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "recharts": "2.9.3"
+    "recharts": "2.9.3",
+    "rollbar": "2.26.2"
   },
   "devDependencies": {
     "@mcsph/eslint-config": "workspace:*",
