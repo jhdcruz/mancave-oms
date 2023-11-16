@@ -18,7 +18,9 @@
     "@mcsph/eslint-config": "workspace:*",
     "@mcsph/prettier-config-base": "workspace:*",
     "@mcsph/tooling": "workspace:*",
-    "@types/node": "20.9.0"
+    "@mcsph/utils": "workspace:*",
+    "@types/node": "20.9.0",
+    "prettier": "3.1.0"
   },
   "repository": {
     "type": "git",

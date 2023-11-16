@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "mancave-staff.vercel.app"
+        }
+      ],
+      "destination": "/staff/:path*"
+    }
+  ]
+}

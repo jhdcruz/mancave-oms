@@ -2,9 +2,9 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "SIA 305",
-    short_name: "SIA 305",
-    description: "SIA 305",
+    name: "Admin Portal | Man Cave Supplies PH, Inc.",
+    short_name: "MCSPH Admin",
+    description: "Admin portal of Man Cave Supplies PH, Inc.",
     start_url: "/",
     display: "standalone",
     icons: [

@@ -9,19 +9,19 @@ import "@mcsph/ui/globals.css";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Admin Portal | Man Cave Supplies PH, Inc."
+  title: "Admin Portal | Man Cave Supplies PH, Inc.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-    <AxiomWebVitals />
+      <AxiomWebVitals />
 
-    <body>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <main className="min-h-screen">{children}</main>
-    </ThemeProvider>
-    </body>
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <main className="min-h-screen">{children}</main>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

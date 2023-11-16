@@ -96,9 +96,88 @@ importers:
       postcss:
         specifier: 8.4.31
         version: 8.4.31
-      prettier-plugin-tailwindcss:
-        specifier: 0.5.7
-        version: 0.5.7(prettier@3.1.0)
+      prettier:
+        specifier: 3.1.0
+        version: 3.1.0
+      tailwind-merge:
+        specifier: 2.0.0
+        version: 2.0.0
+      tailwindcss:
+        specifier: 3.3.5
+        version: 3.3.5
+      tailwindcss-animate:
+        specifier: 1.0.7
+        version: 1.0.7(tailwindcss@3.3.5)
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+
+  apps/staff:
+    dependencies:
+      '@mcsph/supabase':
+        specifier: workspace:*
+        version: link:../../packages/supabase
+      '@mcsph/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      '@mcsph/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+      '@sentry/nextjs':
+        specifier: 7.80.1
+        version: 7.80.1(next@14.0.2)(react@18.2.0)
+      geist:
+        specifier: 1.1.0
+        version: 1.1.0(next@14.0.2)
+      lucide-react:
+        specifier: 0.292.0
+        version: 0.292.0(react@18.2.0)
+      next:
+        specifier: 14.0.2
+        version: 14.0.2(react-dom@18.2.0)(react@18.2.0)
+      next-axiom:
+        specifier: 1.1.0
+        version: 1.1.0(next@14.0.2)(react@18.2.0)
+      next-themes:
+        specifier: 0.2.1
+        version: 0.2.1(next@14.0.2)(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      recharts:
+        specifier: 2.9.3
+        version: 2.9.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+    devDependencies:
+      '@mcsph/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/config/eslint-config
+      '@mcsph/prettier-config-tw':
+        specifier: workspace:*
+        version: link:../../packages/config/prettier-config-tw
+      '@mcsph/tooling':
+        specifier: workspace:*
+        version: link:../../packages/tooling
+      '@types/node':
+        specifier: 20.9.0
+        version: 20.9.0
+      '@types/react':
+        specifier: 18.2.37
+        version: 18.2.37
+      '@types/react-dom':
+        specifier: 18.2.15
+        version: 18.2.15
+      autoprefixer:
+        specifier: 10.4.16
+        version: 10.4.16(postcss@8.4.31)
+      postcss:
+        specifier: 8.4.31
+        version: 8.4.31
+      prettier:
+        specifier: 3.1.0
+        version: 3.1.0
       tailwind-merge:
         specifier: 2.0.0
         version: 2.0.0
@@ -166,9 +245,15 @@ importers:
       '@mcsph/tooling':
         specifier: workspace:*
         version: link:../tooling
+      '@mcsph/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/node':
         specifier: 20.9.0
         version: 20.9.0
+      prettier:
+        specifier: 3.1.0
+        version: 3.1.0
 
   packages/tooling:
     dependencies:
@@ -348,6 +433,9 @@ importers:
       postcss:
         specifier: 8.4.31
         version: 8.4.31
+      prettier:
+        specifier: 3.1.0
+        version: 3.1.0
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -376,6 +464,9 @@ importers:
       '@types/node':
         specifier: 20.9.0
         version: 20.9.0
+      prettier:
+        specifier: 3.1.0
+        version: 3.1.0
 
 packages:
 
@@ -4805,6 +4896,7 @@ packages:
         optional: true
     dependencies:
       prettier: 3.1.0
+    dev: false
 
   /prettier@3.1.0:
     resolution: {integrity: sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==}
