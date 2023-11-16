@@ -1,0 +1,3 @@
+{
+  "extends": ["@mcsph/eslint-config/next"]
+}

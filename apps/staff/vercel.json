@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "mancave-admin.vercel.app"
+        }
+      ],
+      "destination": "/admin/:path*"
+    }
+  ]
+}
