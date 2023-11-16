@@ -18,6 +18,8 @@
       "persistent": true
     },
     "lint": {},
-    "fmt": {}
+    "fmt": {
+      "cache": false
+    }
   }
 }
