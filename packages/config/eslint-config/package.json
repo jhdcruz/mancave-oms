@@ -3,7 +3,7 @@
   "name": "@mcsph/eslint-config",
   "version": "0.1.0",
   "devDependencies": {
-    "eslint-config-next": "14.0.2",
+    "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "9.0.0",
     "eslint-config-turbo": "1.10.16"
   }
