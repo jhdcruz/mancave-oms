@@ -24,7 +24,9 @@ An ordering management system for Man Cave Supplies PH, Inc.
 1. Clone and install deps:
 
    ```bash
-   git clone https://github.com/jhdcruz/mancave-oms.git --depth 10 && cd erp & pnpm i
+   git clone https://github.com/jhdcruz/mancave-oms.git --depth 10
+   cd mancave-oms
+   pnpm i
    ```
 
 2. You'll need a Supabase credentials:
@@ -42,14 +44,19 @@ An ordering management system for Man Cave Supplies PH, Inc.
    Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found
    in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api).
 
-4. You can now run the Next.js local development server:
+4. You can now run the Next.js local development server,
+
+   to run all apps (admin, staff, etc.):
 
    ```bash
-   pnpm dev
+   turbo dev
    ```
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also
-> run Supabase locally.
+   to run single app:
+
+   ```bash
+   turbo dev --filter @mcsph/admin
+   ```
 
 ## License
 
