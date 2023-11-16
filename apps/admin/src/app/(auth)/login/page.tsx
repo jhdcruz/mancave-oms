@@ -17,5 +17,5 @@ export default async function Index({
 
   const status = await healthCheck();
 
-  return <LoginScreen alert={searchParams} status={status} {...authActions} />;
+  return <LoginScreen alert={searchParams} status={status} authActions={authActions} />;
 }

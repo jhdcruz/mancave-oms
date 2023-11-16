@@ -38,17 +38,17 @@ const AuthForm = dynamic(() => import("./auth-form"), {
   },
 });
 
-type LoginScreenProps = {
-  alert: string;
-  status: boolean;
-  authActions: AuthFormProps;
-};
 
 export const LoginScreen = ({
   alert,
   status,
   authActions,
-}: LoginScreenProps) => (
+}:
+{
+  alert: { title: string; message: string };
+  status: boolean;
+  authActions: AuthFormProps;
+}) => (
   <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
     {/* Left-side panel */}
     <div className="relative hidden h-screen flex-col bg-muted p-10 text-white dark:border-r lg:flex">
