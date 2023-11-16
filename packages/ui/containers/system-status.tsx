@@ -1,4 +1,4 @@
-import { Badge } from "@/components/badge";
+import { Badge } from "../components/badge";
 import { Wifi } from "lucide-react";
 
 export const SystemStatus = async (connected: boolean) => {
