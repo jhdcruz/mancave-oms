@@ -10,13 +10,15 @@ permissions:
 
 jobs:
   license:
-    name: Codacy Security Scan
+    name: FOSSA Scan
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v2
         with:
@@ -39,8 +41,8 @@ jobs:
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
 
-      - name: FOSSA Scan
-        uses: fossas/fossa-action@main
+      - name: FOSSA Tests
+        uses: fossa/fossa-action@main
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
           run-tests: true
