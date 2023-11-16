@@ -4,22 +4,16 @@ direction: down
 ***.style.border-radius: 12
 
 # Internal Entities
-customer: Client Portal {
+customer: Customer Portal {
   shape: cloud
 }
+
 admin: Admin Portal {
   shape: cloud
 }
 
-# Foreign Entities
-clients: {
-  shape: person
-}
-admins: {
-  shape: person
-  style: {
-    fill: black
-  }
+staff: Staff Portal {
+  shape: cloud
 }
 
 source: Source {
@@ -92,12 +86,19 @@ ci: CI/CD {
 
 checkly: Checkly {
   shape: image
-  icon: https://cdn2.opsmatters.com/sites/default/files/logos/checkly-thumb2.png
+  icon: https://pbs.twimg.com/profile_images/1715303156958040064/9NeWzfLM_400x400.png
   width: 80
   height: 80
 }
 
-runtime: Runtime {
+fossa: FOSSA {
+  shape: image
+  icon: https://gcdnb.pbrd.co/images/YFK6AVPKshMc.png?o=1
+  width: 80
+  height: 80
+}
+
+monitoring: Monitoring {
   style: {
     fill: transparent
   }
@@ -108,13 +109,19 @@ runtime: Runtime {
     width: 80
     height: 80
   }
-
-  supabase: Supabase {
+  rollbar: Rollbar {
     shape: image
-    icon: https://avatars.githubusercontent.com/u/54469796?s=280&v=4
+    icon: https://scontent.fmnl25-2.fna.fbcdn.net/v/t39.30808-6/309975521_542503957878783_1381939077775275073_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=hNEKrM4wdAMAX8XiiWn&_nc_ht=scontent.fmnl25-2.fna&oh=00_AfAggdL0XZ9Y9QaRCxxgcZ3_IZBbxFfs2w9t6TcxElTwVg&oe=655B67B7
     width: 80
     height: 80
   }
+}
+
+supabase: Supabase {
+  shape: image
+  icon: https://avatars.githubusercontent.com/u/54469796?s=280&v=4
+  width: 80
+  height: 80
 }
 
 # General connections
@@ -122,14 +129,19 @@ source -> github
 github -> ci
 
 github <- sec
-sec -> ci
+sec <- ci
+
 ci -> checkly
+ci -> fossa
 
 checkly -> admin
+checkly -> staff
 checkly -> customer
 
-admin <-> runtime
-customer <-> runtime
+admin -> monitoring
+staff -> monitoring
+customer -> monitoring
 
-customer <- clients
-admin <- admins
+admin <-> supabase
+staff <-> supabase
+customer <-> supabase

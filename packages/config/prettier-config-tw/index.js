@@ -1,4 +1,4 @@
-const base = require("@erp/prettier-config-base");
+const base = require("@mcsph/prettier-config-base");
 
 module.exports = {
   ...base,

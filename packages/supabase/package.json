@@ -1,5 +1,5 @@
 {
-  "name": "@erp/supabase",
+  "name": "@mcsph/supabase",
   "description": "Supabase utils/helper functions.",
   "version": "0.1.0",
   "main": "index.ts",
@@ -15,9 +15,9 @@
     "next-axiom": "^1.1"
   },
   "devDependencies": {
-    "@erp/eslint-config": "workspace:*",
-    "@erp/prettier-config-base": "workspace:*",
-    "@erp/tooling": "workspace:*",
+    "@mcsph/eslint-config": "workspace:*",
+    "@mcsph/prettier-config-base": "workspace:*",
+    "@mcsph/tooling": "workspace:*",
     "@types/node": "20.9.0"
   },
   "repository": {

@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import defaultConfig from "@erp/tooling/tailwind/tailwind.config";
+import defaultConfig from "@mcsph/tooling/tailwind/tailwind.config";
 
 const config: Pick<Config, "presets"> = {
   presets: [defaultConfig],

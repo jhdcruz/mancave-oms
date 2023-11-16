@@ -1,5 +1,5 @@
 {
-  "extends": "@erp/tooling/tsconfig/next.json",
+  "extends": "@mcsph/tooling/tsconfig/next.json",
   "compilerOptions": {
     "plugins": [
       {

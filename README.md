@@ -1,8 +1,15 @@
-# ERP
+# Ordering Management System
 
-## Structure
+An ordering management system for Man Cave Supplies PH, Inc.
 
-<img src="./docs/structure.svg" width="100%" />
+> In compliance to the course: `CIT 305 System Integration and Architecture`.
+
+> [!NOTE]\
+> The company mentioned above is imaginary, any similarity or conflict of a real-life company is purely coincidental.
+
+## Architecture
+
+<img src="./docs/overview.svg" width="100%" />
 
 ## Development
 
@@ -17,7 +24,7 @@
 1. Clone and install deps:
 
    ```bash
-   git clone https://github.com/jhdcruz/erp.git --depth 10 && cd erp & pnpm i
+   git clone https://github.com/jhdcruz/mancave-oms.git --depth 10 && cd erp & pnpm i
    ```
 
 2. You'll need a Supabase credentials:

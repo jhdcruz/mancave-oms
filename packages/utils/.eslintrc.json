@@ -1,5 +1,5 @@
 {
   "extends": [
-    "@erp/eslint-config-shared/next"
+    "@mcsph/eslint-config-shared/next"
   ]
 }

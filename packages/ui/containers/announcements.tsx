@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "../components/card";
 
-import { formatDateTime } from "@erp/utils";
+import { formatDateTime } from "@mcsph/utils";
 
 export type AnnouncementItemProps = {
   title: string;

@@ -1,3 +1,3 @@
-import { ThemeSwitcher } from "@erp/ui/containers/theme-switcher";
+import { ThemeSwitcher } from "@mcsph/ui/containers/theme-switcher";
 
 export { ThemeSwitcher as default };

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { type AxiomRequest, withAxiom } from "next-axiom";
 
-import { serverClient } from "@erp/supabase";
+import { serverClient } from "@mcsph/supabase";
 
 // Used for SSR auth flows
 export const GET = withAxiom(async (req: AxiomRequest) => {

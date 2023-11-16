@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@erp/admin",
+  "name": "@mcsph/admin",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,9 +11,9 @@
     "clean": "rimraf .next"
   },
   "dependencies": {
-    "@erp/supabase": "workspace:*",
-    "@erp/ui": "workspace:*",
-    "@erp/utils": "workspace:*",
+    "@mcsph/supabase": "workspace:*",
+    "@mcsph/ui": "workspace:*",
+    "@mcsph/utils": "workspace:*",
     "geist": "1.1.0",
     "lucide-react": "0.292.0",
     "next": "14.0.2",
@@ -24,9 +24,9 @@
     "recharts": "2.9.3"
   },
   "devDependencies": {
-    "@erp/eslint-config": "workspace:*",
-    "@erp/prettier-config-tw": "workspace:*",
-    "@erp/tooling": "workspace:*",
+    "@mcsph/eslint-config": "workspace:*",
+    "@mcsph/prettier-config-tw": "workspace:*",
+    "@mcsph/tooling": "workspace:*",
     "@types/node": "20.9.0",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",

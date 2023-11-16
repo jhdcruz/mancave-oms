@@ -8,7 +8,7 @@ importers:
 
   .:
     devDependencies:
-      '@erp/tooling':
+      '@mcsph/tooling':
         specifier: workspace:*
         version: link:packages/tooling
       dotenv-cli:
@@ -35,13 +35,13 @@ importers:
 
   apps/admin:
     dependencies:
-      '@erp/supabase':
+      '@mcsph/supabase':
         specifier: workspace:*
         version: link:../../packages/supabase
-      '@erp/ui':
+      '@mcsph/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@erp/utils':
+      '@mcsph/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       geist:
@@ -69,13 +69,13 @@ importers:
         specifier: 2.9.3
         version: 2.9.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@erp/eslint-config':
+      '@mcsph/eslint-config':
         specifier: workspace:*
         version: link:../../packages/config/eslint-config
-      '@erp/prettier-config-tw':
+      '@mcsph/prettier-config-tw':
         specifier: workspace:*
         version: link:../../packages/config/prettier-config-tw
-      '@erp/tooling':
+      '@mcsph/tooling':
         specifier: workspace:*
         version: link:../../packages/tooling
       '@types/node':
@@ -129,7 +129,7 @@ importers:
 
   packages/config/prettier-config-tw:
     dependencies:
-      '@erp/prettier-config-base':
+      '@mcsph/prettier-config-base':
         specifier: workspace:*
         version: link:../prettier-config-base
       prettier:
@@ -154,13 +154,13 @@ importers:
         specifier: ^1.1
         version: 1.1.0(next@14.0.2)(react@18.2.0)
     devDependencies:
-      '@erp/eslint-config':
+      '@mcsph/eslint-config':
         specifier: workspace:*
         version: link:../config/eslint-config
-      '@erp/prettier-config-base':
+      '@mcsph/prettier-config-base':
         specifier: workspace:*
         version: link:../config/prettier-config-base
-      '@erp/tooling':
+      '@mcsph/tooling':
         specifier: workspace:*
         version: link:../tooling
       '@types/node':
@@ -179,7 +179,7 @@ importers:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@3.3.5)
     devDependencies:
-      '@erp/prettier-config-tw':
+      '@mcsph/prettier-config-tw':
         specifier: workspace:*
         version: link:../config/prettier-config-tw
       '@types/node':
@@ -188,7 +188,7 @@ importers:
 
   packages/ui:
     dependencies:
-      '@erp/utils':
+      '@mcsph/utils':
         specifier: workspace:*
         version: link:../utils
       '@hookform/resolvers':
@@ -318,13 +318,13 @@ importers:
         specifier: 3.22.4
         version: 3.22.4
     devDependencies:
-      '@erp/eslint-config':
+      '@mcsph/eslint-config':
         specifier: workspace:*
         version: link:../config/eslint-config
-      '@erp/prettier-config-tw':
+      '@mcsph/prettier-config-tw':
         specifier: workspace:*
         version: link:../config/prettier-config-tw
-      '@erp/tooling':
+      '@mcsph/tooling':
         specifier: workspace:*
         version: link:../tooling
       '@types/node':
@@ -361,13 +361,13 @@ importers:
         specifier: 3.3.5
         version: 3.3.5
     devDependencies:
-      '@erp/eslint-config':
+      '@mcsph/eslint-config':
         specifier: workspace:*
         version: link:../config/eslint-config
-      '@erp/prettier-config-base':
+      '@mcsph/prettier-config-base':
         specifier: workspace:*
         version: link:../config/prettier-config-base
-      '@erp/tooling':
+      '@mcsph/tooling':
         specifier: workspace:*
         version: link:../tooling
       '@types/node':

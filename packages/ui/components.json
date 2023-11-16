@@ -12,6 +12,6 @@
   "aliases": {
     "ui": "@/components",
     "components": "@/containers",
-    "utils": "@erp/utils"
+    "utils": "@mcsph/utils"
   }
 }

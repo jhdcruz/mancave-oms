@@ -5,16 +5,16 @@ import { Logger } from "next-axiom";
 
 import { AlertCircle, Boxes, Wifi } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from "@erp/ui/components/alert";
-import { Badge } from "@erp/ui/components/badge";
-import { Skeleton } from "@erp/ui/components/skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@mcsph/ui/components/alert";
+import { Badge } from "@mcsph/ui/components/badge";
+import { Skeleton } from "@mcsph/ui/components/skeleton";
 
-import { Announcements } from "@erp/ui/containers/announcements";
-import type { AuthFormProps } from "@erp/ui/containers/auth-form";
-import { LabeledDivider } from "@erp/ui/containers/labeled-divider";
+import { Announcements } from "@mcsph/ui/containers/announcements";
+import type { AuthFormProps } from "@mcsph/ui/containers/auth-form";
+import { LabeledDivider } from "@mcsph/ui/containers/labeled-divider";
 
-import { defaultUrl } from "@erp/utils";
-import { serverClient } from "@erp/supabase";
+import { defaultUrl } from "@mcsph/utils";
+import { serverClient } from "@mcsph/supabase";
 
 // lazy-load client components
 const ThemeSwitcher = dynamic(() => import("@/components/theme-switcher"), {

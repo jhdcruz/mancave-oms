@@ -22,19 +22,27 @@ managers: Managers {
     height: 80
   }
 }
+
 apps: Apps {
   style: {
     fill: transparent
   }
 
-  "@erp/admin": {
+  "@mcsph/admin": {
     shape: image
     icon: https://icons.terrastruct.com/azure%2FGeneral%20Service%20Icons%2FResource%20Groups.svg
     width: 80
     height: 80
   }
 
-  "@erp/client": {
+  "@mcsph/staff": {
+    shape: image
+    icon: https://icons.terrastruct.com/azure%2FGeneral%20Service%20Icons%2FResource%20Groups.svg
+    width: 80
+    height: 80
+  }
+
+  "@mcsph/client": {
     shape: image
     icon: https://icons.terrastruct.com/azure%2FGeneral%20Service%20Icons%2FResource%20Groups.svg
     width: 80
@@ -43,6 +51,9 @@ apps: Apps {
 }
 
 packages: Internal Packages {
+  grid-gap: 70
+  grid-columns: 3
+
   **: {
     label.near: outside-bottom-center
   }
@@ -51,42 +62,42 @@ packages: Internal Packages {
     fill: transparent
   }
 
-  "@erp/supabase": {
+  "@mcsph/supabase": {
     shape: image
     icon: https://icons.terrastruct.com/dev%2Fnpm.svg
     width: 80
     height: 80
   }
 
-  "@erp/ui": {
+  "@mcsph/ui": {
     shape: image
     icon: https://icons.terrastruct.com/dev%2Fnpm.svg
     width: 80
     height: 80
   }
 
-  "@erp/utils": {
+  "@mcsph/utils": {
     shape: image
     icon: https://icons.terrastruct.com/dev%2Fnpm.svg
     width: 80
     height: 80
   }
 
-  "@erp/eslint-config": {
+  "@mcsph/eslint-config": {
     shape: image
     icon: https://icons.terrastruct.com/dev%2Fnpm.svg
     width: 80
     height: 80
   }
 
-  "@erp/prettier-config": {
+  "@mcsph/prettier-config": {
     shape: image
     icon: https://icons.terrastruct.com/dev%2Fnpm.svg
     width: 80
     height: 80
   }
 
-  "@erp/tooling": {
+  "@mcsph/tooling": {
     shape: image
     icon: https://icons.terrastruct.com/dev%2Fnpm.svg
     width: 80
@@ -171,6 +182,13 @@ tech-stack: Tech Stack {
       width: 80
       height: 80
     }
+
+    rollbar: Rollbar SDK {
+      shape: image
+      icon: https://scontent.fmnl25-2.fna.fbcdn.net/v/t39.30808-6/309975521_542503957878783_1381939077775275073_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=hNEKrM4wdAMAX8XiiWn&_nc_ht=scontent.fmnl25-2.fna&oh=00_AfAggdL0XZ9Y9QaRCxxgcZ3_IZBbxFfs2w9t6TcxElTwVg&oe=655B67B7
+      width: 80
+      height: 80
+    }
   }
 
   tooling: Tooling {
@@ -197,11 +215,18 @@ tech-stack: Tech Stack {
       width: 80
       height: 80
     }
+
+    d2: D2 {
+      shape: image
+      icon: https://avatars.slack-edge.com/2022-12-06/4478177825747_1df04a689b411d017084_512.png
+      width: 80
+      height: 80
+    }
   }
 }
 
-packages -> apps
-apps <-> managers
-packages <-> managers
+managers <-> apps
+managers <-> packages
 
 tech-stack -> managers
+packages -> apps

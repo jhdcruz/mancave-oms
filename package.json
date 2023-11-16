@@ -10,7 +10,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@erp/tooling": "workspace:*",
+    "@mcsph/tooling": "workspace:*",
     "dotenv-cli": "7.3.0",
     "eslint": "8.53.0",
     "husky": "8.0.3",

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@erp/tooling",
+  "name": "@mcsph/tooling",
   "version": "0.1.0",
   "description": "Custom eslint configuration for ERP.",
   "dependencies": {
@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/node": "20.9.0",
-    "@erp/prettier-config-tw": "workspace:*"
+    "@mcsph/prettier-config-tw": "workspace:*"
   },
   "peerDependencies": {
     "tailwindcss": "3.3.5"
