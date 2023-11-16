@@ -38,13 +38,11 @@ const AuthForm = dynamic(() => import("./auth-form"), {
   },
 });
 
-
 export const LoginScreen = ({
   alert,
   status,
   authActions,
-}:
-{
+}: {
   alert: { title: string; message: string };
   status: boolean;
   authActions: AuthFormProps;

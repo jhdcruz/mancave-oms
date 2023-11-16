@@ -96,9 +96,6 @@ importers:
       postcss:
         specifier: 8.4.31
         version: 8.4.31
-      prettier:
-        specifier: 3.1.0
-        version: 3.1.0
       tailwind-merge:
         specifier: 2.0.0
         version: 2.0.0
@@ -175,9 +172,6 @@ importers:
       postcss:
         specifier: 8.4.31
         version: 8.4.31
-      prettier:
-        specifier: 3.1.0
-        version: 3.1.0
       tailwind-merge:
         specifier: 2.0.0
         version: 2.0.0
@@ -251,9 +245,6 @@ importers:
       '@types/node':
         specifier: 20.9.0
         version: 20.9.0
-      prettier:
-        specifier: 3.1.0
-        version: 3.1.0
 
   packages/tooling:
     dependencies:
@@ -433,9 +424,6 @@ importers:
       postcss:
         specifier: 8.4.31
         version: 8.4.31
-      prettier:
-        specifier: 3.1.0
-        version: 3.1.0
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -464,9 +452,6 @@ importers:
       '@types/node':
         specifier: 20.9.0
         version: 20.9.0
-      prettier:
-        specifier: 3.1.0
-        version: 3.1.0
 
 packages:
 
