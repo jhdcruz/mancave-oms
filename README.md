@@ -1,4 +1,6 @@
 # ERP
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjhdcruz%2Fmancave-oms.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjhdcruz%2Fmancave-oms?ref=badge_shield)
+
 
 ## Structure
 
@@ -43,3 +45,7 @@
 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also
 > run Supabase locally.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjhdcruz%2Fmancave-oms.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjhdcruz%2Fmancave-oms?ref=badge_large)
