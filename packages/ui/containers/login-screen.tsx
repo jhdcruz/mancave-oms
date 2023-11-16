@@ -1,42 +1,11 @@
-import dynamic from "next/dynamic";
 import { AlertCircle, Boxes } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "../components/alert";
-import { Skeleton } from "../components/skeleton";
 
 import { Announcements } from "./announcements";
-import { LabeledDivider } from "./labeled-divider";
 import { SystemStatus } from "./system-status";
-import { AuthFormProps } from "@/containers/auth-form";
-
-// lazy-load client components
-const ThemeSwitcher = dynamic(() => import("./theme-switcher"), {
-  ssr: false,
-  loading: () => <Skeleton className="h-[2.5rem] w-[2.5rem] rounded-lg" />,
-});
-
-const AuthForm = dynamic(() => import("./auth-form"), {
-  ssr: false,
-  loading: () => {
-    return (
-      <div className="grid gap-4">
-        <div className="grid gap-2">
-          <div className="mb-1 grid gap-1">
-            <Skeleton className="h-10 rounded-lg" />
-            <Skeleton className="h-10 rounded-lg" />
-
-            <Skeleton className="h-10 rounded-lg" />
-            <Skeleton className="h-10 rounded-lg" />
-          </div>
-        </div>
-
-        <LabeledDivider text="or continue with" />
-
-        <Skeleton className="h-10 rounded-lg" />
-      </div>
-    );
-  },
-});
+import { AuthForm, type AuthFormProps } from "./auth-form";
+import { ThemeSwitcher } from "./theme-switcher";
 
 export const LoginScreen = ({
   alert,
@@ -55,7 +24,7 @@ export const LoginScreen = ({
       {/* Branding */}
       <div className="relative z-20 flex items-center text-lg font-medium">
         <Boxes className="mr-2" size={26} />
-        Company A
+        Man Cave Supplies PH, Inc.
       </div>
 
       {/*
@@ -72,7 +41,7 @@ export const LoginScreen = ({
       <div className="absolute right-10 top-10 z-20 flex items-center">
         <ThemeSwitcher />
       </div>
-
+      A
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
           <SystemStatus connected={status} />
