@@ -8,8 +8,7 @@
     "tailwindcss-animate": "1.0.7"
   },
   "devDependencies": {
-    "@types/node": "20.9.0",
-    "@mcsph/prettier-config-tw": "workspace:*"
+    "@types/node": "20.9.0"
   },
   "peerDependencies": {
     "tailwindcss": "3.3.5"

@@ -15,8 +15,6 @@
     "next-axiom": "^1.1"
   },
   "devDependencies": {
-    "@mcsph/eslint-config": "workspace:*",
-    "@mcsph/prettier-config-base": "workspace:*",
     "@mcsph/tooling": "workspace:*",
     "@mcsph/utils": "workspace:*",
     "@types/node": "20.9.0"

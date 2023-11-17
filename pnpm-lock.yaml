@@ -17,6 +17,15 @@ importers:
       eslint:
         specifier: 8.53.0
         version: 8.53.0
+      eslint-config-next:
+        specifier: 14.0.2
+        version: 14.0.2(eslint@8.53.0)(typescript@5.2.2)
+      eslint-config-prettier:
+        specifier: 9.0.0
+        version: 9.0.0(eslint@8.53.0)
+      eslint-config-turbo:
+        specifier: 1.10.16
+        version: 1.10.16(eslint@8.53.0)
       husky:
         specifier: 8.0.3
         version: 8.0.3
@@ -72,12 +81,6 @@ importers:
         specifier: 2.9.3
         version: 2.9.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mcsph/eslint-config':
-        specifier: workspace:*
-        version: link:../../packages/config/eslint-config
-      '@mcsph/prettier-config-tw':
-        specifier: workspace:*
-        version: link:../../packages/config/prettier-config-tw
       '@mcsph/tooling':
         specifier: workspace:*
         version: link:../../packages/tooling
@@ -96,6 +99,9 @@ importers:
       postcss:
         specifier: 8.4.31
         version: 8.4.31
+      prettier-plugin-tailwindcss:
+        specifier: 0.5.7
+        version: 0.5.7(prettier@3.1.0)
       tailwind-merge:
         specifier: 2.0.0
         version: 2.0.0
@@ -148,12 +154,6 @@ importers:
         specifier: 2.9.3
         version: 2.9.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mcsph/eslint-config':
-        specifier: workspace:*
-        version: link:../../packages/config/eslint-config
-      '@mcsph/prettier-config-tw':
-        specifier: workspace:*
-        version: link:../../packages/config/prettier-config-tw
       '@mcsph/tooling':
         specifier: workspace:*
         version: link:../../packages/tooling
@@ -172,6 +172,9 @@ importers:
       postcss:
         specifier: 8.4.31
         version: 8.4.31
+      prettier-plugin-tailwindcss:
+        specifier: 0.5.7
+        version: 0.5.7(prettier@3.1.0)
       tailwind-merge:
         specifier: 2.0.0
         version: 2.0.0
@@ -184,36 +187,6 @@ importers:
       typescript:
         specifier: 5.2.2
         version: 5.2.2
-
-  packages/config/eslint-config:
-    devDependencies:
-      eslint-config-next:
-        specifier: 14.0.2
-        version: 14.0.2(eslint@8.53.0)(typescript@5.2.2)
-      eslint-config-prettier:
-        specifier: 9.0.0
-        version: 9.0.0(eslint@8.53.0)
-      eslint-config-turbo:
-        specifier: 1.10.16
-        version: 1.10.16(eslint@8.53.0)
-
-  packages/config/prettier-config-base:
-    dependencies:
-      prettier:
-        specifier: ^3
-        version: 3.1.0
-
-  packages/config/prettier-config-tw:
-    dependencies:
-      '@mcsph/prettier-config-base':
-        specifier: workspace:*
-        version: link:../prettier-config-base
-      prettier:
-        specifier: ^3
-        version: 3.1.0
-      prettier-plugin-tailwindcss:
-        specifier: 0.5.7
-        version: 0.5.7(prettier@3.1.0)
 
   packages/supabase:
     dependencies:
@@ -230,12 +203,6 @@ importers:
         specifier: ^1.1
         version: 1.1.0(next@14.0.2)(react@18.2.0)
     devDependencies:
-      '@mcsph/eslint-config':
-        specifier: workspace:*
-        version: link:../config/eslint-config
-      '@mcsph/prettier-config-base':
-        specifier: workspace:*
-        version: link:../config/prettier-config-base
       '@mcsph/tooling':
         specifier: workspace:*
         version: link:../tooling
@@ -258,9 +225,6 @@ importers:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@3.3.5)
     devDependencies:
-      '@mcsph/prettier-config-tw':
-        specifier: workspace:*
-        version: link:../config/prettier-config-tw
       '@types/node':
         specifier: 20.9.0
         version: 20.9.0
@@ -397,12 +361,6 @@ importers:
         specifier: 3.22.4
         version: 3.22.4
     devDependencies:
-      '@mcsph/eslint-config':
-        specifier: workspace:*
-        version: link:../config/eslint-config
-      '@mcsph/prettier-config-tw':
-        specifier: workspace:*
-        version: link:../config/prettier-config-tw
       '@mcsph/tooling':
         specifier: workspace:*
         version: link:../tooling
@@ -424,6 +382,9 @@ importers:
       postcss:
         specifier: 8.4.31
         version: 8.4.31
+      prettier-plugin-tailwindcss:
+        specifier: 0.5.7
+        version: 0.5.7(prettier@3.1.0)
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -440,12 +401,6 @@ importers:
         specifier: 3.3.5
         version: 3.3.5
     devDependencies:
-      '@mcsph/eslint-config':
-        specifier: workspace:*
-        version: link:../config/eslint-config
-      '@mcsph/prettier-config-base':
-        specifier: workspace:*
-        version: link:../config/prettier-config-base
       '@mcsph/tooling':
         specifier: workspace:*
         version: link:../tooling
@@ -4881,12 +4836,13 @@ packages:
         optional: true
     dependencies:
       prettier: 3.1.0
-    dev: false
+    dev: true
 
   /prettier@3.1.0:
     resolution: {integrity: sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==}
     engines: {node: '>=14'}
     hasBin: true
+    dev: true
 
   /progress@2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}

@@ -1,5 +1,0 @@
-{
-  "extends": [
-    "@mcsph/eslint-config-shared/next"
-  ]
-}
