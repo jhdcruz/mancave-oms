@@ -36,46 +36,48 @@ export const AnnouncementItem = ({
   </div>
 );
 
-export const Announcements = () => (
-  <Card>
-    <CardHeader className="pb-3">
-      <CardTitle className="text-lg">Announcements:</CardTitle>
-      <CardDescription>
-        Public announcement from the management.
-      </CardDescription>
-    </CardHeader>
-    <CardContent className="max-h-[74vh] overflow-y-scroll">
-      {/* Sample data */}
-      <AnnouncementItem
-        title="Welcome to the Inventory Management System!"
-        date="2021-08-19T00:00:00.000Z"
-        headline="This is a sample announcement from the management."
-        href="/"
-      />
-      <AnnouncementItem
-        title="Welcome to the Inventory Management System!"
-        date="2021-08-19T00:00:00.000Z"
-        headline="This is a sample announcement from the management."
-        href="/"
-      />
-      <AnnouncementItem
-        title="Welcome to the Inventory Management System!"
-        date="2021-08-19T00:00:00.000Z"
-        headline="This is a sample announcement from the management."
-        href="/"
-      />
-      <AnnouncementItem
-        title="Welcome to the Inventory Management System!"
-        date="2021-08-19T00:00:00.000Z"
-        headline="This is a sample announcement from the management."
-        href="/"
-      />
-      <AnnouncementItem
-        title="Welcome to the Inventory Management System!"
-        date="2021-08-19T00:00:00.000Z"
-        headline="This is a sample announcement from the management."
-        href="/"
-      />
-    </CardContent>
-  </Card>
-);
+export default function Announcements() {
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg">Announcements:</CardTitle>
+        <CardDescription>
+          Public announcement from the management.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="max-h-[74vh] overflow-y-scroll">
+        {/* Sample data */}
+        <AnnouncementItem
+          title="Welcome to the Inventory Management System!"
+          date="2021-08-19T00:00:00.000Z"
+          headline="This is a sample announcement from the management."
+          href="/"
+        />
+        <AnnouncementItem
+          title="Welcome to the Inventory Management System!"
+          date="2021-08-19T00:00:00.000Z"
+          headline="This is a sample announcement from the management."
+          href="/"
+        />
+        <AnnouncementItem
+          title="Welcome to the Inventory Management System!"
+          date="2021-08-19T00:00:00.000Z"
+          headline="This is a sample announcement from the management."
+          href="/"
+        />
+        <AnnouncementItem
+          title="Welcome to the Inventory Management System!"
+          date="2021-08-19T00:00:00.000Z"
+          headline="This is a sample announcement from the management."
+          href="/"
+        />
+        <AnnouncementItem
+          title="Welcome to the Inventory Management System!"
+          date="2021-08-19T00:00:00.000Z"
+          headline="This is a sample announcement from the management."
+          href="/"
+        />
+      </CardContent>
+    </Card>
+  );
+}
