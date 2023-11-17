@@ -10,9 +10,6 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
   const { pathname } = req.nextUrl;
   const { supabase, response } = middlewareClient(req);
 
-  // requires auth for every route
-  await requireAuth(supabase, req);
-
   // fixes hydration errors when using redirect in middleware
   // https://github.com/vercel/next.js/discussions/38587
   if (
@@ -22,6 +19,14 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
     PUBLIC_FILE.test(pathname) // exclude all files in the public folder
   ) {
     return NextResponse.next();
+  }
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session && !req.nextUrl.pathname.startsWith('/login')) {
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
   return response;

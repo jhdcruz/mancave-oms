@@ -1,3 +1,4 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { Logger } from 'next-axiom';
 import { redirect } from 'next/navigation';
@@ -5,23 +6,6 @@ import { redirect } from 'next/navigation';
 import { defaultUrl } from '@mcsph/utils';
 import { serverClient } from '../../';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { NextRequest, NextResponse } from 'next/server';
-
-/**
- * Block the following operations if currently not logged in
- */
-export const requireAuth = async (
-  supabase: SupabaseClient,
-  req: NextRequest,
-) => {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session && !req.nextUrl.pathname.startsWith('/login')) {
-    return NextResponse.redirect(new URL('/login', req.url));
-  }
-};
 
 export const googleSignIn = async () => {
   'use server';
@@ -40,8 +24,6 @@ export const googleSignIn = async () => {
 
     return { error };
   }
-
-  // redirect is separately handled here on Google Cloud Console
 };
 
 export const formSignIn = async (formData: FormData, redirectTo?: string) => {
