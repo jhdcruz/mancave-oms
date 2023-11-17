@@ -1,9 +1,9 @@
-const { withAxiom } = require("next-axiom");
-const { withSentryConfig } = require("@sentry/nextjs");
+const { withAxiom } = require('next-axiom');
+const { withSentryConfig } = require('@sentry/nextjs');
 
-/** @type {import("next").NextConfig} */
+/** @type {import('next').NextConfig} */
 module.exports = withAxiom({
-  transpilePackages: ["@mcsph/ui", "@mcsph/supabase", "@mcsph/utils"]
+  transpilePackages: ['@mcsph/ui', '@mcsph/supabase', '@mcsph/utils'],
 });
 
 
@@ -16,8 +16,8 @@ module.exports = withSentryConfig(
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "mcsph",
-    project: "mancave-admin"
+    org: 'mcsph',
+    project: 'mancave-admin',
   },
   {
     // For all available options, see:
@@ -30,12 +30,14 @@ module.exports = withSentryConfig(
     transpileClientSDK: false,
 
     // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-    tunnelRoute: "/monitoring",
+    tunnelRoute: '/monitoring',
+
+    tracePropagationTargets: ['localhost', /^https:\/\/mancave-admin\.vercel\.app\//],
 
     // Hides source maps from generated client bundles
     hideSourceMaps: true,
 
     // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true
-  }
+    disableLogger: true,
+  },
 );
