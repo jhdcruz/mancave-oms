@@ -35,13 +35,6 @@ apps: Apps {
     height: 80
   }
 
-  "@mcsph/staff": {
-    shape: image
-    icon: https://icons.terrastruct.com/azure%2FGeneral%20Service%20Icons%2FResource%20Groups.svg
-    width: 80
-    height: 80
-  }
-
   "@mcsph/client": {
     shape: image
     icon: https://icons.terrastruct.com/azure%2FGeneral%20Service%20Icons%2FResource%20Groups.svg
@@ -77,20 +70,6 @@ packages: Internal Packages {
   }
 
   "@mcsph/utils": {
-    shape: image
-    icon: https://icons.terrastruct.com/dev%2Fnpm.svg
-    width: 80
-    height: 80
-  }
-
-  "@mcsph/eslint-config": {
-    shape: image
-    icon: https://icons.terrastruct.com/dev%2Fnpm.svg
-    width: 80
-    height: 80
-  }
-
-  "@mcsph/prettier-config": {
     shape: image
     icon: https://icons.terrastruct.com/dev%2Fnpm.svg
     width: 80
@@ -183,9 +162,9 @@ tech-stack: Tech Stack {
       height: 80
     }
 
-    rollbar: Rollbar SDK {
+    sentry: Sentry SDK {
       shape: image
-      icon: https://scontent.fmnl25-2.fna.fbcdn.net/v/t39.30808-6/309975521_542503957878783_1381939077775275073_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=hNEKrM4wdAMAX8XiiWn&_nc_ht=scontent.fmnl25-2.fna&oh=00_AfAggdL0XZ9Y9QaRCxxgcZ3_IZBbxFfs2w9t6TcxElTwVg&oe=655B67B7
+      icon: https://cdn.icon-icons.com/icons2/2148/PNG/512/sentry_icon_132005.png
       width: 80
       height: 80
     }
@@ -225,8 +204,8 @@ tech-stack: Tech Stack {
   }
 }
 
-managers <-> apps
-managers <-> packages
+managers <- apps
+managers <- packages
 
 tech-stack -> managers
 packages -> apps
