@@ -1,10 +1,11 @@
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
+import { AxiomRequest } from 'next-axiom';
 
 /**
  * Supabase client for use in Next.js middleware.
  */
-export const middlewareClient = (request: NextRequest) => {
+export const middlewareClient = (request: NextRequest | AxiomRequest) => {
   // Create an unmodified response
   let response = NextResponse.next({
     request: {
