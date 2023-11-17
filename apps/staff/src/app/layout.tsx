@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 import { AxiomWebVitals } from 'next-axiom';
 import { GeistSans } from 'geist/font/sans';
 
-import { ThemeProvider } from '@mcsph/ui/containers/theme-provider';
+import ThemeProvider from '@mcsph/ui/containers/theme-provider';
 import { defaultUrl } from '@mcsph/utils';
 
 import '@mcsph/ui/globals.css';

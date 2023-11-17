@@ -1,4 +1,4 @@
-import { LoginScreen } from '@mcsph/ui/containers/login-screen';
+import LoginScreen from '@mcsph/ui/containers/login-screen';
 import type { AuthFormProps } from '@mcsph/ui/containers/auth-form';
 
 import { healthCheck } from '@mcsph/supabase';
