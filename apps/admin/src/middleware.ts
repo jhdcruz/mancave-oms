@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { AxiomRequest, withAxiom } from 'next-axiom';
 
 import { middlewareClient } from '@mcsph/supabase';
-import { requireAuth } from '@mcsph/supabase/ops';
 
 const PUBLIC_FILE = /\.(.*)$/;
 

@@ -1,11 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { Logger } from 'next-axiom';
 import { redirect } from 'next/navigation';
 
 import { defaultUrl } from '@mcsph/utils';
 import { serverClient } from '../../';
-import { SupabaseClient } from '@supabase/supabase-js';
 
 export const googleSignIn = async () => {
   'use server';
