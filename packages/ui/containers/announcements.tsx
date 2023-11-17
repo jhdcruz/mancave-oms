@@ -1,15 +1,15 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { Button } from "../components/button";
+import { Button } from '../components/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/card";
+} from '../components/card';
 
-import { formatDateTime } from "@mcsph/utils";
+import { formatDateTime } from '@mcsph/utils';
 
 export type AnnouncementItemProps = {
   title: string;

@@ -1,6 +1,6 @@
-import { type CookieOptions, createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { Logger } from "next-axiom";
+import { type CookieOptions, createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
+import { Logger } from 'next-axiom';
 
 /**
  * Supabase client for use in the server, SSR, or RSC.
@@ -23,17 +23,17 @@ export const serverClient = (cookieStore: ReturnType<typeof cookies>) => {
             // The `set` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
             // user sessions.
-            log.error("Error setting supabase server client cookie", { error });
+            log.error('Error setting supabase server client cookie', { error });
           }
         },
         remove(name: string, options: CookieOptions) {
           try {
-            cookieStore.set({ name, value: "", ...options });
+            cookieStore.set({ name, value: '', ...options });
           } catch (error) {
             // The `delete` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
             // user sessions.
-            log.error("Error supabase server client cookie", { error });
+            log.error('Error supabase server client cookie', { error });
           }
         },
       },

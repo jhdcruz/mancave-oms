@@ -1,11 +1,11 @@
-import { AlertCircle, Boxes } from "lucide-react";
+import { AlertCircle, Boxes } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from "../components/alert";
+import { Alert, AlertDescription, AlertTitle } from '../components/alert';
 
-import { Announcements } from "./announcements";
-import { SystemStatus } from "./system-status";
-import { AuthForm, type AuthFormProps } from "./auth-form";
-import { ThemeSwitcher } from "./theme-switcher";
+import { Announcements } from './announcements';
+import { SystemStatus } from './system-status';
+import { AuthForm, type AuthFormProps } from './auth-form';
+import { ThemeSwitcher } from './theme-switcher';
 
 export const LoginScreen = ({
   alert,

@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
-import { AxiomRequest, withAxiom } from "next-axiom";
+import { NextResponse } from 'next/server';
+import { AxiomRequest, withAxiom } from 'next-axiom';
 
-import { middlewareClient } from "@mcsph/supabase";
-import { requireAuth } from "@mcsph/supabase/ops";
+import { middlewareClient } from '@mcsph/supabase';
+import { requireAuth } from '@mcsph/supabase/ops';
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -16,9 +16,9 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
   // fixes hydration errors when using redirect in middleware
   // https://github.com/vercel/next.js/discussions/38587
   if (
-    pathname.startsWith("/_next") || // exclude Next.js internals
-    pathname.startsWith("/api") || //  exclude all API routes
-    pathname.startsWith("/static") || // exclude static files
+    pathname.startsWith('/_next') || // exclude Next.js internals
+    pathname.startsWith('/api') || //  exclude all API routes
+    pathname.startsWith('/static') || // exclude static files
     PUBLIC_FILE.test(pathname) // exclude all files in the public folder
   ) {
     return NextResponse.next();

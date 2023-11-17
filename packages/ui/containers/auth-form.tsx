@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { HTMLAttributes, MouseEventHandler } from "react";
-import { Mail } from "lucide-react";
-import Image from "next/image";
+import { HTMLAttributes, MouseEventHandler } from 'react';
+import { Mail } from 'lucide-react';
+import Image from 'next/image';
 
-import { Button } from "../components/button";
-import { Input } from "../components/input";
-import { Label } from "../components/label";
+import { Button } from '../components/button';
+import { Input } from '../components/input';
+import { Label } from '../components/label';
 
-import { LabeledDivider } from "./labeled-divider";
+import { LabeledDivider } from './labeled-divider';
 
 export type AuthFormProps = HTMLAttributes<HTMLDivElement> & {
   formAction: any; // check config, throws error ((formData: FormData) => void) | undefined

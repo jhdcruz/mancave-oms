@@ -1,5 +1,5 @@
-import { Badge } from "../components/badge";
-import { Wifi } from "lucide-react";
+import { Badge } from '../components/badge';
+import { Wifi } from 'lucide-react';
 
 export const SystemStatus = ({ connected }: { connected: boolean }) => (
   <Badge

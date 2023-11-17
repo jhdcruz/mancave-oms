@@ -1,5 +1,5 @@
-import { type CookieOptions, createServerClient } from "@supabase/ssr";
-import { type NextRequest, NextResponse } from "next/server";
+import { type CookieOptions, createServerClient } from '@supabase/ssr';
+import { type NextRequest, NextResponse } from 'next/server';
 
 /**
  * Supabase client for use in Next.js middleware.
@@ -42,7 +42,7 @@ export const middlewareClient = (request: NextRequest) => {
           // If the cookie is removed, update the cookies for the request and response
           request.cookies.set({
             name,
-            value: "",
+            value: '',
             ...options,
           });
           response = NextResponse.next({
@@ -52,7 +52,7 @@ export const middlewareClient = (request: NextRequest) => {
           });
           response.cookies.set({
             name,
-            value: "",
+            value: '',
             ...options,
           });
         },

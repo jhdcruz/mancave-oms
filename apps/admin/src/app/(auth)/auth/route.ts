@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { type AxiomRequest, withAxiom } from "next-axiom";
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { type AxiomRequest, withAxiom } from 'next-axiom';
 
-import { serverClient } from "@mcsph/supabase";
+import { serverClient } from '@mcsph/supabase';
 
 // Used for SSR auth flows
 export const GET = withAxiom(async (req: AxiomRequest) => {
@@ -10,7 +10,7 @@ export const GET = withAxiom(async (req: AxiomRequest) => {
   // by the Auth Helpers package. It exchanges an auth code for the user's session.
   // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-sign-in-with-code-exchange
   const requestUrl = new URL(req.url);
-  const code = requestUrl.searchParams.get("code");
+  const code = requestUrl.searchParams.get('code');
 
   if (code) {
     const cookieStore = cookies();

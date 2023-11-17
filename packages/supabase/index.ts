@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
-import { serverClient } from "./lib/server";
+import { cookies } from 'next/headers';
+import { serverClient } from './lib/server';
 
 /**
  * Check if we can establish connection with the database.
@@ -14,6 +14,6 @@ export const healthCheck = async () => {
   }
 };
 
-export { browserClient } from "./lib/client";
-export { serverClient } from "./lib/server";
-export { middlewareClient } from "./lib/middleware";
+export { browserClient } from './lib/client';
+export { serverClient } from './lib/server';
+export { middlewareClient } from './lib/middleware';

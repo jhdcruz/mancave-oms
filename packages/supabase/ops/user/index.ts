@@ -1,7 +1,7 @@
-import { cookies } from "next/headers";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { cookies } from 'next/headers';
+import { SupabaseClient } from '@supabase/supabase-js';
 
-import { serverClient } from "../../";
+import { serverClient } from '../../';
 
 export const getCurrentUserRole = async (
   id: string | number,
@@ -13,9 +13,9 @@ export const getCurrentUserRole = async (
   }
 
   const { data, error } = await supabase
-    .from("profiles")
-    .select("roles (type)")
-    .eq("id", id)
+    .from('profiles')
+    .select('roles (type)')
+    .eq('id', id)
     .single();
 
   return { data, error };
