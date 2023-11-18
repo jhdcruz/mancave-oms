@@ -6,10 +6,6 @@
   "scripts": {
     "fmt": "prettier --write ./**/*.{ts,tsx}"
   },
-  "dependencies": {
-    "clsx": "2.0.0",
-    "tailwind-merge": "2.0.0"
-  },
   "devDependencies": {
     "@mcsph/tooling": "workspace:*",
     "@types/node": "20.9.1"

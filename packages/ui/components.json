@@ -10,8 +10,8 @@
     "cssVariables": true
   },
   "aliases": {
-    "ui": "@/components",
-    "components": "@/containers",
-    "utils": "@mcsph/utils"
+    "ui": "./components",
+    "components": "./containers",
+    "utils": "./utils"
   }
 }
