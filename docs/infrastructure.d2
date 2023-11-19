@@ -4,15 +4,11 @@ direction: down
 ***.style.border-radius: 12
 
 # Internal Entities
-customer: Customer Portal {
+web: Web {
   shape: cloud
 }
 
-admin: Admin Portal {
-  shape: cloud
-}
-
-staff: Staff Portal {
+admin: Admin {
   shape: cloud
 }
 
@@ -136,13 +132,11 @@ ci -> checkly
 ci -> fossa
 
 checkly -> admin
-checkly -> staff
-checkly -> customer
+checkly -> web
 
 admin -> monitoring
-staff -> monitoring
-customer -> monitoring
+web -> monitoring
 
 admin <-> supabase
-staff <-> supabase
-customer <-> supabase
+web <-> supabase
+
