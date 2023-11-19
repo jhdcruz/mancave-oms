@@ -17,3 +17,6 @@ export const healthCheck = async () => {
 export { browserClient } from './lib/client';
 export { serverClient } from './lib/server';
 export { middlewareClient } from './lib/middleware';
+
+// re-export supabase types
+export type * from '@supabase/supabase-js';
