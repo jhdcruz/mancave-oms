@@ -5,6 +5,6 @@
   "tabWidth": 2,
   "singleQuote": true,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindConfig": "./tailwind.config.ts",
+  "tailwindConfig": "../../packages/tooling/tailwind/tailwind.config.ts",
   "tailwindFunctions": ["clsx"]
 }

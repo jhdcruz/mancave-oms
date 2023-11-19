@@ -3,9 +3,16 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 /** @type {import('next').NextConfig} */
 module.exports = withAxiom({
+  async rewrites() {
+    return [
+      {
+        source: '/shop',
+        destination: 'https://mancave.vercel.app',
+      },
+    ];
+  },
   transpilePackages: ['@mcsph/ui', '@mcsph/supabase', '@mcsph/utils'],
 });
-
 
 // Injected content via Sentry wizard below
 module.exports = withSentryConfig(
@@ -32,7 +39,10 @@ module.exports = withSentryConfig(
     // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
     tunnelRoute: '/monitoring',
 
-    tracePropagationTargets: ['localhost', /^https:\/\/mancave-admin\.vercel\.app\//],
+    tracePropagationTargets: [
+      'localhost',
+      /^https:\/\/mancave-admin\.vercel\.app\//,
+    ],
 
     // Hides source maps from generated client bundles
     hideSourceMaps: true,

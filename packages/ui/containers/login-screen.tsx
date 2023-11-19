@@ -50,7 +50,7 @@ export default function LoginScreen({
           <Suspense
             fallback={<Skeleton className="h-[2.5rem] w-[2.5rem] rounded-lg" />}
           >
-            <ThemeSwitcher />
+            <ThemeSwitcher outline />
           </Suspense>
         </div>
 

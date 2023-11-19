@@ -23,7 +23,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-    --radius: 1rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -69,6 +69,6 @@
 
   ::-webkit-scrollbar-thumb {
     background: hsl(var(--muted-foreground));
-    border-radius: 0.25rem;
+    border-radius: --var(--radius);
   }
 }

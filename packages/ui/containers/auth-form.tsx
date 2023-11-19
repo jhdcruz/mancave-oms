@@ -11,16 +11,12 @@ import { Label } from '../components/label';
 import LabeledDivider from './labeled-divider';
 
 export type AuthFormProps = HTMLAttributes<HTMLDivElement> & {
-  formAction: any; // check config, throws error ((formData: FormData) => void) | undefined
+  formAction: ((formData: FormData) => void) | undefined;
   googleAction: MouseEventHandler<HTMLButtonElement> | undefined;
   forgotAction: MouseEventHandler<HTMLButtonElement> | undefined;
 };
 
-export default function AuthForm({
-  formAction,
-  googleAction,
-  forgotAction,
-}: AuthFormProps) {
+export default function AuthForm({ formAction, googleAction, forgotAction }: AuthFormProps) {
   return (
     <div className="grid gap-3">
       <form action={formAction}>
