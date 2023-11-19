@@ -59,22 +59,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: remove existing results.sarif file
-        run: rm results.sarif
-
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           upload: true
-          format: sarif
-          output: results.sarif
           gh-code-scanning-compat: true
           # Force 0 exit code to allow SARIF file generation
           # This will handover control about PR rejection to the GitHub side
           max-allowed-issues: 2147483647
-
-      - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: results.sarif
