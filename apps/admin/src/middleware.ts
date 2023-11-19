@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { AxiomRequest, withAxiom } from 'next-axiom';
-
 import { middlewareClient } from '@mcsph/supabase';
 
 const PUBLIC_FILE = /\.(.*)$/;
