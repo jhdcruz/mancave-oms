@@ -57,14 +57,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4A
+
+      - name: remove existing results.sarif file
+        run: rm results.sarif
 
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           upload: true
-          verbose: true
           format: sarif
           output: results.sarif
           gh-code-scanning-compat: true
