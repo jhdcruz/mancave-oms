@@ -12,6 +12,9 @@ module.exports = withAxiom({
     ];
   },
   transpilePackages: ['@mcsph/ui', '@mcsph/supabase', '@mcsph/utils'],
+  experimental: {
+    serverComponentsExternalPackages: ['@sentry/profiling-node'],
+  },
 });
 
 // Injected content via Sentry wizard below
