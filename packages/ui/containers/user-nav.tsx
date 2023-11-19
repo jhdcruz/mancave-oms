@@ -16,9 +16,9 @@ import {
 } from '../components/dropdown-menu';
 
 export type UserNavProps = {
-  avatar: string | unknown;
-  name: string | unknown;
-  email: string | unknown;
+  avatar: string | undefined;
+  name: string | undefined;
+  email: string | undefined;
 };
 
 export default function UserNav({ avatar, name, email }: UserNavProps) {
