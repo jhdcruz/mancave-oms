@@ -1,4 +1,5 @@
 import type { AuthFormProps } from '@mcsph/ui/containers/auth-form';
+import dynamic from 'next/dynamic';
 
 import { healthCheck } from '@mcsph/supabase';
 import {
@@ -6,7 +7,6 @@ import {
   formSignIn,
   forgotAction,
 } from '@mcsph/supabase/ops/auth';
-import dynamic from 'next/dynamic';
 
 const LoginScreen = dynamic(() => import('@mcsph/ui/containers/login-screen'), {
   ssr: false,

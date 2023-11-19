@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import { Logger } from 'next-axiom';
-import { redirect } from 'next/navigation';
 
 import { defaultUrl } from '@mcsph/utils';
 import { serverClient } from '../../';
+import { redirect } from 'next/navigation';
 
 export const googleSignIn = async () => {
   'use server';
@@ -45,7 +45,7 @@ export const formSignIn = async (formData: FormData, redirectTo?: string) => {
     return { error };
   }
 
-  return redirect(redirectTo || '/');
+  redirect(redirectTo || defaultUrl);
 };
 
 export const forgotAction = async () => {

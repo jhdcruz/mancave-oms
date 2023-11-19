@@ -24,11 +24,11 @@ import {
 } from '@mcsph/ui/components/command';
 import { ExternalLink } from 'lucide-react';
 
-export default function HeaderNav({ session }: { session: Session }) {
+export default function HeaderNav({ session }: { session: Session | null }) {
   return (
     <MainNav
       mainRoutes={<MainRoutes session={session} />}
-      extRoutes={externalRoutes.map((route: RouteProps.actions) => (
+      extRoutes={externalRoutes.map((route) => (
         <NavigationMenuItem key={route.href}>
           <Link href={route.href} target="_blank" passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -51,8 +51,8 @@ export default function HeaderNav({ session }: { session: Session }) {
   );
 }
 
-const MainRoutes = ({ session }: { session: Session }) => {
-  if (session.user?.user_metadata?.role === 'Admin') {
+const MainRoutes = ({ session }: { session: Session | null }) => {
+  if (session?.user?.user_metadata?.role === 'Admin') {
     return routes.map((route: RouteProps) => (
       <NavigationMenuItem key={route.href}>
         <Link href={route.href} passHref>
@@ -96,7 +96,7 @@ const Commands = () => {
             <span>{route.name}</span>
           </CommandItem>
 
-          {route.actions?.map((subroute: RouteProps.actions) => (
+          {route.actions?.map((subroute) => (
             <CommandItem
               key={subroute.href}
               onSelect={() => runCommand(() => router.push(subroute.href))}
