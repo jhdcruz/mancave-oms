@@ -12,7 +12,7 @@ const LoginScreen = dynamic(() => import('@mcsph/ui/containers/login-screen'), {
   ssr: false,
 });
 
-export default async function Index({
+export default async function Login({
   searchParams,
 }: {
   searchParams: { title: string; message: string };
