@@ -84,8 +84,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       recharts:
-        specifier: 2.10.0
-        version: 2.10.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 2.10.1
+        version: 2.10.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@mcsph/tooling':
         specifier: workspace:*
@@ -279,8 +279,8 @@ importers:
         specifier: 7.48.2
         version: 7.48.2(react@18.2.0)
       recharts:
-        specifier: 2.10.0
-        version: 2.10.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 2.10.1
+        version: 2.10.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       tailwind-merge:
         specifier: 2.0.0
         version: 2.0.0
@@ -5489,8 +5489,8 @@ packages:
       decimal.js-light: 2.5.1
     dev: false
 
-  /recharts@2.10.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ItfXIVD5zW9RnYq1bRGZdMy1Ssuh0pd9GhnNm354dRK4ovB9zfIw/jlTz7UHUSnFZI6n9tLG8EfN1iKukeFa8A==}
+  /recharts@2.10.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-9bi0jIzxOTfEda+oYqgimKuYfApmBr0zKnAX8r4Iw56k3Saz/IQyBD4zohZL0eyzfz0oGFRH7alpJBgH1eC57g==}
     engines: {node: '>=14'}
     peerDependencies:
       prop-types: ^15.6.0
