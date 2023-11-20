@@ -6,12 +6,14 @@ import {
   NavigationMenu,
   NavigationMenuList,
 } from '../components/navigation-menu';
+import type { CommandProps } from '@mcsph/ui/containers/search-command';
+
 import UserNav, { UserNavProps } from './user-nav';
 import SearchCommandDialog from './search-command';
 import ThemeSwitcher from './theme-switcher';
 
 export type NavProps = {
-  commands: any;
+  commands: CommandProps;
   user: UserNavProps;
   mainRoutes: ReactNode | Iterable<ReactNode>;
   extRoutes?: ReactNode | Iterable<ReactNode>;

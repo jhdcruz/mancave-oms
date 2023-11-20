@@ -1,10 +1,8 @@
 'use client';
 
-import { type ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-
-import type { DialogProps } from '@radix-ui/react-alert-dialog';
 
 import { LaptopIcon, MoonIcon, SunIcon, User } from 'lucide-react';
 
@@ -21,14 +19,32 @@ import { Button } from '../components/button';
 
 import { cn } from '@mcsph/utils';
 
-type SearchCommandProps = DialogProps & {
-  commands: ReactNode;
+/**
+ * Subroutes for the main `CommandProps`
+ */
+export type CommandActionProps = {
+  href: string;
+  title: string;
+  description: string;
+  external?: boolean;
+};
+
+export type CommandProps = {
+  trigger: string;
+  icon: ReactNode;
+  icon_button?: ReactNode;
+  name: string;
+  description: string;
+  href: string;
+  actions?: CommandActionProps[];
 };
 
 export default function SearchCommandDialog({
   commands,
   ...props
-}: SearchCommandProps) {
+}: {
+  commands: CommandProps[];
+}) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { setTheme } = useTheme();
@@ -75,7 +91,26 @@ export default function SearchCommandDialog({
             <span className="text-muted">No results found.</span>
           </CommandEmpty>
 
-          {commands}
+          {commands.map((route: CommandProps) => (
+            <CommandGroup key={route.href} heading={route.trigger}>
+              <CommandItem
+                onSelect={() => runCommand(() => router.push(route.href))}
+              >
+                {route.icon}
+                <span>{route.name}</span>
+              </CommandItem>
+
+              {route.actions?.map((subroute: CommandActionProps) => (
+                <CommandItem
+                  key={subroute.href}
+                  onSelect={() => runCommand(() => router.push(subroute.href))}
+                >
+                  {route.icon}
+                  <span>{subroute.title}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          ))}
 
           <CommandSeparator />
 

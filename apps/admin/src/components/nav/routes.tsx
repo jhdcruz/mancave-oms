@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   Activity,
   ArchiveX,
@@ -13,20 +12,6 @@ import {
   Users2,
   Warehouse,
 } from 'lucide-react';
-
-export type RouteProps = {
-  trigger: string;
-  icon: ReactNode;
-  name: string;
-  description: string;
-  href: string;
-  actions?: {
-    href: string;
-    title: string;
-    description: string;
-    external?: boolean;
-  }[];
-};
 
 export const externalRoutes = [
   {
@@ -52,7 +37,7 @@ export const externalRoutes = [
   },
 ];
 
-const routes = [
+export const mainRoutes = [
   {
     trigger: 'Dashboard',
     icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
@@ -124,4 +109,4 @@ const routes = [
   },
 ];
 
-export default routes;
+export default routes = [...mainRoutes, ...externalRoutes];

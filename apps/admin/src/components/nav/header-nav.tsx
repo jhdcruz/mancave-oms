@@ -1,8 +1,7 @@
 'use client';
 
-import { useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { ExternalLink } from 'lucide-react';
 
 import {
   NavigationMenuItem,
@@ -10,25 +9,17 @@ import {
   navigationMenuTriggerStyle,
 } from '@mcsph/ui/components/navigation-menu';
 
-import MainNav from '@mcsph/ui/containers/main-nav';
+import MainNav from './main-nav';
 
-import routes, {
-  externalRoutes,
-  type RouteProps,
-} from '@/components/nav/routes';
+import type { CommandProps } from '@mcsph/ui/containers/search-command';
+import { externalRoutes, mainRoutes } from '@/components/nav/routes';
 import { Session } from '@mcsph/supabase';
-import {
-  CommandGroup,
-  CommandItem,
-  CommandSeparator,
-} from '@mcsph/ui/components/command';
-import { ExternalLink } from 'lucide-react';
 
 export default function HeaderNav({ session }: { session: Session | null }) {
   return (
     <MainNav
       mainRoutes={<MainRoutes session={session} />}
-      extRoutes={externalRoutes.map((route) => (
+      extRoutes={externalRoutes.map((route: CommandProps) => (
         <NavigationMenuItem key={route.href}>
           <Link href={route.href} target="_blank" passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -38,7 +29,7 @@ export default function HeaderNav({ session }: { session: Session | null }) {
           </Link>
         </NavigationMenuItem>
       ))}
-      commands={<Commands />}
+      commands={mainRoutes}
       user={{
         avatar: session?.user?.user_metadata?.avatar_url,
         name:
@@ -53,7 +44,7 @@ export default function HeaderNav({ session }: { session: Session | null }) {
 
 const MainRoutes = ({ session }: { session: Session | null }) => {
   if (session?.user?.user_metadata?.role === 'Admin') {
-    return routes.map((route: RouteProps) => (
+    return mainRoutes.map((route: CommandProps) => (
       <NavigationMenuItem key={route.href}>
         <Link href={route.href} passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -64,9 +55,9 @@ const MainRoutes = ({ session }: { session: Session | null }) => {
     ));
   } else {
     // Don't show admin routes when user is not admin
-    return routes
-      .filter((route: RouteProps) => route.trigger !== 'Admin')
-      .map((route: RouteProps) => (
+    return mainRoutes
+      .filter((route: CommandProps) => route.trigger !== 'Admin')
+      .map((route: CommandProps) => (
         <NavigationMenuItem key={route.href}>
           <Link href={route.href} passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -76,39 +67,4 @@ const MainRoutes = ({ session }: { session: Session | null }) => {
         </NavigationMenuItem>
       ));
   }
-};
-
-const Commands = () => {
-  const router = useRouter();
-
-  const runCommand = useCallback((command: () => unknown) => {
-    command();
-  }, []);
-
-  return (
-    <>
-      {routes.map((route: RouteProps) => (
-        <CommandGroup key={route.href} heading={route.trigger}>
-          <CommandItem
-            onSelect={() => runCommand(() => router.push(route.href))}
-          >
-            {route.icon}
-            <span>{route.name}</span>
-          </CommandItem>
-
-          {route.actions?.map((subroute) => (
-            <CommandItem
-              key={subroute.href}
-              onSelect={() => runCommand(() => router.push(subroute.href))}
-            >
-              {route.icon}
-              <span>{subroute.title}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      ))}
-
-      <CommandSeparator />
-    </>
-  );
 };
