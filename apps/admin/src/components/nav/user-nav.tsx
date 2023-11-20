@@ -3,8 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { UserCircle } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '../components/avatar';
-import { Button } from '../components/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@mcsph/ui/components/avatar';
+import { Button } from '@mcsph/ui/components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../components/dropdown-menu';
+} from '@mcsph/ui/components/dropdown-menu';
 
 export type UserNavProps = {
   avatar: string | undefined;

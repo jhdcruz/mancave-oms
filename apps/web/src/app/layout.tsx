@@ -33,15 +33,13 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const { session } = await getCurrentSession();
-
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <AxiomWebVitals />
 
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <HeaderNav session={session} />
+          <HeaderNav />
 
           <main>{children}</main>
         </ThemeProvider>
