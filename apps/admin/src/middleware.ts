@@ -27,7 +27,5 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  await supabase.auth.getSession();
-
   return response;
 });
