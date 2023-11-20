@@ -9,7 +9,9 @@ An ordering management system for Man Cave Supplies PH, Inc.
 
 ## Architecture
 
-<img src="./docs/overview.svg" width="100%" />
+<p align="center">
+  <img src="./docs/overview.svg" width="70%" />   
+</p>
 
 ## Development
 
@@ -24,7 +26,7 @@ An ordering management system for Man Cave Supplies PH, Inc.
 1. Clone and install deps:
 
    ```bash
-   git clone https://github.com/jhdcruz/mancave-oms.git --depth 10
+   git clone https://github.com/jhdcruz/mancave-oms.git --depth 5
    cd mancave-oms
    pnpm i
    ```
@@ -34,7 +36,7 @@ An ordering management system for Man Cave Supplies PH, Inc.
    - Shared in GC; or,
    - Create your own [via the Supabase dashboard](https://database.new)
 
-3. Rename `.env.local.example` to `.env.local` and update the following:
+3. Rename `.env.local.example` to `.env.local` and update the following in `apps`:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
@@ -46,16 +48,16 @@ An ordering management system for Man Cave Supplies PH, Inc.
 
 4. You can now run the Next.js local development server,
 
-   to run all apps (admin, staff, etc.):
+   to run all apps (admin, web, etc.):
 
    ```bash
-   turbo dev
+   pnpm dev
    ```
 
    to run single app:
 
    ```bash
-   turbo dev --filter @mcsph/admin
+   pnpm dev --filter @mcsph/admin
    ```
 
 ## License
