@@ -5,14 +5,6 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 /** @type {import('next').NextConfig} */
 module.exports = withAxiom({
-  async rewrites() {
-    return [
-      {
-        source: '/shop',
-        destination: 'https://mancave.vercel.app',
-      },
-    ];
-  },
   transpilePackages: ['@mcsph/ui', '@mcsph/supabase', '@mcsph/utils'],
   experimental: {
     serverComponentsExternalPackages: ['@sentry/profiling-node'],
@@ -29,7 +21,7 @@ module.exports = withSentryConfig(
     // Suppresses source map uploading logs during build
     silent: true,
     org: 'mcsph',
-    project: 'mancave-admin',
+    project: 'mancave-web',
   },
   {
     // For all available options, see:
@@ -46,7 +38,7 @@ module.exports = withSentryConfig(
 
     tracePropagationTargets: [
       'localhost',
-      /^https:\/\/mancave-admin\.vercel\.app\//,
+      /^https:\/\/mancave\.vercel\.app\//,
     ],
 
     // Hides source maps from generated client bundles

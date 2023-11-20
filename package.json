@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "erp",
+  "name": "@mcsph/monorepo",
   "scripts": {
     "dev": "dotenv -- turbo dev",
     "build": "turbo build",

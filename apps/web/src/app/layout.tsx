@@ -12,7 +12,11 @@ import '@mcsph/ui/globals.css';
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Man Cave Supplies PH, Inc. | Staff Portal',
+  title:
+    'Man Cave Supplies PH, Inc. | Discover the perfect blend of style and functionality',
+  description:
+    'Unleash the power of personalized interiors, where every piece tells a story. Transform your home into a haven of comfort and sophistication with our handpicked furnishings. Explore the art of living well – where every corner becomes a masterpiece.',
+  keywords: ['Furniture', 'Home Decors', 'Lighting', 'Modern', 'Home'],
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'black' },

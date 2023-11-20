@@ -7,6 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Admin portal of Man Cave Supplies PH, Inc.',
     start_url: '/',
     display: 'standalone',
+    theme_color: '#ffffff',
+    background_color: '#ffffff',
     icons: [
       {
         src: '/favicon.ico',
