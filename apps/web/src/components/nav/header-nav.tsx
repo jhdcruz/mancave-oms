@@ -19,7 +19,7 @@ import SearchCommandDialog, {
 import ThemeSwitcher from '@mcsph/ui/containers/theme-switcher';
 
 export type NavProps = {
-  commands: CommandProps;
+  commands: CommandProps[];
   mainRoutes: ReactNode | Iterable<ReactNode>;
   extRoutes?: ReactNode | Iterable<ReactNode>;
 };

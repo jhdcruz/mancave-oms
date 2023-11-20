@@ -11,7 +11,7 @@ import {
 
 import MainNav from './main-nav';
 
-import type { CommandProps } from '@mcsph/ui/containers/search-command';
+import type { CommandProps, CommandActionProps } from '@mcsph/ui/containers/search-command';
 import { externalRoutes, mainRoutes } from '@/components/nav/routes';
 import { Session } from '@mcsph/supabase';
 
@@ -19,7 +19,7 @@ export default function HeaderNav({ session }: { session: Session | null }) {
   return (
     <MainNav
       mainRoutes={<MainRoutes session={session} />}
-      extRoutes={externalRoutes.map((route: CommandProps) => (
+      extRoutes={externalRoutes.map((route: CommandActionProps) => (
         <NavigationMenuItem key={route.href}>
           <Link href={route.href} target="_blank" passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>

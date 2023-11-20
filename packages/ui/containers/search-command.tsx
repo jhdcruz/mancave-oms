@@ -23,6 +23,7 @@ import { cn } from '@mcsph/utils';
  * Subroutes for the main `CommandProps`
  */
 export type CommandActionProps = {
+  icon?: ReactNode;
   href: string;
   title: string;
   description: string;

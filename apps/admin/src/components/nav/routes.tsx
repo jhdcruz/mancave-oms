@@ -1,3 +1,7 @@
+import type {
+  CommandActionProps,
+  CommandProps,
+} from '@mcsph/ui/containers/search-command';
 import {
   Activity,
   ArchiveX,
@@ -13,7 +17,7 @@ import {
   Warehouse,
 } from 'lucide-react';
 
-export const externalRoutes = [
+export const externalRoutes: CommandActionProps[] = [
   {
     icon: <Activity className="mr-2 h-4 w-4" />,
     href: 'https://app.axiom.co/sia305-yewe/dashboards/nJkqv1vu228EakiXm',
@@ -37,7 +41,7 @@ export const externalRoutes = [
   },
 ];
 
-export const mainRoutes = [
+export const mainRoutes: CommandProps[] = [
   {
     trigger: 'Dashboard',
     icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
@@ -109,4 +113,6 @@ export const mainRoutes = [
   },
 ];
 
-export default routes = [...mainRoutes, ...externalRoutes];
+const routes = [...mainRoutes, ...externalRoutes]
+
+export default routes;
