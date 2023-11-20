@@ -36,11 +36,14 @@ An ordering management system for Man Cave Supplies PH, Inc.
    - Shared in GC; or,
    - Create your own [via the Supabase dashboard](https://database.new)
 
-3. Rename `.env.local.example` to `.env.local` and update the following in `apps`:
+3. Rename `.env.local.example` to `.env.local` and update the following in both `apps/admin` and `apps/web`:
 
    ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=
+   
+   NEXT_PUBLIC_SENTRY_DSN=
+   SENTRY_DSN=
    ```
 
    Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found
