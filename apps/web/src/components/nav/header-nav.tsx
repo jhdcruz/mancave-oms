@@ -1,72 +1,33 @@
 'use client';
 
-import { useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { ReactNode } from 'react';
 import Link from 'next/link';
+import { Boxes, UserCircle } from 'lucide-react';
 
 import {
+  NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
+  NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@mcsph/ui/components/navigation-menu';
 
-import MainNav from '@mcsph/ui/containers/main-nav';
+import routes, { externalRoutes } from '@/components/nav/routes';
+import SearchCommandDialog, {
+  type CommandProps,
+} from '@mcsph/ui/containers/search-command';
+import ThemeSwitcher from '@mcsph/ui/containers/theme-switcher';
 
-import routes, {
-  externalRoutes,
-  type RouteProps,
-} from '@/components/nav/routes';
-import { Session } from '@mcsph/supabase';
-import {
-  CommandGroup,
-  CommandItem,
-  CommandSeparator,
-} from '@mcsph/ui/components/command';
-import { ExternalLink } from 'lucide-react';
+export type NavProps = {
+  commands: CommandProps;
+  mainRoutes: ReactNode | Iterable<ReactNode>;
+  extRoutes?: ReactNode | Iterable<ReactNode>;
+};
 
-export default function HeaderNav({ session }: { session: Session | null }) {
+export default function HeaderNav() {
   return (
     <MainNav
-      mainRoutes={<MainRoutes session={session} />}
-      extRoutes={externalRoutes.map((route) => (
-        <NavigationMenuItem key={route.href}>
-          <Link href={route.href} target="_blank" passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              {route.title}
-              <ExternalLink className="ml-2" size={12} />
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-      ))}
-      commands={<Commands />}
-      user={{
-        avatar: session?.user?.user_metadata?.avatar_url,
-        name:
-          session?.user.user_metadata?.first_name +
-          ' ' +
-          session?.user.user_metadata?.last_name,
-        email: session?.user.email,
-      }}
-    />
-  );
-}
-
-const MainRoutes = ({ session }: { session: Session | null }) => {
-  if (session?.user?.user_metadata?.role === 'Admin') {
-    return routes.map((route: RouteProps) => (
-      <NavigationMenuItem key={route.href}>
-        <Link href={route.href} passHref>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            {route.trigger}
-          </NavigationMenuLink>
-        </Link>
-      </NavigationMenuItem>
-    ));
-  } else {
-    // Don't show admin routes when user is not admin
-    return routes
-      .filter((route: RouteProps) => route.trigger !== 'Admin')
-      .map((route: RouteProps) => (
+      mainRoutes={routes.map((route) => (
         <NavigationMenuItem key={route.href}>
           <Link href={route.href} passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -74,41 +35,44 @@ const MainRoutes = ({ session }: { session: Session | null }) => {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-      ));
-  }
-};
-
-const Commands = () => {
-  const router = useRouter();
-
-  const runCommand = useCallback((command: () => unknown) => {
-    command();
-  }, []);
-
-  return (
-    <>
-      {routes.map((route: RouteProps) => (
-        <CommandGroup key={route.href} heading={route.trigger}>
-          <CommandItem
-            onSelect={() => runCommand(() => router.push(route.href))}
-          >
-            {route.icon}
-            <span>{route.name}</span>
-          </CommandItem>
-
-          {route.actions?.map((subroute) => (
-            <CommandItem
-              key={subroute.href}
-              onSelect={() => runCommand(() => router.push(subroute.href))}
-            >
-              {route.icon}
-              <span>{subroute.title}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
       ))}
-
-      <CommandSeparator />
-    </>
+      extRoutes={externalRoutes.map((route) => (
+        <NavigationMenuItem key={route.href}>
+          <Link href={route.href} target="_blank" passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              {route.icon_button}
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+      ))}
+      commands={routes}
+    />
   );
-};
+}
+
+const MainNav = ({ commands, mainRoutes, extRoutes }: NavProps) => (
+  <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="container flex h-16 items-center px-4">
+      <NavigationMenu className="mx-auto flex max-w-full flex-auto items-center space-x-4">
+        <div className="text-md flex items-center font-medium">
+          <Boxes className="mr-2" size={24} />
+          Man Cave Supplies PH, Inc.
+        </div>
+
+        <NavigationMenuList className="mr-auto flex items-center">
+          {mainRoutes}
+        </NavigationMenuList>
+
+        <div className="mx-10 flex grow"></div>
+
+        <div className="ml-auto flex items-center space-x-2">
+          <NavigationMenuList className="flex">{extRoutes}</NavigationMenuList>
+
+          <SearchCommandDialog commands={commands} />
+          <ThemeSwitcher />
+          <UserCircle size={20} />
+        </div>
+      </NavigationMenu>
+    </div>
+  </header>
+);
