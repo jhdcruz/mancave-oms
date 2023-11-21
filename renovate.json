@@ -5,7 +5,7 @@
   ],
   "packageRules": [
     {
-      "updateTypes": ["patch", "pin", "digest"],
+      "updateTypes": ["patch", "pin", "digest", "major"],
       "automerge": true
     }
   ],
