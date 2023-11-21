@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@supabase/ssr": "0.0.10",
-    "@supabase/supabase-js": "2.38.4"
+    "@supabase/supabase-js": "2.38.5"
   },
   "peerDependencies": {
     "next": "^14",
