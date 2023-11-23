@@ -1,7 +1,7 @@
 import { Badge } from '../components/badge';
 import { Wifi } from 'lucide-react';
 
-export default function nSystemStatus({ connected }: { connected: boolean }) {
+export default function SystemStatus({ connected }: { connected: boolean }) {
   return (
     <Badge
       variant="outline"

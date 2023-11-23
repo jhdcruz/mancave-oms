@@ -2,8 +2,21 @@ import { cookies } from 'next/headers';
 import { Logger } from 'next-axiom';
 
 import { defaultUrl } from '@mcsph/utils';
-import { serverClient } from '../../';
+import { serverClient } from '../../lib/server';
 import { redirect } from 'next/navigation';
+
+/**
+ * Check if we can establish connection with the database.
+ */
+export const healthCheck = async () => {
+  try {
+    const cookieStore = cookies();
+    serverClient(cookieStore);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 export const googleSignIn = async () => {
   'use server';

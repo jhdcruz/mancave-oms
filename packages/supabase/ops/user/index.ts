@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { SupabaseClient } from '@supabase/supabase-js';
 
-import { serverClient } from '../../';
+import { serverClient } from '../../lib/server';
 
 /**
  * This method is useful for checking if the user is authorized

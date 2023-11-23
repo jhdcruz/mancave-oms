@@ -1,8 +1,8 @@
 import type { AuthFormProps } from '@mcsph/ui/containers/auth-form';
 import dynamic from 'next/dynamic';
 
-import { healthCheck } from '@mcsph/supabase';
 import {
+  healthCheck,
   googleSignIn,
   formSignIn,
   forgotAction,

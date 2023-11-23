@@ -1,8 +1,8 @@
 import { cookies } from 'next/headers';
-
-import { type AxiomRequest, withAxiom } from 'next-axiom';
-import { serverClient } from '@mcsph/supabase';
 import { NextResponse } from 'next/server';
+import { type AxiomRequest, withAxiom } from 'next-axiom';
+
+import { serverClient } from '@mcsph/supabase/lib/server';
 
 export const GET = withAxiom(async (req: AxiomRequest) => {
   const cookieStore = cookies();
