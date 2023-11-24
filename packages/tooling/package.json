@@ -8,7 +8,7 @@
     "tailwindcss-animate": "1.0.7"
   },
   "devDependencies": {
-    "@types/node": "20.9.4"
+    "@types/node": "20.9.5"
   },
   "peerDependencies": {
     "tailwindcss": "3.3.5"
