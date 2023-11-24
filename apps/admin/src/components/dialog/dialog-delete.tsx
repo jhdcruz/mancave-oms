@@ -16,7 +16,7 @@ export function DialogDelete({
   deleteFn,
 }: {
   open: boolean;
-  setOpen: () => void;
+  setOpen: (open: boolean) => void;
   item: string | ReactNode;
   deleteFn: () => void;
 }) {
