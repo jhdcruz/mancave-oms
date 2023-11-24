@@ -13,7 +13,7 @@ import MainNav from './main-nav';
 
 import type { CommandProps, CommandActionProps } from '@mcsph/ui/containers/search-command';
 import { externalRoutes, mainRoutes } from '@/components/nav/routes';
-import { Session } from '@mcsph/supabase';
+import { Session } from '@mcsph/supabase/types';
 
 export default function HeaderNav({ session }: { session: Session | null }) {
   return (
