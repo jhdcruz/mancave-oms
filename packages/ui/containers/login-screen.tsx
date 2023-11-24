@@ -24,7 +24,7 @@ export default function LoginScreen({
   authActions: AuthFormProps;
 }) {
   return (
-    <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="container relative grid md:grid h-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
       {/* Left-side panel */}
       <div className="relative hidden h-screen flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
@@ -45,7 +45,7 @@ export default function LoginScreen({
       </div>
 
       {/* Right-side panel */}
-      <div className="lg:p-8">
+      <div className="p-4 lg:p-8">
         <div className="absolute right-10 top-10 z-20 flex items-center">
           <Suspense
             fallback={<Skeleton className="h-[2.5rem] w-[2.5rem] rounded-lg" />}
