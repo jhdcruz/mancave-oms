@@ -55,7 +55,9 @@ export function TableProductsRowActions<TData>({
     const { error } = await updateProduct(product?.id, formData, { supabase });
 
     if (error) {
-      log.error(error);
+      log.error(`Error updating product with an ID of ${product?.id}`, {
+        error,
+      });
       await log.flush();
     }
 
