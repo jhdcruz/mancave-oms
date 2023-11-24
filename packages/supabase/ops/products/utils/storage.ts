@@ -71,7 +71,7 @@ export const uploadProductImage = async (
   // upload image to supabase buckets using product id as filename
   const { data, error } = await supabase.storage
     .from('products')
-    .upload(`./${filename}.${ext}`, productImage, {
+    .upload(`${filename}.${ext}`, productImage, {
       cacheControl: '3600',
       upsert: true,
     });
