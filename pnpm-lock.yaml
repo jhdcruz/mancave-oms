@@ -72,8 +72,8 @@ importers:
         specifier: 1.1.0
         version: 1.1.0(next@14.0.2)
       lucide-react:
-        specifier: 0.292.0
-        version: 0.292.0(react@18.2.0)
+        specifier: 0.293.0
+        version: 0.293.0(react@18.2.0)
       next:
         specifier: 14.0.2
         version: 14.0.2(react-dom@18.2.0)(react@18.2.0)
@@ -100,8 +100,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/tooling
       '@types/node':
-        specifier: 20.9.5
-        version: 20.9.5
+        specifier: 20.10.0
+        version: 20.10.0
       '@types/react':
         specifier: 18.2.38
         version: 18.2.38
@@ -154,8 +154,8 @@ importers:
         specifier: 1.1.0
         version: 1.1.0(next@14.0.2)
       lucide-react:
-        specifier: 0.292.0
-        version: 0.292.0(react@18.2.0)
+        specifier: 0.293.0
+        version: 0.293.0(react@18.2.0)
       next:
         specifier: 14.0.2
         version: 14.0.2(react-dom@18.2.0)(react@18.2.0)
@@ -176,8 +176,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/tooling
       '@types/node':
-        specifier: 20.9.5
-        version: 20.9.5
+        specifier: 20.10.0
+        version: 20.10.0
       '@types/react':
         specifier: 18.2.38
         version: 18.2.38
@@ -228,8 +228,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@types/node':
-        specifier: 20.9.5
-        version: 20.9.5
+        specifier: 20.10.0
+        version: 20.10.0
 
   packages/tooling:
     dependencies:
@@ -244,8 +244,8 @@ importers:
         version: 1.0.7(tailwindcss@3.3.5)
     devDependencies:
       '@types/node':
-        specifier: 20.9.5
-        version: 20.9.5
+        specifier: 20.10.0
+        version: 20.10.0
 
   packages/ui:
     dependencies:
@@ -346,8 +346,8 @@ importers:
         specifier: 2.30.0
         version: 2.30.0
       lucide-react:
-        specifier: 0.292.0
-        version: 0.292.0(react@18.2.0)
+        specifier: 0.293.0
+        version: 0.293.0(react@18.2.0)
       next:
         specifier: ^14
         version: 14.0.2(react-dom@18.2.0)(react@18.2.0)
@@ -383,8 +383,8 @@ importers:
         specifier: workspace:*
         version: link:../tooling
       '@types/node':
-        specifier: 20.9.5
-        version: 20.9.5
+        specifier: 20.10.0
+        version: 20.10.0
       '@types/react':
         specifier: 18.2.38
         version: 18.2.38
@@ -426,8 +426,8 @@ importers:
         specifier: workspace:*
         version: link:../tooling
       '@types/node':
-        specifier: 20.9.5
-        version: 20.9.5
+        specifier: 20.10.0
+        version: 20.10.0
 
 packages:
 
@@ -2470,8 +2470,8 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/node@20.9.5:
-    resolution: {integrity: sha512-Uq2xbNq0chGg+/WQEU0LJTSs/1nKxz6u1iemLcGomkSnKokbW1fbLqc3HOqCf2JP7KjlL4QkS7oZZTrOQHQYgQ==}
+  /@types/node@20.10.0:
+    resolution: {integrity: sha512-D0WfRmU9TQ8I9PFx9Yc+EBHw+vSpIub4IDvQivcp26PtPrdMGAq5SDcpXEo/epqa/DXotVpekHiLNTg3iaKXBQ==}
     dependencies:
       undici-types: 5.26.5
 
@@ -2500,7 +2500,7 @@ packages:
   /@types/websocket@1.0.9:
     resolution: {integrity: sha512-xrMBdqdKdlE+7L9Wg2PQblIkZGSgiMlEoP6UAaYKMHbbxqCJ6PV/pTZ2RcMcSSERurU2TtGbmO4lqpFOJd01ww==}
     dependencies:
-      '@types/node': 20.9.5
+      '@types/node': 20.10.0
     dev: false
 
   /@typescript-eslint/parser@6.11.0(eslint@8.54.0)(typescript@5.3.2):
@@ -4709,8 +4709,8 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /lucide-react@0.292.0(react@18.2.0):
-    resolution: {integrity: sha512-rRgUkpEHWpa5VCT66YscInCQmQuPCB1RFRzkkxMxg4b+jaL0V12E3riWWR2Sh5OIiUhCwGW/ZExuEO4Az32E6Q==}
+  /lucide-react@0.293.0(react@18.2.0):
+    resolution: {integrity: sha512-g3AN0EYITCpAjNgLHrKrFWvIJzZy0Y9OPBaonyKw1cM+nZE6piOM+TiuQdYfha7oa76TMiDaWXQHE44CEqsrzw==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
