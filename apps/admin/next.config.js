@@ -13,6 +13,15 @@ module.exports = withAxiom({
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ysuydfdtwhnssryeucop.supabase.co',
+      },
+    ],
+  },
+
   transpilePackages: ['@mcsph/ui', '@mcsph/supabase', '@mcsph/utils'],
   experimental: {
     serverComponentsExternalPackages: ['@sentry/profiling-node'],

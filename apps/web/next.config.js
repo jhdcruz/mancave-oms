@@ -9,6 +9,14 @@ module.exports = withAxiom({
   experimental: {
     serverComponentsExternalPackages: ['@sentry/profiling-node'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ysuydfdtwhnssryeucop.supabase.co',
+      },
+    ],
+  }
 });
 
 // Injected content via Sentry wizard below
