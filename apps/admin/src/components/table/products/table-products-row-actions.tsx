@@ -34,6 +34,19 @@ export function TableProductsRowActions<TData>({
 
   const product = tableProductsSchema.parse(row.original);
 
+  const deleteSelected = async (id: string | number) => {
+    const supabase = browserClient();
+
+    const { error } = await deleteProduct(id, { supabase: supabase });
+
+    if (error) {
+      log.error(`Error updating product with an ID of ${product?.id}`, {
+        error,
+      });
+      await log.flush();
+    }
+  };
+
   const saveEdit = async (formEvent: FormEvent) => {
     formEvent.preventDefault();
 
@@ -111,11 +124,7 @@ export function TableProductsRowActions<TData>({
           open={deleteDialog}
           setOpen={setDeleteDialog}
           item={`SKU: ${product?.sku}`}
-          deleteFn={() =>
-            deleteProduct(product?.id, {
-              supabase: supabase,
-            })
-          }
+          deleteFn={() => deleteSelected(product?.id)}
         />
       )}
     </>
