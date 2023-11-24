@@ -59,6 +59,12 @@ importers:
       '@sentry/nextjs':
         specifier: 7.81.1
         version: 7.81.1(next@14.0.2)(react@18.2.0)
+      '@sentry/node':
+        specifier: 7.81.1
+        version: 7.81.1
+      '@sentry/profiling-node':
+        specifier: 1.2.6
+        version: 1.2.6
       '@tanstack/react-table':
         specifier: 8.10.7
         version: 8.10.7(react-dom@18.2.0)(react@18.2.0)
@@ -2240,11 +2246,11 @@ packages:
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@sentry/core': 7.80.1
+      '@sentry/core': 7.81.1
       '@sentry/hub': 7.80.1
       '@sentry/node': 7.81.1
-      '@sentry/types': 7.80.1
-      '@sentry/utils': 7.80.1
+      '@sentry/types': 7.81.1
+      '@sentry/utils': 7.81.1
       detect-libc: 2.0.2
       node-abi: 3.51.0
       node-gyp: 9.4.1
