@@ -1,5 +1,4 @@
-import { ComponentType } from 'react';
-import { Check, Plus } from 'lucide-react';
+import { Check, SlidersHorizontal } from 'lucide-react';
 import { Column } from '@tanstack/react-table';
 
 import { cn } from '@mcsph/utils';
@@ -40,8 +39,8 @@ export function DataTableFacetedFilter<TData, TValue>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 border-dashed">
-          <Plus className="mr-2 h-4 w-4" />
+        <Button variant="outline" className="mx-1 border-dashed">
+          <SlidersHorizontal className="mr-2 h-4 w-4" />
           {title}
           {selectedValues?.size > 0 && (
             <>

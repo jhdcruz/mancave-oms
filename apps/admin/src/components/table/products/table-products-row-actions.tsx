@@ -1,38 +1,67 @@
 'use client';
 
-import { useState } from 'react';
-import { MoreHorizontal } from 'lucide-react';
+import { FormEvent, useState } from 'react';
+import { ClipboardEdit, MoreHorizontal, Trash2 } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@mcsph/ui/components/dropdown-menu';
-
-import { states } from './table-products-filters';
 import { tableProductsSchema } from './table-products-schema';
 
 import { DialogProduct } from '@/components/dialog/dialog-product';
 import type { DataTableRowActionsProps } from '../data-table-props';
 
 import { browserClient } from '@mcsph/supabase/lib/client';
-import { updateProduct } from '@mcsph/supabase/ops/products';
+import { deleteProduct, updateProduct } from '@mcsph/supabase/ops/products';
+import { DialogDelete } from '@/components/dialog/dialog-delete';
+import { useLogger } from 'next-axiom';
+import { redirect, RedirectType } from 'next/navigation';
 
 export function TableProductsRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const [dialog, setDialog] = useState(false);
+  const log = useLogger();
+
+  const [loading, setLoading] = useState(false);
+  const [updateDialog, setUpdateDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+
   const product = tableProductsSchema.parse(row.original);
 
-  const supabase = browserClient();
+  const saveEdit = async (formEvent: FormEvent) => {
+    formEvent.preventDefault();
+
+    setLoading(true);
+
+    const supabase = browserClient();
+    const { data } = await supabase.auth.getSession();
+
+    if (!data.session) {
+      log.info('Session data not found');
+      return redirect('/login', RedirectType.replace);
+    }
+
+    const formData = new FormData(formEvent.target as HTMLFormElement);
+
+    // include who updated the product
+    formData.append('last_updated_by', data.session.user.id);
+
+    const { error } = await updateProduct(product?.id, formData, { supabase });
+
+    if (error) {
+      log.error(error);
+      await log.flush();
+    }
+
+    setLoading(false);
+    setUpdateDialog(false);
+  };
 
   return (
     <>
@@ -47,40 +76,44 @@ export function TableProductsRowActions<TData>({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem onClick={() => setDialog(true)}>
+          <DropdownMenuLabel>{product?.sku}</DropdownMenuLabel>
+
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => setUpdateDialog(true)}>
+            <ClipboardEdit className="mr-2 h-4 w-4" />
             Edit
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup value={String(product.disabled)}>
-                {states.map((state) => (
-                  <DropdownMenuRadioItem
-                    key={state.label}
-                    value={String(state.value)}
-                  >
-                    {state.label}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <span className="text-red-600">Delete</span>
+          <DropdownMenuItem
+            className="text-red-600"
+            onClick={() => setDeleteDialog(true)}
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {dialog && (
+      {/* Dialogs */}
+      {updateDialog && (
         <DialogProduct
-          save={(details) =>
-            updateProduct(product?.id, details, { supabase: supabase })
-          }
-          open={dialog}
-          setOpen={setDialog}
+          save={(details) => saveEdit(details)}
+          open={updateDialog}
+          setOpen={setUpdateDialog}
+          loading={loading}
           rowData={product}
+        />
+      )}
+      {deleteDialog && (
+        <DialogDelete
+          open={deleteDialog}
+          setOpen={setDeleteDialog}
+          item={`SKU: ${product?.sku}`}
+          deleteFn={() =>
+            deleteProduct(product?.id, {
+              supabase: supabase,
+            })
+          }
         />
       )}
     </>

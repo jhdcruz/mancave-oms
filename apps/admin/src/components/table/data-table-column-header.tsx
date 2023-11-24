@@ -1,3 +1,4 @@
+import { HTMLAttributes } from 'react';
 import { ChevronDown, ChevronUp, ChevronsUpDown, EyeOff } from 'lucide-react';
 import { Column } from '@tanstack/react-table';
 
@@ -5,7 +6,7 @@ import { cn } from '@mcsph/utils';
 import { Button } from '@mcsph/ui/components/button';
 
 interface DataTableColumnHeaderProps<TData, TValue>
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
 }

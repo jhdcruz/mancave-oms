@@ -1,14 +1,12 @@
-'use client';
-
-import { useState, useEffect, ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent, Suspense, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { Loader2 } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@mcsph/ui/components/dialog';
@@ -30,18 +28,21 @@ import { Products } from '../table/products/table-products-schema';
 export function DialogProduct({
   open = false,
   setOpen,
+  loading,
   save,
   rowData,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  save: (formData: FormData) => Promise<unknown>;
+  loading: boolean;
+  save: (formEvent: FormEvent) => Promise<unknown>;
   rowData?: Products;
 }) {
   const [selectedImage, setSelectedImage] = useState<
     string | ArrayBuffer | null
   >(null);
 
+  // handles selected image file previewing
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -68,7 +69,7 @@ export function DialogProduct({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="min-w-max">
+      <DialogContent className="h-max max-h-screen w-full overflow-y-scroll rounded-lg md:min-h-max md:min-w-[700px] md:overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Product Details</DialogTitle>
           <DialogDescription>
@@ -77,11 +78,11 @@ export function DialogProduct({
         </DialogHeader>
 
         <form
-          action={save}
-          className="grid grid-flow-col auto-rows-auto grid-cols-2 gap-4"
+          className="block md:grid md:grid-flow-col md:grid-cols-1 md:gap-4"
+          onSubmit={save}
         >
-          <div className="col-span-2 grid gap-4 py-4">
-            <div className="grid items-center gap-1.5">
+          <div className="py-4 md:col-span-2 md:grid">
+            <div className="mb-3 items-center">
               <Label htmlFor="sku">SKU</Label>
               <Input
                 name="sku"
@@ -89,50 +90,65 @@ export function DialogProduct({
                 defaultValue={rowData?.sku}
                 placeholder="TDM-09-B"
                 className="col-span-3"
+                minLength={4}
+                required
               />
             </div>
-            <div className="grid items-center gap-1.5">
+            <div className="mb-3 items-center">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
+                name="name"
                 defaultValue={rowData?.name}
                 placeholder="Modern Dining Table"
                 className="col-span-3"
+                minLength={3}
+                required
               />
             </div>
-            <div className="grid items-center gap-1.5">
+            <div className="mb-3 items-center">
               <Label htmlFor="type">Type</Label>
               <Input
+                className="col-span-3"
                 id="type"
+                name="type"
                 defaultValue={rowData?.type}
                 placeholder="Model 09"
-                className="col-span-3"
+                minLength={3}
+                required
               />
             </div>
-            <div className="grid items-center gap-1.5">
+            <div className="mb-3 items-center">
               <Label htmlFor="qty">Qty.</Label>
               <Input
-                id="qty"
-                defaultValue={rowData?.qty}
-                type="number"
-                min="0"
                 className="col-span-3"
+                id="qty"
+                name="qty"
+                type="number"
+                defaultValue={rowData?.qty}
+                min={0}
+                required
               />
             </div>
-            <div className="grid grid-cols-5 items-center gap-1.5">
-              <Label htmlFor="disabled">Published</Label>
-              <Switch
-                id="disabled"
-                checked={!rowData?.disabled}
-                name="disabled"
+
+            <div className="mb-3 items-center">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                className="h-[90%] resize-none"
+                id="description"
+                defaultValue={rowData?.description ?? ''}
+                name="description"
               />
+              <p className="text-sm text-muted-foreground">
+                This will shown to the customer.
+              </p>
             </div>
           </div>
 
-          <Separator orientation="vertical" />
+          <Separator className="hidden md:block" orientation="vertical" />
 
-          <div className="grid py-4">
-            <div className="item-center">
+          <div className="py-4">
+            <div className="item-center h-[93%]">
               <Label htmlFor="image">Image:</Label>
               <Input
                 name="image"
@@ -144,48 +160,57 @@ export function DialogProduct({
 
               {/* Prioritize selected image for previewing, else default to uploaded */}
               {selectedImage ? (
-                <Image
-                  className="mx-auto my-3"
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  className="mx-auto my-3 rounded-md object-cover"
                   src={selectedImage as string}
-                  width={300}
-                  height={300}
-                  alt="Product's preview image"
+                  width={340}
+                  height={340}
+                  alt="Uploaded product's preview image"
                 />
               ) : (
-                <>
+                <Suspense
+                  fallback={<Loader2 className="h-8 w-8 animate-spin" />}
+                >
                   {rowData?.image_url ? (
                     <Image
-                      className="mx-auto my-3"
+                      className="mx-auto my-3 rounded-md object-cover"
                       src={rowData?.image_url}
-                      width={300}
-                      height={300}
+                      width={340}
+                      height={340}
                       alt="Product's preview image"
+                      fetchPriority="low"
                     />
                   ) : (
                     <div className="mx-auto my-3">No image uploaded.</div>
                   )}
-                </>
+                </Suspense>
               )}
             </div>
 
-            <div className="item-center">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                className="h-full w-full"
-                id="description"
-                defaultValue={rowData?.description}
-                name="description"
-              />
-              <p className="text-sm text-muted-foreground">
-                This will shown to the customer.
-              </p>
+            <div className="flex place-content-end items-center">
+              <div className="flex items-center">
+                <Label
+                  htmlFor="published"
+                  className="mx-2 text-muted-foreground"
+                >
+                  Published
+                </Label>
+                <Switch
+                  id="published"
+                  defaultChecked={rowData?.published}
+                  name="published"
+                />
+              </div>
+
+              <div className="ml-3 items-center">
+                <Button disabled={loading} type="submit">
+                  {loading ? <Loader2 className="animate-spin" /> : <>Submit</>}
+                </Button>
+              </div>
             </div>
           </div>
         </form>
-
-        <DialogFooter>
-          <Button type="submit">Submit</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

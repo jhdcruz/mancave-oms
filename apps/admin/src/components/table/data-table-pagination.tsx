@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -27,11 +26,11 @@ export function DataTablePagination<TData>({
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
-      <div className="flex-1 text-sm text-muted-foreground">
-        There are a total of {count} products.
+      <div className="hidden flex-1 text-sm text-muted-foreground md:block">
+        There are a total of {count} records.
       </div>
 
-      <div className="flex items-center space-x-6 lg:space-x-8">
+      <div className="flex items-center space-x-6 sm:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select

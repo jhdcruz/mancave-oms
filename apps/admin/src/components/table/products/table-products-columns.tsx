@@ -9,15 +9,19 @@ import { DataTableColumnHeader } from '../data-table-column-header';
 import { TableProductsRowActions } from './table-products-row-actions';
 import type { Products } from './table-products-schema';
 
+/**
+ * The `filterFn` is used for filtering, where `value`
+ * refers to the key set in `table-products-column`,
+ * that is to be selected in `table-products-toolbar`
+ */
+
 export const productColumns: ColumnDef<Products>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
       <DataTableColumnHeader className="hidden" column={column} title="ID" />
     ),
-    cell: ({ row }) => (
-      <div className="hidden w-[80px]">{row.getValue('id')}</div>
-    ),
+    cell: ({ row }) => <div className="hidden">{row.getValue('id')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -26,7 +30,7 @@ export const productColumns: ColumnDef<Products>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="SKU" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue('sku')}</div>,
+    cell: ({ row }) => <div className="w-[110px]">{row.getValue('sku')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -36,18 +40,18 @@ export const productColumns: ColumnDef<Products>[] = [
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => (
-      <span className="max-w-[150px] truncate font-medium">
+      <div className="w-[200px] truncate font-medium">
         {row.getValue('name')}
-      </span>
+      </div>
     ),
   },
   {
     accessorKey: 'type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Description" />
+      <DataTableColumnHeader column={column} title="Type" />
     ),
     cell: ({ row }) => (
-      <div className="flex w-[200px] items-center">
+      <div className="w-[100px] items-center">
         <span>{row.getValue('type')}</span>
       </div>
     ),
@@ -55,7 +59,7 @@ export const productColumns: ColumnDef<Products>[] = [
   {
     accessorKey: 'qty',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Priority" />
+      <DataTableColumnHeader column={column} title="Qty." />
     ),
     cell: ({ row }) => {
       const qty = parseInt(row.getValue('qty'));
@@ -63,13 +67,25 @@ export const productColumns: ColumnDef<Products>[] = [
       const qtyVariant = qty <= 10 ? 'destructive' : 'secondary';
 
       return (
-        <div className="flex items-center">
+        <div className="w-[80px]">
           <Badge variant={qtyVariant}>{qty}</Badge>
         </div>
       );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
+      const qty = parseInt(row.getValue(id));
+
+      // filter quantity based on key
+      switch (true) {
+        case value.includes('over'):
+          return qty > 25;
+        case value.includes('low'):
+          return qty <= 10;
+        case value.includes('out'):
+          return qty == 0;
+        default:
+          return value.includes(row.getValue(id));
+      }
     },
   },
   {
@@ -84,15 +100,15 @@ export const productColumns: ColumnDef<Products>[] = [
     },
   },
   {
-    accessorKey: 'disabled',
+    accessorKey: 'published',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Published" />
     ),
     cell: ({ row }) => {
-      const state = row.getValue('disabled');
+      const state = row.getValue('published');
 
-      const stateVariant = state == 'true' ? 'default' : 'outline';
-      const stateDisplay = state == 'true' ? 'Hidden' : 'Published';
+      const stateVariant = state === true ? 'outline' : 'default';
+      const stateDisplay = state === true ? 'Published' : 'Hidden';
 
       return (
         <div className="flex items-center">
