@@ -33,6 +33,7 @@ export default function AuthForm({ formAction, googleAction, forgotAction }: Aut
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
+              required
             />
           </div>
 
@@ -48,6 +49,7 @@ export default function AuthForm({ formAction, googleAction, forgotAction }: Aut
               name="password"
               autoComplete="off"
               autoCorrect="off"
+              required
             />
           </div>
 
