@@ -1,11 +1,21 @@
-import { Badge } from '../components/badge';
+import { cn } from '@mcsph/utils';
 import { Wifi } from 'lucide-react';
+import { Badge } from '../components/badge';
 
-export default function SystemStatus({ connected }: { connected: boolean }) {
+export default function SystemStatus({
+  connected,
+  className,
+}: {
+  connected: boolean;
+  className?: string;
+}) {
   return (
     <Badge
       variant="outline"
-      className="mx-auto mb-2 mt-auto w-fit p-1 px-5 text-center"
+      className={cn(
+        'mx-auto my-2 mt-auto w-fit p-1 px-5 text-center',
+        className,
+      )}
     >
       {connected ? (
         <>

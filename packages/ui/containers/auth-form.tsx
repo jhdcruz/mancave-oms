@@ -16,7 +16,11 @@ export type AuthFormProps = HTMLAttributes<HTMLDivElement> & {
   forgotAction: MouseEventHandler<HTMLButtonElement> | undefined;
 };
 
-export default function AuthForm({ formAction, googleAction, forgotAction }: AuthFormProps) {
+export default function AuthForm({
+  formAction,
+  googleAction,
+  forgotAction,
+}: AuthFormProps) {
   return (
     <div className="grid gap-3">
       <form action={formAction}>
@@ -62,7 +66,7 @@ export default function AuthForm({ formAction, googleAction, forgotAction }: Aut
         </div>
       </form>
 
-      <LabeledDivider text="or continue with" />
+      <LabeledDivider className="mt-1 mb-2" text="or continue with" />
 
       {/* Additional login types */}
       <Button variant="outline" type="button" onClick={googleAction}>

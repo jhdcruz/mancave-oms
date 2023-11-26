@@ -1,5 +1,6 @@
 import type { AuthFormProps } from '@mcsph/ui/containers/auth-form';
 import dynamic from 'next/dynamic';
+import { redirect } from 'next/navigation';
 
 import {
   healthCheck,
@@ -12,18 +13,29 @@ const LoginScreen = dynamic(() => import('@mcsph/ui/containers/login-screen'), {
   ssr: false,
 });
 
-export default async function Login({
+export default function Login({
   searchParams,
 }: {
   searchParams: { title: string; message: string };
 }) {
+  const formSubmit = async (formData: FormData) => {
+    'use server';
+    const { error } = await formSignIn(formData, '/');
+
+    if (error) {
+      redirect(
+        '?title=Invalid credentials&message=Please check your email and password.',
+      );
+    }
+  };
+
   const authActions: AuthFormProps = {
     googleAction: googleSignIn,
-    formAction: formSignIn,
+    formAction: formSubmit,
     forgotAction: forgotAction,
   };
 
-  const status = await healthCheck();
+  const status = healthCheck();
 
   return (
     <LoginScreen

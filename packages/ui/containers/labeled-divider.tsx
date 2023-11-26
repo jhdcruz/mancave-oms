@@ -1,6 +1,14 @@
-export default function LabeledDivider({ text }: { text: string }) {
+import { cn } from '@mcsph/utils';
+
+export default function LabeledDivider({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
   return (
-    <div className="relative mb-1">
+    <div className={cn('relative mb-1', className)}>
       <div className="absolute inset-0 flex items-center">
         <span className="w-full border-t" />
       </div>

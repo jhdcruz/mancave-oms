@@ -9,9 +9,11 @@ import { redirect } from 'next/navigation';
  * Check if we can establish connection with the database.
  */
 export const healthCheck = async () => {
+  'use server';
   try {
     const cookieStore = cookies();
     serverClient(cookieStore);
+
     return true;
   } catch (e) {
     return false;
