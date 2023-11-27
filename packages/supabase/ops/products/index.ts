@@ -76,7 +76,7 @@ export const getProduct = async (
 };
 
 export const deleteProduct = async (
-  id: string | number,
+  id: number,
   { supabase }: DatabaseSession = {},
 ) => {
   const log = new Logger();
