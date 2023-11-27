@@ -6,9 +6,11 @@ export default function SystemStatus({
   connected,
   className,
 }: {
-  connected: boolean;
+  connected: () => Promise<boolean> | Promise<boolean> | boolean;
   className?: string;
 }) {
+  const status = connected() || connected;
+
   return (
     <Badge
       variant="outline"
@@ -17,7 +19,7 @@ export default function SystemStatus({
         className,
       )}
     >
-      {connected ? (
+      {status ? (
         <>
           <Wifi className="mr-2" size={20} color="#4fff38" />
           All systems normal

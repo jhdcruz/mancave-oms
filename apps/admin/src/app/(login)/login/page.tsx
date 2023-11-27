@@ -1,47 +1,38 @@
-import type { AuthFormProps } from '@mcsph/ui/containers/auth-form';
 import dynamic from 'next/dynamic';
+import { Loader2 } from 'lucide-react';
+import { formSignIn, healthCheck } from '@mcsph/supabase/ops/auth';
 import { redirect } from 'next/navigation';
-
-import {
-  healthCheck,
-  googleSignIn,
-  formSignIn,
-  forgotAction,
-} from '@mcsph/supabase/ops/auth';
 
 const LoginScreen = dynamic(() => import('@mcsph/ui/containers/login-screen'), {
   ssr: false,
+  loading: () => (
+    <div className="flex h-screen w-full flex-col items-center justify-center p-5">
+      <Loader2 className="animate-spin" size={24} />
+      <p className="my-3 text-sm text-muted-foreground">
+        We're working on it...
+      </p>
+    </div>
+  ),
 });
 
-export default function Login({
+export default async function LoginPage({
   searchParams,
 }: {
   searchParams: { title: string; message: string };
 }) {
-  const formSubmit = async (formData: FormData) => {
+  const formLogin = async (formData: FormData) => {
     'use server';
     const { error } = await formSignIn(formData, '/');
 
-    if (error) {
+    if (error)
       redirect(
-        '?title=Invalid credentials&message=Please check your email and password.',
+        '?title=Invalid Credentials&message=Invalid email or password. Please try again.',
       );
-    }
   };
 
-  const authActions: AuthFormProps = {
-    googleAction: googleSignIn,
-    formAction: formSubmit,
-    forgotAction: forgotAction,
-  };
-
-  const status = healthCheck();
+  const status = async () => await healthCheck();
 
   return (
-    <LoginScreen
-      alert={searchParams}
-      status={status}
-      authActions={authActions}
-    />
+    <LoginScreen alert={searchParams} formAction={formLogin} status={status} />
   );
 }

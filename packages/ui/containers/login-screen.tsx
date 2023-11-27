@@ -5,7 +5,6 @@ import { AlertCircle, Boxes } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '../components/alert';
 import { Skeleton } from '../components/skeleton';
 
-import type { AuthFormProps } from './auth-form';
 import LabeledDivider from './labeled-divider';
 
 // lazy-load client components
@@ -16,11 +15,13 @@ const SystemStatus = lazy(() => import('./system-status'));
 export default function LoginScreen({
   alert,
   status,
-  authActions,
+  formAction,
+  processing,
 }: {
   alert: { title: string; message: string };
-  status: boolean;
-  authActions: AuthFormProps;
+  status: () => Promise<boolean> | Promise<boolean> | boolean;
+  formAction: ((formData: FormData) => Promise<void>) | undefined;
+  processing?: boolean;
 }) {
   return (
     <div className="container relative inset-0 grid h-screen items-center justify-center lg:px-0">
@@ -29,7 +30,7 @@ export default function LoginScreen({
         {/* Branding */}
         <div className="absolute left-10 top-11 z-20 flex items-center text-lg font-medium">
           <Boxes className="mr-2" size={26} />
-          <span className="hidden md:block">Man Cave Supplies PH, Inc.</span>
+          <span className="hidden lg:block">Man Cave Supplies PH, Inc.</span>
         </div>
 
         <div className="absolute right-10 top-10 z-20 flex items-center">
@@ -75,13 +76,13 @@ export default function LoginScreen({
               </div>
             }
           >
-            <AuthForm {...authActions} />
+            <AuthForm processing={processing} formAction={formAction} />
           </Suspense>
 
-          <div className="mt-1" />
-
           <Suspense
-            fallback={<Skeleton className="h-[5rem] w-[2rem] rounded-lg" />}
+            fallback={
+              <Skeleton className="mx-auto h-[1.8rem] w-[10rem] items-center rounded-lg" />
+            }
           >
             <SystemStatus connected={status} />
           </Suspense>
