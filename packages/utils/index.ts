@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 
 const url = () => {
   return (
-    process.env.SITE_URL ?? process.env.VERCEL_URL ?? 'http://localhost:3000'
+    process.env.NEXT_PUBLIC_SITE_URL ?? process.env.VERCEL_URL ?? 'http://localhost:3000'
   );
 };
 
