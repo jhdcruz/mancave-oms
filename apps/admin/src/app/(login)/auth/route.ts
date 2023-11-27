@@ -15,6 +15,7 @@ export const GET = withAxiom(async (req: AxiomRequest) => {
   if (code) {
     const cookieStore = cookies();
     const supabase = serverClient(cookieStore);
+
     await supabase.auth.exchangeCodeForSession(code);
   }
 

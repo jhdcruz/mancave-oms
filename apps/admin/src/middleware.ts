@@ -23,24 +23,37 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // check if user is logged in
-  if (!session && !req.nextUrl.pathname.startsWith('/login')) {
+  const isNotLogin = !req.nextUrl.pathname.startsWith('/login');
+  const isNotAuthCallback = !req.nextUrl.pathname.startsWith('/auth');
+
+  // check if user is logged in, except when making auth calbacks
+  if (!session && isNotLogin && isNotAuthCallback) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  // check if user has admin role (if google auth is used)
-  if (
-    !req.nextUrl.pathname.startsWith('/login') &&
-    session?.user?.role !== 'Admin'
-  ) {
-    // destroy logged-in session
-    await supabase.auth.signOut();
-    return NextResponse.redirect(
-      new URL(
-        '/login?title=Unauthorized Access&message=Contact an IT Personnel if this is a mistake.',
-        req.url,
-      ),
-    );
+  // if there is a session but user is trying to access login page
+  // redirect to dashboard
+  if (session && !isNotLogin) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
+  if (session) {
+    const isNotInternalEmail = !session?.user?.email?.endsWith('@tip.edu.ph');
+    const isNotAdmin = session?.user?.user_metadata?.role !== 'Admin';
+    const isNotStaff = session?.user?.user_metadata?.role !== 'Staff';
+
+    // destroy session and redirect to login if user is not admin or staff
+    // or if user is not using an internal email (if google auth is used)
+    if (isNotAdmin && isNotStaff && isNotInternalEmail) {
+      await supabase.auth.signOut();
+
+      return NextResponse.redirect(
+        new URL(
+          '/login?title=Unauthorized Access&message=Contact an IT Personnel if this is a mistake.',
+          req.url,
+        ),
+      );
+    }
   }
 
   return response;
