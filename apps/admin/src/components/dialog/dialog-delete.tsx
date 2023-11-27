@@ -1,4 +1,6 @@
 import { ReactNode } from 'react';
+import { Loader2 } from 'lucide-react';
+
 import {
   Dialog,
   DialogContent,
@@ -14,15 +16,17 @@ export function DialogDelete({
   setOpen,
   item,
   deleteFn,
+  loading,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   item: string | ReactNode;
   deleteFn: () => void;
+  loading: boolean;
 }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent className="data-[state=open]:animate-show data-[state=closed]:animate-hide">
         <DialogHeader>
           <DialogTitle>Are you sure absolutely sure?</DialogTitle>
           <DialogDescription>This action cannot be undone!</DialogDescription>
@@ -34,8 +38,8 @@ export function DialogDelete({
           </span>
         </div>
         <DialogFooter>
-          <Button variant="destructive" onClick={deleteFn}>
-            Confirm
+          <Button variant="destructive" onClick={deleteFn} disabled={loading}>
+            {loading ? <Loader2 className="animate-spin" /> : <>Submit</>}
           </Button>
         </DialogFooter>
       </DialogContent>

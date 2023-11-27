@@ -28,35 +28,36 @@ export function TableProductsRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
   const log = useLogger();
 
-  const [loading, setLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   const [updateDialog, setUpdateDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
 
   const product = tableProductsSchema.parse(row.original);
 
-  const deleteSelected = async (id: string | number) => {
+  const deleteSelected = async (id: number) => {
+    setDeleteLoading(true);
+
     const supabase = browserClient();
 
     const { error } = await deleteProduct(id, { supabase: supabase });
 
-    if (error) {
-      log.error(`Error updating product with an ID of ${product?.id}`, {
-        error,
-      });
-      await log.flush();
-    }
+    setDeleteDialog(false);
+    setDeleteLoading(false);
   };
 
   const saveEdit = async (formEvent: FormEvent) => {
     formEvent.preventDefault();
 
-    setLoading(true);
+    setUpdateLoading(true);
 
     const supabase = browserClient();
     const { data } = await supabase.auth.getSession();
 
     if (!data.session) {
       log.info('Session data not found');
+      log.flush();
       return redirect('/login', RedirectType.replace);
     }
 
@@ -65,17 +66,10 @@ export function TableProductsRowActions<TData>({
     // include who updated the product
     formData.append('last_updated_by', data.session.user.id);
 
-    const { error } = await updateProduct(product?.id, formData, { supabase });
+    await updateProduct(product?.id, formData, { supabase });
 
-    if (error) {
-      log.error(`Error updating product with an ID of ${product?.id}`, {
-        error,
-      });
-      await log.flush();
-    }
-
-    setLoading(false);
     setUpdateDialog(false);
+    setUpdateLoading(false);
   };
 
   return (
@@ -115,7 +109,7 @@ export function TableProductsRowActions<TData>({
           save={(details) => saveEdit(details)}
           open={updateDialog}
           setOpen={setUpdateDialog}
-          loading={loading}
+          loading={updateLoading}
           rowData={product}
         />
       )}
@@ -125,6 +119,7 @@ export function TableProductsRowActions<TData>({
           setOpen={setDeleteDialog}
           item={`SKU: ${product?.sku}`}
           deleteFn={() => deleteSelected(product?.id)}
+          loading={deleteLoading}
         />
       )}
     </>

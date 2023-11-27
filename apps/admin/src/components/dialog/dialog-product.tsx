@@ -38,6 +38,7 @@ export function DialogProduct({
   save: (formEvent: FormEvent) => Promise<unknown>;
   rowData?: Products;
 }) {
+  const [imgLoad, setImgLoader] = useState(true);
   const [selectedImage, setSelectedImage] = useState<
     string | ArrayBuffer | null
   >(null);
@@ -69,7 +70,7 @@ export function DialogProduct({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="h-max max-h-screen w-full overflow-y-scroll rounded-lg md:min-h-max md:min-w-[700px] md:overflow-y-auto">
+      <DialogContent className="data-[state=open]:animate-show data-[state=closed]:animate-hide h-max max-h-screen w-screen overflow-y-scroll rounded-lg md:min-h-max md:min-w-[700px] md:overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Product Details</DialogTitle>
           <DialogDescription>
@@ -169,22 +170,29 @@ export function DialogProduct({
                   alt="Uploaded product's preview image"
                 />
               ) : (
-                <Suspense
-                  fallback={<Loader2 className="h-8 w-8 animate-spin" />}
-                >
+                <>
                   {rowData?.image_url ? (
-                    <Image
-                      className="mx-auto my-3 rounded-md object-cover"
-                      src={rowData?.image_url}
-                      width={340}
-                      height={340}
-                      alt="Product's preview image"
-                      fetchPriority="low"
-                    />
+                    <>
+                      {imgLoad && (
+                        <Loader2 className="mx-auto my-3 h-8 w-8 animate-spin" />
+                      )}
+                      <Image
+                        className="mx-auto my-3 rounded-md object-cover"
+                        src={rowData?.image_url}
+                        width={340}
+                        height={340}
+                        fetchPriority="low"
+                        priority={false}
+                        alt="Product's preview image"
+                        onLoad={() => setImgLoader(false)}
+                      />
+                    </>
                   ) : (
-                    <div className="mx-auto my-3">No image uploaded.</div>
+                    <div className="mx-auto my-3 items-center p-3 text-center text-muted-foreground">
+                      No image uploaded.
+                    </div>
                   )}
-                </Suspense>
+                </>
               )}
             </div>
 
