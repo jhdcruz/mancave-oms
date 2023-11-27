@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
 import { type AxiomRequest, withAxiom } from 'next-axiom';
-import { serverClient } from '@mcsph/supabase';
+import { serverClient } from '@mcsph/supabase/lib/server';
 import { NextResponse } from 'next/server';
 
 export const GET = withAxiom(async (req: AxiomRequest) => {

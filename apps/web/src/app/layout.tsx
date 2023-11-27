@@ -4,8 +4,6 @@ import { AxiomWebVitals } from 'next-axiom';
 import { GeistSans } from 'geist/font/sans';
 
 import ThemeProvider from '@mcsph/ui/containers/theme-provider';
-
-import { getCurrentSession } from '@mcsph/supabase/ops/user';
 import { defaultUrl } from '@mcsph/utils';
 
 import '@mcsph/ui/globals.css';
