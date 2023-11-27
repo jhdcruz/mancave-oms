@@ -40,7 +40,7 @@ const ExternalRoutes = ({ session }: { session: Session | null }) => {
   if (session?.user?.user_metadata?.role === 'Admin') {
     return externalRoutes.map((route: CommandActionProps) => (
       <NavigationMenuItem key={route.href}>
-        <Link href={route.href} target="_blank" passHref>
+        <Link href={route.href} target="_blank" prefetch={false} passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
             {route.title}
             <ExternalLink className="ml-2" size={12} />
