@@ -6,6 +6,7 @@ import {
   NavigationMenu,
   NavigationMenuList,
 } from '@mcsph/ui/components/navigation-menu';
+import { Button } from '@mcsph/ui/components/button';
 
 import SearchCommandDialog, {
   type CommandProps,
@@ -31,9 +32,11 @@ export default function MainNav({
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center px-4">
         <NavigationMenu className="mx-auto flex max-w-full flex-auto items-center space-x-4">
-          <a href="/" className="text-md flex items-center font-medium">
-            <Boxes size={26} />
-          </a>
+          <Button variant="ghost" asChild>
+            <a href="/" className="text-md flex items-center font-medium">
+              <Boxes size={26} />
+            </a>
+          </Button>
 
           <NavigationMenuList className="mr-auto flex items-center">
             {mainRoutes}
