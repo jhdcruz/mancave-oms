@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { AxiomRequest, withAxiom } from 'next-axiom';
+
 import { middlewareClient } from '@mcsph/supabase/lib/middleware';
 
 const PUBLIC_FILE = /\.(.*)$/;
@@ -7,6 +8,9 @@ const PUBLIC_FILE = /\.(.*)$/;
 export const middleware = withAxiom(async (req: AxiomRequest) => {
   const { pathname } = req.nextUrl;
   const { supabase, response } = middlewareClient(req);
+
+  const isLogin = pathname.startsWith('/login');
+  const isAuthCallback = pathname.startsWith('/auth');
 
   // fixes hydration errors when using redirect in middleware
   // https://github.com/vercel/next.js/discussions/38587
@@ -22,20 +26,6 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-
-  const isNotLogin = !req.nextUrl.pathname.startsWith('/login');
-  const isNotAuthCallback = !req.nextUrl.pathname.startsWith('/auth');
-
-  // check if user is logged in, except when making auth calbacks
-  if (!session && isNotLogin && isNotAuthCallback) {
-    return NextResponse.redirect(new URL('/login', req.url));
-  }
-
-  // if there is a session but user is trying to access login page
-  // redirect to dashboard
-  if (session && !isNotLogin) {
-    return NextResponse.redirect(new URL('/', req.url));
-  }
 
   if (session) {
     const isNotInternalEmail = !session?.user?.email?.endsWith('@tip.edu.ph');
@@ -53,6 +43,13 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
           req.url,
         ),
       );
+    }
+  } else {
+    // redirect to login if there is no session and
+    // user is not trying to access login page
+    if (!isAuthCallback && !isLogin) {
+      console.log('Redirecting to login page');
+      return NextResponse.redirect(new URL('/login', req.url));
     }
   }
 

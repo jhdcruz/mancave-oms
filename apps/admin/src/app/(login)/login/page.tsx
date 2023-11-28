@@ -1,7 +1,11 @@
-import dynamic from 'next/dynamic';
-import { Loader2 } from 'lucide-react';
-import { formSignIn, healthCheck } from '@mcsph/supabase/ops/auth';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+import { Loader2 } from 'lucide-react';
+
+import { serverClient } from '@mcsph/supabase/lib/server';
+import { formSignIn, healthCheck } from '@mcsph/supabase/ops/auth';
 
 const LoginScreen = dynamic(() => import('@mcsph/ui/containers/login-screen'), {
   ssr: false,
@@ -20,6 +24,14 @@ export default async function LoginPage({
 }: {
   searchParams: { title: string; message: string };
 }) {
+  const cookieStore = cookies();
+  const {
+    data: { session },
+  } = await serverClient(cookieStore).auth.getSession();
+
+  // redirect to home if user is already logged in
+  if (session) redirect('/');
+
   const formLogin = async (formData: FormData) => {
     'use server';
     const { error } = await formSignIn(formData, '/');
