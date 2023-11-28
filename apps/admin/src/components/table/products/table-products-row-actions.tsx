@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { ClipboardEdit, MoreHorizontal, Trash2 } from 'lucide-react';
+import { ClipboardEdit, Settings, Trash2 } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
 import {
@@ -78,9 +78,9 @@ export function TableProductsRowActions<TData>({
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="flex p-0 data-[state=open]:bg-muted"
+            className="flex px-4 py-2 data-[state=open]:bg-muted"
           >
-            <MoreHorizontal className="h-4 w-4" />
+            <Settings size={16} />
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
