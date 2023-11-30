@@ -1,0 +1,20 @@
+{
+    "name": "Man Cave Supplies PH, Inc.",
+    "short_name": "MCSPH",
+    "description": "Unleash the power of personalized interiors, where every piece tells a story. Transform your home into a haven of comfort and sophistication with our handpicked furnishings. Explore the art of living well – where every corner becomes a masterpiece.",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}
