@@ -36,7 +36,7 @@ export default function HeaderNav({ session }: { session: Session | null }) {
     <MainNav
       mainRoutes={<MainRoutes session={session} />}
       extRoutes={<ExternalRoutes session={session} />}
-      commands={mainRoutes}
+      commands={Commands({ session })}
       user={{
         avatar: session?.user?.user_metadata?.avatar_url,
         name: getSessionName(),
@@ -45,6 +45,16 @@ export default function HeaderNav({ session }: { session: Session | null }) {
     />
   );
 }
+
+const Commands = ({ session }: { session: Session | null }) => {
+  if (session?.user?.user_metadata?.role === 'Admin') {
+    return mainRoutes;
+  } else {
+    return mainRoutes.filter(
+      (route: CommandProps) => route.trigger !== 'Admin',
+    );
+  }
+};
 
 const MainRoutes = ({ session }: { session: Session | null }) => {
   if (session?.user?.user_metadata?.role === 'Admin') {

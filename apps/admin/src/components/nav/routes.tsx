@@ -4,15 +4,13 @@ import type {
 } from '@mcsph/ui/containers/search-command';
 import {
   Activity,
-  ArchiveX,
-  Hourglass,
   LayoutDashboard,
-  PackageCheck,
   Percent,
   Plus,
   ServerCog,
   ShieldEllipsis,
-  TrendingDown,
+  ShieldPlus,
+  UserPlus,
   Users2,
   Warehouse,
 } from 'lucide-react';
@@ -62,18 +60,6 @@ export const mainRoutes: CommandProps[] = [
         title: 'New product',
         description: 'Add new product to the inventory',
       },
-      {
-        icon: <TrendingDown className="mr-2 h-4 w-4" />,
-        href: '/inventory?filter=low',
-        title: 'Low Stock',
-        description: 'Products that are running out of stock.',
-      },
-      {
-        icon: <ArchiveX className="mr-2 h-4 w-4" />,
-        href: '/inventory?filter=out',
-        title: 'Out of Stock',
-        description: 'View products that are out of stock.',
-      },
     ],
   },
   {
@@ -85,34 +71,36 @@ export const mainRoutes: CommandProps[] = [
     actions: [
       {
         icon: <Plus className="mr-2 h-4 w-4" />,
-        href: '/orders?filter=recent',
+        href: '/orders?action=new',
         title: 'Recent Orders',
         description: 'Track recent orders made.',
-      },
-      {
-        icon: <Hourglass className="mr-2 h-4 w-4" />,
-        href: '/orders?filter=overdue',
-        title: 'Overdue Orders',
-        description: 'See orders that requires a follow-up.',
-      },
-      {
-        icon: <PackageCheck className="mr-2 h-4 w-4" />,
-        href: '/orders?filter=out',
-        title: 'Fulfilled Orders',
-        description: 'View fulfilled orders.',
       },
     ],
   },
   {
     trigger: 'Admin',
-    icon: <Users2 className="mr-2 h-4 w-4" />,
+    icon: <ShieldPlus className="mr-2 h-4 w-4" />,
     name: 'User Management',
     description: 'Manage system employees and users.',
-    href: '/admin',
-    actions: externalRoutes,
+    href: '/employees',
+    actions: [
+      ...externalRoutes,
+      {
+        icon: <UserPlus className="mr-2 h-4 w-4" />,
+        href: '/employees?action=new',
+        title: 'Employees',
+        description: 'View lis of employed employees.',
+      },
+      {
+        icon: <Users2 className="mr-2 h-4 w-4" />,
+        href: '/customers',
+        title: 'Customers',
+        description: 'View your customers.',
+      },
+    ],
   },
 ];
 
-const routes = [...mainRoutes, ...externalRoutes]
+const routes = [...mainRoutes, ...externalRoutes];
 
 export default routes;
