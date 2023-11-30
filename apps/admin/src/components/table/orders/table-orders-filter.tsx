@@ -1,0 +1,61 @@
+import {
+  Banknote,
+  ClipboardCheck,
+  CreditCard,
+  Package,
+  PackageCheck,
+  PackageSearch,
+  PackageX, Truck,
+  XCircle,
+} from 'lucide-react';
+
+export const orderStatuses = [
+  {
+    value: 'Processing',
+    label: 'Processing',
+    icon: PackageSearch,
+  },
+  {
+    value: 'Packed',
+    label: 'Packed',
+    icon: Package,
+  },
+  {
+    value: 'Shipped',
+    label: 'Shipped',
+    icon: PackageCheck,
+  },
+  {
+    value: 'Fulfilled',
+    label: 'Fulfilled',
+    icon: ClipboardCheck,
+  },
+  {
+    value: 'Returned',
+    label: 'Returned',
+    icon: PackageX,
+  },
+  {
+    value: 'Return Request',
+    label: 'Return Request',
+    icon: Truck,
+  },
+  {
+    value: 'Cancelled',
+    label: 'Cancelled',
+    icon: XCircle,
+  },
+];
+
+export const payment = [
+  {
+    value: 'cash',
+    label: 'Cash',
+    icon: Banknote,
+  },
+  {
+    value: 'card',
+    label: 'Credit/Debit Card',
+    icon: CreditCard,
+  },
+];
