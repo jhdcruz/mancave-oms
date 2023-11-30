@@ -32,7 +32,7 @@ export const processProductData = async (
       type: product.get('type') as string,
       qty: product.get('qty') as unknown as number,
       last_updated_by: product.get('last_updated_by') as string,
-      published: product.get('published') as unknown as boolean,
+      published: product.get('published') as unknown as boolean ?? false,
     };
   } else {
     // return FormData with updated image_url
@@ -43,7 +43,7 @@ export const processProductData = async (
       type: product.get('type') as string,
       qty: product.get('qty') as unknown as number,
       last_updated_by: product.get('last_updated_by') as string,
-      published: product.get('published') as unknown as boolean,
+      published: product.get('published') as unknown as boolean ?? false,
     };
   }
 };
