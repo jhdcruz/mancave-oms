@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { AxiomRequest, withAxiom } from 'next-axiom';
 
 import { middlewareClient } from '@mcsph/supabase/lib/middleware';
+import { getCurrentUserRole } from '@mcsph/supabase/ops/user';
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -28,6 +29,25 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
   } = await supabase.auth.getSession();
 
   if (session) {
+    // for initial google oauth logins,
+    // normally, this should be set as a trigger and function in supabase
+    // but shit's running out of time to learn plpgsql.
+    if (!session?.user?.user_metadata?.role) {
+      // get the role of the user in the employees table
+      const { data } = await getCurrentUserRole(session?.user?.id, supabase);
+
+      // update the user's role in the restricted auth.users table
+      await supabase.auth.updateUser({
+        data: {
+          role: data?.role,
+        },
+      });
+
+      // force refresh the session
+      await supabase.auth.refreshSession();
+      await supabase.auth.getSession();
+    }
+
     const isNotInternalEmail = !session?.user?.email?.endsWith('@tip.edu.ph');
     const isNotAdmin = session?.user?.user_metadata?.role !== 'Admin';
     const isNotStaff = session?.user?.user_metadata?.role !== 'Staff';
