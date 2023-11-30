@@ -1,6 +1,9 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { redirect, useSearchParams, RedirectType } from 'next/navigation';
+import { useLogger } from 'next-axiom';
+import { useSWRConfig } from 'swr';
 import { Plus, X } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
@@ -16,9 +19,6 @@ import type { DataTableToolbarProps } from '../data-table-props';
 import { browserClient } from '@mcsph/supabase/lib/client';
 import { createProduct } from '@mcsph/supabase/ops/products';
 import { Separator } from '@mcsph/ui/components/separator';
-import { redirect, RedirectType } from 'next/navigation';
-import { useLogger } from 'next-axiom';
-import { useSWRConfig } from 'swr';
 
 export function DataTableToolbar<TData>({
   table,
@@ -29,6 +29,8 @@ export function DataTableToolbar<TData>({
   const [dialog, setDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const isFiltered = table.getState().columnFilters.length > 0;
+
+  const searchParams = useSearchParams();
 
   const addProduct = async (formEvent: FormEvent) => {
     formEvent.preventDefault();
@@ -59,6 +61,13 @@ export function DataTableToolbar<TData>({
     setLoading(false);
     setDialog(false);
   };
+
+  useEffect(() => {
+    // handles the new product action in command bar
+    if (searchParams.get('action') === 'new') {
+      setDialog(true);
+    }
+  }, [searchParams]);
 
   return (
     <div className="flex items-center justify-between">
