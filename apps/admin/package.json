@@ -19,7 +19,7 @@
     "@sentry/node": "7.83.0",
     "@sentry/profiling-node": "1.2.6",
     "@tanstack/react-table": "8.10.7",
-    "geist": "1.1.0",
+    "geist": "1.2.0",
     "lucide-react": "0.293.0",
     "next": "14.0.2",
     "next-axiom": "1.1.1",
