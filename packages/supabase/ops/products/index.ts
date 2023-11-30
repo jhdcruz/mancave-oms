@@ -24,7 +24,7 @@ export const getTotalProducts = async ({ supabase }: DatabaseSession = {}) => {
     supabase = serverClient(cookieStore);
   }
 
-  const { count, error } = await supabase.from('products').select('*', {
+  const { count, error } = await supabase.from('products').select('id', {
     count: 'exact',
   });
 
