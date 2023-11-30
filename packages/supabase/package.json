@@ -2,7 +2,6 @@
   "name": "@mcsph/supabase",
   "description": "Supabase utils/helper functions.",
   "version": "0.1.0",
-  "main": "index.ts",
   "scripts": {
     "fmt": "prettier --write ./**/*.{ts,tsx}"
   },

@@ -20,7 +20,7 @@ import { browserClient } from '@mcsph/supabase/lib/client';
 import { createProduct } from '@mcsph/supabase/ops/products';
 import { Separator } from '@mcsph/ui/components/separator';
 
-export function DataTableToolbar<TData>({
+export function DataTableProductsToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const log = useLogger();

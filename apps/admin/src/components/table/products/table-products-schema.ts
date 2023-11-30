@@ -6,6 +6,7 @@ export const tableProductsSchema = z.object({
   image_url: z.nullable(z.string()).default(''),
   name: z.string().default(''),
   description: z.nullable(z.string()).default(''),
+  price: z.number().default(0.0),
   type: z.string().default(''),
   qty: z.number().default(0),
   last_updated: z.string(),

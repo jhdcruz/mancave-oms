@@ -26,5 +26,3 @@ const getUrl = () => {
  */
 // don't ask.
 export const defaultUrl = getUrl();
-
-export { formatDate, formatDateTime } from './lib/date';

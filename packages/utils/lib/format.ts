@@ -25,3 +25,10 @@ export function formatDateTime(input: string | number): string {
     minute: 'numeric',
   });
 }
+
+export function formatCurrency(input: number): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'PHP',
+  }).format(input);
+}

@@ -44,7 +44,7 @@ export const getProducts = async ({ supabase }: DatabaseSession = {}) => {
   const { data, error } = await supabase
     .from('products')
     .select(
-      'id, sku, image_url, name, description, type, qty, last_updated, published',
+      'id, sku, image_url, name, description, price, type, qty, last_updated, published',
     );
 
   if (error) log.error('Error fetching products', { error });
@@ -52,8 +52,8 @@ export const getProducts = async ({ supabase }: DatabaseSession = {}) => {
   return { data, error };
 };
 
-export const getProduct = async (
-  id: string,
+export const getProductBySku = async (
+  id: number,
   { supabase }: DatabaseSession = {},
 ) => {
   const log = new Logger();
@@ -65,10 +65,10 @@ export const getProduct = async (
 
   const { data, error } = await supabase
     .from('products')
-    .select(
-      'id, sku, image_url, name, description, type, qty, last_updated, last_updated_by, published',
-    )
-    .eq('id', id);
+    .select('id, sku, name, type, price')
+    .eq('id', id)
+    .eq('published', true)
+    .single();
 
   if (error) log.error('Error fetching specific product', { error });
 

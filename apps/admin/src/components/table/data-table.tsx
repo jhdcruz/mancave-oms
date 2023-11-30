@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { ReactNode, Suspense, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
 import {
@@ -28,15 +28,18 @@ import {
 } from '@mcsph/ui/components/table';
 
 import { DataTablePagination } from './data-table-pagination';
-import { DataTableToolbar } from './products/table-products-toolbar';
 
 interface DataTableProps<TData, TValue> {
+  toolbar: {
+    component: (table: any) => ReactNode;
+  };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   count: number;
 }
 
 export function DataTable<TData, TValue>({
+  toolbar,
   columns,
   data,
   count,
@@ -73,7 +76,7 @@ export function DataTable<TData, TValue>({
           </div>
         }
       >
-        <DataTableToolbar table={table} />
+        <toolbar.component table={table} />
         <div className="rounded-md border">
           <Table>
             <TableHeader>

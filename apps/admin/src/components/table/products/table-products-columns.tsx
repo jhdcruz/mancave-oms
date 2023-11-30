@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { formatDate } from '@mcsph/utils';
+import { formatCurrency, formatDate } from '@mcsph/utils/lib/format';
 
 import { Badge } from '@mcsph/ui/components/badge';
 
@@ -86,6 +86,21 @@ export const productColumns: ColumnDef<Products>[] = [
         default:
           return value.includes(row.getValue(id));
       }
+    },
+  },
+  {
+    accessorKey: 'price',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Listed Price" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="w-[50px]">
+          <Badge variant="secondary">
+            {formatCurrency(row.getValue('price') as number)}
+          </Badge>
+        </div>
+      );
     },
   },
   {

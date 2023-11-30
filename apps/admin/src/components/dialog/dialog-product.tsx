@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, Suspense, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Loader2 } from 'lucide-react';
 
@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@mcsph/ui/components/dialog';
@@ -78,124 +79,138 @@ export function DialogProduct({
           </DialogDescription>
         </DialogHeader>
 
-        <form
-          className="block md:grid md:grid-flow-col md:grid-cols-1 md:gap-4"
-          onSubmit={save}
-        >
-          <div className="py-4 md:col-span-2 md:grid">
-            <div className="mb-3 items-center">
-              <Label htmlFor="sku">SKU</Label>
-              <Input
-                name="sku"
-                id="sku"
-                defaultValue={rowData?.sku}
-                placeholder="TDM-09-B"
-                className="col-span-3"
-                minLength={4}
-                required
-              />
-            </div>
-            <div className="mb-3 items-center">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                name="name"
-                defaultValue={rowData?.name}
-                placeholder="Modern Dining Table"
-                className="col-span-3"
-                minLength={3}
-                required
-              />
-            </div>
-            <div className="mb-3 items-center">
-              <Label htmlFor="type">Type</Label>
-              <Input
-                className="col-span-3"
-                id="type"
-                name="type"
-                defaultValue={rowData?.type}
-                placeholder="Model 09"
-                minLength={3}
-                required
-              />
-            </div>
-            <div className="mb-3 items-center">
-              <Label htmlFor="qty">Qty.</Label>
-              <Input
-                className="col-span-3"
-                id="qty"
-                name="qty"
-                type="number"
-                defaultValue={rowData?.qty}
-                min={0}
-                required
-              />
+        <form onSubmit={save}>
+          <div className="block md:grid md:grid-flow-col md:grid-cols-1 md:gap-4">
+            <div className="py-4 md:col-span-2 md:grid">
+              <div className="mb-3 items-center">
+                <Label htmlFor="sku">SKU</Label>
+                <Input
+                  name="sku"
+                  id="sku"
+                  defaultValue={rowData?.sku}
+                  placeholder="TDM-09-B"
+                  className="col-span-3"
+                  minLength={4}
+                  required
+                />
+              </div>
+              <div className="mb-3 items-center">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  defaultValue={rowData?.name}
+                  placeholder="Modern Dining Table"
+                  className="col-span-3"
+                  minLength={3}
+                  required
+                />
+              </div>
+              <div className="mb-3 items-center">
+                <Label htmlFor="type">Type</Label>
+                <Input
+                  className="col-span-3"
+                  id="type"
+                  name="type"
+                  defaultValue={rowData?.type}
+                  placeholder="Model 09"
+                  minLength={3}
+                  required
+                />
+              </div>
+              <div className="mb-3 items-center">
+                <Label htmlFor="qty">Qty.</Label>
+                <Input
+                  className="col-span-3"
+                  id="qty"
+                  name="qty"
+                  type="number"
+                  defaultValue={rowData?.qty}
+                  min={0}
+                  required
+                />
+              </div>
+
+              <div className="mb-3 items-center">
+                <Label htmlFor="price">Price each. (&#x20B1;)</Label>
+                <Input
+                  className="col-span-3"
+                  id="price"
+                  name="price"
+                  defaultValue={rowData?.price}
+                  min="0.00"
+                  accept="/^d+(.d{1,2})?$/"
+                  required
+                />
+              </div>
+
+              <div className="mb-3 items-center">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  className="h-[90%] resize-none"
+                  id="description"
+                  defaultValue={rowData?.description ?? ''}
+                  name="description"
+                />
+                <p className="text-sm text-muted-foreground">
+                  This will shown to the customer.
+                </p>
+              </div>
             </div>
 
-            <div className="mb-3 items-center">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                className="h-[90%] resize-none"
-                id="description"
-                defaultValue={rowData?.description ?? ''}
-                name="description"
-              />
-              <p className="text-sm text-muted-foreground">
-                This will shown to the customer.
-              </p>
+            <Separator className="hidden md:block" orientation="vertical" />
+
+            <div className="py-4">
+              <div className="item-center h-[93%]">
+                <Label htmlFor="image">Image:</Label>
+                <Input
+                  name="image"
+                  id="image"
+                  type="file"
+                  accept="image/png, image/jpg, image/webp"
+                  onChange={handleImageChange}
+                />
+
+                {/* Prioritize selected image for previewing, else default to uploaded */}
+                {selectedImage ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    className="mx-auto my-3 rounded-md object-cover"
+                    src={selectedImage as string}
+                    width={320}
+                    height={320}
+                    alt="Uploaded product's preview image"
+                  />
+                ) : (
+                  <>
+                    {rowData?.image_url ? (
+                      <>
+                        {imgLoad && (
+                          <Loader2 className="mx-auto my-3 h-8 w-8 animate-spin" />
+                        )}
+                        <Image
+                          className="mx-auto my-3 rounded-md object-cover"
+                          src={rowData?.image_url}
+                          width={320}
+                          height={320}
+                          fetchPriority="low"
+                          priority={false}
+                          alt="Product's preview image"
+                          onLoad={() => setImgLoader(false)}
+                        />
+                      </>
+                    ) : (
+                      <div className="mx-auto my-3 items-center p-3 text-center text-muted-foreground">
+                        No image uploaded.
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
-          <Separator className="hidden md:block" orientation="vertical" />
-
-          <div className="py-4">
-            <div className="item-center h-[93%]">
-              <Label htmlFor="image">Image:</Label>
-              <Input
-                name="image"
-                id="image"
-                type="file"
-                accept="image/png, image/jpg, image/webp"
-                onChange={handleImageChange}
-              />
-
-              {/* Prioritize selected image for previewing, else default to uploaded */}
-              {selectedImage ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  className="mx-auto my-3 rounded-md object-cover"
-                  src={selectedImage as string}
-                  width={340}
-                  height={340}
-                  alt="Uploaded product's preview image"
-                />
-              ) : (
-                <>
-                  {rowData?.image_url ? (
-                    <>
-                      {imgLoad && (
-                        <Loader2 className="mx-auto my-3 h-8 w-8 animate-spin" />
-                      )}
-                      <Image
-                        className="mx-auto my-3 rounded-md object-cover"
-                        src={rowData?.image_url}
-                        width={340}
-                        height={340}
-                        fetchPriority="low"
-                        priority={false}
-                        alt="Product's preview image"
-                        onLoad={() => setImgLoader(false)}
-                      />
-                    </>
-                  ) : (
-                    <div className="mx-auto my-3 items-center p-3 text-center text-muted-foreground">
-                      No image uploaded.
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-
+          <DialogFooter>
             <div className="flex place-content-end items-center">
               <div className="flex items-center">
                 <Label
@@ -217,7 +232,7 @@ export function DialogProduct({
                 </Button>
               </div>
             </div>
-          </div>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>

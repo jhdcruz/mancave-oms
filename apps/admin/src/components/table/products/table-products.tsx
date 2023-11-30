@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 
 import { DataTable } from '@/components/table/data-table';
 import { productColumns } from '@/components/table/products/table-products-columns';
+import { DataTableProductsToolbar } from '@/components/table/products/table-products-toolbar';
 
 export default function TableProducts() {
   const { data: products, isLoading } = useSWR('/inventory/api');
@@ -27,6 +28,7 @@ export default function TableProducts() {
           columns={productColumns}
           data={productsData}
           count={totalCount}
+          toolbar={{ component: DataTableProductsToolbar }}
         />
       )}
     </>
