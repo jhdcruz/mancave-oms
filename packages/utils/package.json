@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Shared utilities/helper functions.",
   "main": "index.ts",
+  "files": [
+    "lib/"
+  ],
   "scripts": {
     "fmt": "prettier --write ./**/*.{ts,tsx}"
   },

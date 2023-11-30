@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { AxiomWebVitals } from 'next-axiom';
 import { GeistSans } from 'geist/font/sans';
 
+import SWRProvider from '@/components/swr-provider';
 import ThemeProvider from '@mcsph/ui/containers/theme-provider';
 
 import { getCurrentSession } from '@mcsph/supabase/ops/user';
@@ -36,11 +37,13 @@ export default async function RootLayout({
       <AxiomWebVitals />
 
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <HeaderNav session={session} />
+        <SWRProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <HeaderNav session={session} />
 
-          <main>{children}</main>
-        </ThemeProvider>
+            <main>{children}</main>
+          </ThemeProvider>
+        </SWRProvider>
       </body>
     </html>
   );

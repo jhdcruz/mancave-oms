@@ -18,11 +18,13 @@ import { createProduct } from '@mcsph/supabase/ops/products';
 import { Separator } from '@mcsph/ui/components/separator';
 import { redirect, RedirectType } from 'next/navigation';
 import { useLogger } from 'next-axiom';
+import { useSWRConfig } from 'swr';
 
 export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const log = useLogger();
+  const { mutate } = useSWRConfig();
 
   const [dialog, setDialog] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,9 +36,11 @@ export function DataTableToolbar<TData>({
     setLoading(true);
 
     const supabase = browserClient();
-    const { data } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    if (!data.session) {
+    if (!session) {
       // if it gets to this point (which is not supposed to),
       // cookie probably expired or something tampered with it
       log.info('Session data not found');
@@ -46,14 +50,11 @@ export function DataTableToolbar<TData>({
     const formData = new FormData(formEvent.target as HTMLFormElement);
 
     // include who updated the product
-    formData.append('last_updated_by', data.session.user.id);
+    formData.append('last_updated_by', session.user.id);
 
-    const { error } = await createProduct(formData, { supabase });
+    await createProduct(formData, { supabase });
 
-    if (error) {
-      log.error('Error saving products', { error });
-      await log.flush();
-    }
+    await mutate('/inventory/api');
 
     setLoading(false);
     setDialog(false);

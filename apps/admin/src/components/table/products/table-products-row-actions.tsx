@@ -22,11 +22,13 @@ import { deleteProduct, updateProduct } from '@mcsph/supabase/ops/products';
 import { DialogDelete } from '@/components/dialog/dialog-delete';
 import { useLogger } from 'next-axiom';
 import { redirect, RedirectType } from 'next/navigation';
+import { useSWRConfig } from 'swr';
 
 export function TableProductsRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const log = useLogger();
+  const { mutate } = useSWRConfig();
 
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -43,6 +45,8 @@ export function TableProductsRowActions<TData>({
 
     await deleteProduct(id, { supabase: supabase });
 
+    await mutate('/inventory/api');
+
     setDeleteDialog(false);
     setDeleteLoading(false);
   };
@@ -53,9 +57,11 @@ export function TableProductsRowActions<TData>({
     setUpdateLoading(true);
 
     const supabase = browserClient();
-    const { data } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    if (!data.session) {
+    if (!session) {
       log.info('Session data not found');
       await log.flush();
       return redirect('/login', RedirectType.replace);
@@ -64,9 +70,13 @@ export function TableProductsRowActions<TData>({
     const formData = new FormData(formEvent.target as HTMLFormElement);
 
     // include who updated the product
-    formData.append('last_updated_by', data.session.user.id);
+    formData.append('last_updated_by', session.user.id);
 
-    await updateProduct(product?.id, formData, { supabase });
+    await updateProduct(product?.id, formData, {
+      supabase,
+    });
+
+    await mutate('/inventory/api');
 
     setUpdateDialog(false);
     setUpdateLoading(false);
