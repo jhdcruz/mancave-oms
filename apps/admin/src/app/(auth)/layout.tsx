@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { AxiomWebVitals } from 'next-axiom';
 import { GeistSans } from 'geist/font/sans';
@@ -41,10 +41,13 @@ export const metadata = {
   ],
 };
 
-const HeaderNav = dynamic(() => import('@/components/nav/header-nav'), {
+const LazyLoadNav = dynamic(() => import('@/components/nav/header-nav'), {
   ssr: false,
   loading: () => <header className="sticky top-0 z-50 h-16 w-full border-b" />,
 });
+
+const HeaderNav = memo(({ session }) => <LazyLoadNav session={session} />);
+HeaderNav.displayName = 'HeaderNav';
 
 export default async function RootLayout({
   children,
