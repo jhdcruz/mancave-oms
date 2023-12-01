@@ -49,6 +49,10 @@ import { getProductBySku } from '@mcsph/supabase/ops/products';
  *
  * optional `rowData` prop is a function that returns the data of the row
  * for editing/updating of the product.
+ *
+ * FIXME: This should use the <Form> component
+ *        instead of manually creating the form
+ *        in combination with react-hook-forms
  */
 export function DialogOrder({
   open = false,
@@ -180,7 +184,7 @@ export function DialogOrder({
                 <Label htmlFor="order_status">Order Status</Label>
 
                 <Select
-                  name="status"
+                  name="order_status"
                   defaultValue={rowData?.order_status}
                   required
                 >

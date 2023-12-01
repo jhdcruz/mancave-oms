@@ -1,8 +1,7 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
-import { redirect, useSearchParams, RedirectType } from 'next/navigation';
-import { useLogger } from 'next-axiom';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useSWRConfig } from 'swr';
 import { Plus, X } from 'lucide-react';
 
@@ -10,21 +9,22 @@ import { Button } from '@mcsph/ui/components/button';
 import { Input } from '@mcsph/ui/components/input';
 import { Separator } from '@mcsph/ui/components/separator';
 
+import { DialogOrder } from '@/components/dialog/dialog-order';
+import {
+  orderDue,
+  orderStatuses,
+  payment,
+} from '@/components/table/orders/table-orders-filter';
+
 import { DataTableFacetedFilter } from '../data-table-faceted-filter';
 import { DataTableViewOptions } from '../data-table-view-options';
 import type { DataTableToolbarProps } from '../data-table-props';
 
 import { browserClient } from '@mcsph/supabase/lib/client';
-import { DialogOrder } from '@/components/dialog/dialog-order';
-import {
-  orderStatuses,
-  payment,
-} from '@/components/table/orders/table-orders-filter';
 
 export function DataTableOrdersToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
-  const log = useLogger();
   const { mutate } = useSWRConfig();
 
   const [dialog, setDialog] = useState(false);
@@ -33,32 +33,9 @@ export function DataTableOrdersToolbar<TData>({
 
   const searchParams = useSearchParams();
 
-  const addOrder = async (formEvent: FormEvent) => {
-    formEvent.preventDefault();
-
-    setLoading(true);
-
-    const supabase = browserClient();
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (!session) {
-      // if it gets to this point (which is not supposed to),
-      // cookie probably expired or something tampered with it
-      log.info('Session data not found');
-      return redirect('/login', RedirectType.replace);
-    }
-
-    const formData = new FormData(formEvent.target as HTMLFormElement);
-
-    // include who updated the product
-    formData.append('last_updated_by', session.user.id);
-
-    await mutate('/orders/api');
-
-    setLoading(false);
-    setDialog(false);
+  const addOrder = async (props: any) => {
+    // TODO
+    return props;
   };
 
   useEffect(() => {
@@ -75,12 +52,11 @@ export function DataTableOrdersToolbar<TData>({
           placeholder="Filter orders..."
           value={
             ((table.getColumn('id')?.getFilterValue() as string) ?? '') ||
-            ((table.getColumn('full_name')?.getFilterValue() as string) ??
-              '') ||
-            ((table.getColumn('created_at')?.getFilterValue() as string) ?? '')
+            ((table.getColumn('full_name')?.getFilterValue() as string) ?? '')
           }
           onChange={(event) =>
-            table.getColumn('id')?.setFilterValue(event.target.value)
+            table.getColumn('id')?.setFilterValue(event.target.value) &&
+            table.getColumn('full_name')?.setFilterValue(event.target.value)
           }
           className="w-full md:w-[250px] lg:w-[300px]"
         />
@@ -109,7 +85,14 @@ export function DataTableOrdersToolbar<TData>({
 
         <span className="mr-2 text-sm text-muted-foreground">Filters:</span>
 
-        {/* Allow filtering between product states*/}
+        {table.getColumn('created_at') && (
+          <DataTableFacetedFilter
+            column={table.getColumn('created_at')}
+            title="Order"
+            options={orderDue}
+          />
+        )}
+
         {table.getColumn('order_status') && (
           <DataTableFacetedFilter
             column={table.getColumn('order_status')}

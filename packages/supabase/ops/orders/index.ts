@@ -61,6 +61,47 @@ export const getOrders = async ({ supabase }: DatabaseSession = {}) => {
   return { data, error };
 };
 
+export const deleteOrder = async (
+  order_id: string,
+  { supabase }: DatabaseSession = {},
+) => {
+  const log = new Logger();
+
+  if (!supabase) {
+    const cookieStore = (await import('next/headers')).cookies();
+    supabase = serverClient(cookieStore);
+  }
+
+  const { error } = await supabase.from('orders').delete().eq('id', order_id);
+
+  if (error) log.error('Error deleting order', { error });
+
+  return { error };
+};
+
+export const updateOrder = async (
+  order_id: string,
+  body: Record<string, any>,
+  { supabase }: DatabaseSession = {},
+) => {
+  const log = new Logger();
+
+  if (!supabase) {
+    const cookieStore = (await import('next/headers')).cookies();
+    supabase = serverClient(cookieStore);
+  }
+
+  const { data, error } = await supabase
+    .from('orders')
+    .update(body)
+    .eq('id', order_id);
+
+  if (error) log.error('Error updating order', { error });
+
+  return { data, error };
+};
+
+/* Order Details (items_order) */
 export const getOrderDetails = async (
   order_id: string,
   { supabase }: DatabaseSession = {},
