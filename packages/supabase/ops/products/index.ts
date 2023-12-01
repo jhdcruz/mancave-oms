@@ -115,7 +115,7 @@ export const createProduct = async (
 };
 
 export const updateProduct = async (
-  id: number | string,
+  id: number,
   product: FormData,
   { supabase }: DatabaseSession = {},
 ) => {
