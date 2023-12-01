@@ -6,6 +6,8 @@ import { GeistSans } from 'geist/font/sans';
 import ThemeProvider from '@mcsph/ui/containers/theme-provider';
 import { defaultUrl } from '@mcsph/utils';
 
+import { getCurrentSession } from '@mcsph/supabase/ops/user';
+
 import '@mcsph/ui/globals.css';
 
 export const metadata = {
@@ -52,13 +54,15 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
+  const { session } = await getCurrentSession();
+
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <AxiomWebVitals />
 
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <HeaderNav />
+          <HeaderNav session={session} />
 
           <main>{children}</main>
         </ThemeProvider>

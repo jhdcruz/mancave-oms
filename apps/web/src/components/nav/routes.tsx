@@ -13,32 +13,16 @@ export const externalRoutes = [
     href: '/cart',
     title: 'Shopping Cart',
     description: 'View the your shopping cart.',
-    external: true,
   },
 ];
 
 const routes = [
-  {
-    trigger: 'Dashboard',
-    icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
-    name: 'Dashboard',
-    description: 'Overview of the system.',
-    href: '/',
-  },
   {
     trigger: 'Products',
     icon: <Warehouse className="mr-2 h-4 w-4" />,
     name: 'Product Catalogue',
     description: 'View our product catalogue.',
     href: '/inventory',
-    actions: [
-      {
-        icon: <Plus className="mr-2 h-4 w-4" />,
-        href: '/products?filter=recent',
-        title: 'Recently added products',
-        description: 'View recently added products.',
-      },
-    ],
   },
   {
     trigger: 'About Us',
