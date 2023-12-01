@@ -100,13 +100,14 @@ export function DialogProduct({
       const descriptionInput =
         document.querySelector<HTMLTextAreaElement>('#description');
 
-      idInput.defaultValue = product.id;
-      skuInput.defaultValue = product.sku;
-      nameInput.defaultValue = product.name;
-      typeInput.defaultValue = product.type;
-      qtyInput.defaultValue = product.qty;
-      priceInput.defaultValue = product.price;
-      descriptionInput.value = product.description;
+      if (idInput) idInput.defaultValue = product.id;
+      if (skuInput) skuInput.defaultValue = product.sku;
+      if (nameInput) nameInput.defaultValue = product.name;
+      if (typeInput) typeInput.defaultValue = product.type;
+      if (qtyInput) qtyInput.defaultValue = product.qty;
+      if (priceInput) priceInput.defaultValue = product.price;
+      if (descriptionInput) descriptionInput.value = product.description;
+
       setPublished(product.published);
 
       // update the preview image

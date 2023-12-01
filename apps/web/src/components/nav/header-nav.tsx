@@ -27,7 +27,7 @@ export type NavProps = {
   extRoutes?: ReactNode | Iterable<ReactNode>;
 };
 
-export default function HeaderNav({ session }: { session: Session | null }) {
+export default function HeaderNav({ session }: { session: Session }) {
   return (
     <MainNav
       session={session}
