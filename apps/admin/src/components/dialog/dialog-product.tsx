@@ -43,6 +43,7 @@ export function DialogProduct({
   const [selectedImage, setSelectedImage] = useState<
     string | ArrayBuffer | null
   >(null);
+  const [published, setPublished] = useState(rowData?.published);
 
   // handles selected image file previewing
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -217,18 +218,19 @@ export function DialogProduct({
                   htmlFor="published"
                   className="mx-2 text-muted-foreground"
                 >
-                  Published
+                  {published ? 'Published' : 'Unpublished'}
                 </Label>
                 <Switch
                   id="published"
-                  defaultChecked={rowData?.published}
+                  defaultChecked={published}
                   name="published"
+                  onClick={() => setPublished(!published)}
                 />
               </div>
 
               <div className="ml-3 items-center">
                 <Button disabled={loading} type="submit">
-                  {loading ? <Loader2 className="animate-spin" /> : <>Submit</>}
+                  {loading ? <Loader2 className="animate-spin" /> : <>Save</>}
                 </Button>
               </div>
             </div>
