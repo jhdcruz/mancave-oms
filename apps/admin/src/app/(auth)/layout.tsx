@@ -10,6 +10,7 @@ import { getCurrentSession } from '@mcsph/supabase/ops/user';
 import { defaultUrl } from '@mcsph/utils';
 
 import '@mcsph/ui/globals.css';
+import { Session } from '@sentry/nextjs';
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
@@ -46,8 +47,7 @@ const LazyLoadNav = dynamic(() => import('@/components/nav/header-nav'), {
   loading: () => <header className="sticky top-0 z-50 h-16 w-full border-b" />,
 });
 
-const HeaderNav = memo(({ session }) => <LazyLoadNav session={session} />);
-HeaderNav.displayName = 'HeaderNav';
+const HeaderNav = memo(LazyLoadNav);
 
 export default async function RootLayout({
   children,
