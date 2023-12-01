@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const tableOrdersSchema = z.object({
   id: z.string(),
-  total_price: z.nullable(z.number().nonnegative()).default(0.0),
+  total_price: z.number().nonnegative().default(0.0),
   payment: z.string().default(''),
   order_status: z.string().default(''),
   payment_status: z.boolean().default(false),
@@ -18,9 +18,9 @@ export const tableOrdersSchema = z.object({
 });
 
 export const orderDetailsSchema = z.object({
-  id: z.number(),
+  id: z.nullable(z.number()),
   qty: z.number(),
-  products: z.object({
+  product: z.object({
     id: z.number(),
     sku: z.string(),
     name: z.string(),

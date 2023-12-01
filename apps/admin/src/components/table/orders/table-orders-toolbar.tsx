@@ -74,11 +74,13 @@ export function DataTableOrdersToolbar<TData>({
         <Input
           placeholder="Filter orders..."
           value={
-            ((table.getColumn('customer')?.getFilterValue() as string) ?? '') ||
+            ((table.getColumn('id')?.getFilterValue() as string) ?? '') ||
+            ((table.getColumn('full_name')?.getFilterValue() as string) ??
+              '') ||
             ((table.getColumn('created_at')?.getFilterValue() as string) ?? '')
           }
           onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
+            table.getColumn('id')?.setFilterValue(event.target.value)
           }
           className="w-full md:w-[250px] lg:w-[300px]"
         />
@@ -88,7 +90,7 @@ export function DataTableOrdersToolbar<TData>({
           onClick={() => setDialog(true)}
         >
           <Plus className="mr-2 h-4 w-4" />
-          Add Product
+          New Order
         </Button>
 
         <Separator

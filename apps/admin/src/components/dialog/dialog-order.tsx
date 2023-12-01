@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { Loader2, Plus } from 'lucide-react';
+import useSWR from 'swr';
+import { Loader2, Plus, Trash2 } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
 import {
@@ -14,7 +15,7 @@ import { Input } from '@mcsph/ui/components/input';
 import { Label } from '@mcsph/ui/components/label';
 import { Separator } from '@mcsph/ui/components/separator';
 
-import {
+import type {
   OrderDetails,
   Orders,
 } from '@/components/table/orders/table-orders-schema';
@@ -28,15 +29,19 @@ import {
   SelectValue,
 } from '@mcsph/ui/components/select';
 
-import { formatDateTime } from '@mcsph/utils/lib/format';
+import { formatCurrency, formatDateTime } from '@mcsph/utils/lib/format';
 import {
   orderStatuses,
   payment,
 } from '@/components/table/orders/table-orders-filter';
 import { Textarea } from '@mcsph/ui/components/textarea';
 import { Badge } from '@mcsph/ui/components/badge';
-import useSWR from 'swr';
 import { ScrollArea } from '@mcsph/ui/components/scroll-area';
+import { useToast } from '@mcsph/ui/components/use-toast';
+import { Switch } from '@mcsph/ui/components/switch';
+
+import { browserClient } from '@mcsph/supabase/lib/client';
+import { getProductBySku } from '@mcsph/supabase/ops/products';
 
 /**
  * Modal dialog for order details.
@@ -59,35 +64,67 @@ export function DialogOrder({
   rowData?: Orders;
 }) {
   const [orders, setOrders] = useState<OrderDetails[]>([]);
-  const [sku, searchSku] = useState<String>();
+  const [paid, setPaid] = useState(rowData?.payment_status);
+
+  const { toast } = useToast();
 
   // gets the product orders for specific id
   const { data: productOrders, isLoading } = useSWR(
-    `/orders/api?order=${rowData?.id}`,
+    rowData?.id ? `/orders/api?order=${rowData.id}` : null,
   );
 
-  // getting the product details from SKU from the input
-  const { data: productDetails } = useSWR(`/inventory/api?sku=${sku}`);
-
+  // Handles adding of products in the ScrollArea
   const orderProduct = async () => {
     // get the sku from the input
     // then add to the orders state
-    const getSku = document.getElementById('product_item') as HTMLInputElement;
-    const getQty = document.getElementById('qty') as HTMLInputElement;
+    const getSku = document.getElementById('order_product') as HTMLInputElement;
+    const getQty = document.getElementById('order_qty') as HTMLInputElement;
     const productSku = getSku.value;
     const orderQty = getQty.value;
 
     // save the sku to the state which in turn
     // will be used to fetch the product details
     // when a change is detected
-    searchSku(productSku);
+    const { data: productDetails } = await getProductBySku(productSku, {
+      supabase: browserClient(),
+    });
 
-    // append the bought qty
-    const productDetail: OrderDetails = [...productDetails, { qty: orderQty }];
+    if (productDetails) {
+      // Check if the product with the same SKU already exists in the orders array
+      const existingOrderIndex = orders.findIndex(
+        (order) => order.product.sku === productDetails.sku,
+      );
 
-    // get the product details from the api
-    // then add to the orders state
-    setOrders([...orders, productDetail]);
+      if (existingOrderIndex !== -1) {
+        // If it exists, update the quantity of that product by adding the new quantity to the existing one
+        const updatedOrders = [...orders];
+        updatedOrders[existingOrderIndex].qty += parseInt(orderQty);
+
+        setOrders(updatedOrders);
+      } else {
+        // If it doesn't exist, add the new product to the orders array
+        const productDetail: OrderDetails = {
+          id: null,
+          qty: parseInt(orderQty),
+          product: productDetails,
+        };
+
+        setOrders([...orders, productDetail]);
+      }
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Product not found',
+        description: 'Please check the SKU and try again.',
+      });
+    }
+  };
+
+  // Handles removing of products in the ScrollArea
+  const removeProductFromOrder = async (sku: string) => {
+    const updatedOrders = orders.filter((order) => order.product.sku !== sku);
+
+    setOrders(updatedOrders);
   };
 
   useEffect(() => {
@@ -96,52 +133,52 @@ export function DialogOrder({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="data-[state=open]:animate-show data-[state=closed]:animate-hide h-max max-h-screen w-screen overflow-y-scroll rounded-lg md:min-h-max md:min-w-[700px] md:overflow-y-auto">
+      <DialogContent className="data-[state=open]:animate-show data-[state=closed]:animate-hide h-max max-h-screen w-screen overflow-y-scroll rounded-lg md:min-h-max md:min-w-[750px] md:overflow-y-auto">
         <form onSubmit={save}>
           <DialogHeader>
             <DialogTitle>Order Details</DialogTitle>
             <DialogDescription>
-              Details of order that will be shown to the customer.
+              {rowData ? (
+                <>
+                  <Badge
+                    variant="outline"
+                    className="mr-2 font-semibold"
+                    title="Reference Number"
+                  >
+                    Ref. #: {rowData.id}
+                  </Badge>
+                </>
+              ) : (
+                <>Details of order that will be shown to the customer.</>
+              )}
             </DialogDescription>
           </DialogHeader>
 
-          <div className="block md:grid md:grid-flow-col md:grid-cols-1 md:gap-4">
+          <div className="mt-2 block md:grid md:grid-flow-col md:grid-cols-1 md:gap-4">
             <div className="py-4 md:col-span-2 md:grid">
               {rowData && (
-                <div className="text-sm">
-                  <div className="mb-1 items-center">
-                    <Badge
-                      variant="secondary"
-                      className="text-sm font-semibold"
-                      title="Reference number"
-                    >
-                      {rowData.id}
+                <>
+                  <div className="mb-3 items-center text-sm">
+                    <Badge variant="secondary" className="mr-2 font-semibold">
+                      Ordered at:
                     </Badge>
+                    <span>{formatDateTime(rowData.created_at)}</span>
+
+                    <div className="my-2" />
+
+                    <Badge variant="secondary" className="mr-2 font-semibold">
+                      Last Updated:
+                    </Badge>
+                    <span>{formatDateTime(rowData.last_updated)}</span>
                   </div>
 
-                  <div className="mb-1 items-center">
-                    <p>
-                      Ordered at:{' '}
-                      <span className="font-semibold">
-                        {formatDateTime(rowData.created_at)}
-                      </span>
-                    </p>
-                  </div>
-
-                  <div className="mb-1 items-center">
-                    <p>
-                      Last Updated:{' '}
-                      <span className="font-semibold">
-                        {formatDateTime(rowData.last_updated)}
-                      </span>
-                    </p>
-                  </div>
-
-                  <Separator />
-                </div>
+                  <Separator className="my-2" />
+                </>
               )}
 
               <div className="mb-3 items-center">
+                <Label htmlFor="order_status">Order Status</Label>
+
                 <Select
                   name="status"
                   defaultValue={rowData?.order_status}
@@ -150,7 +187,7 @@ export function DialogOrder({
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Order Status" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent id="order_status">
                     <SelectGroup>
                       <SelectLabel>Order Status</SelectLabel>
                       {orderStatuses.map((orderStatus) => (
@@ -158,8 +195,10 @@ export function DialogOrder({
                           key={orderStatus.value}
                           value={orderStatus.value}
                         >
-                          <orderStatus.icon className="mr-2 h-4 w-4" />
-                          {orderStatus.label}
+                          <div className="flex items-center">
+                            <orderStatus.icon className="mr-2 h-4 w-4" />
+                            {orderStatus.label}
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectGroup>
@@ -222,61 +261,98 @@ export function DialogOrder({
                   disabled={!!rowData}
                 />
               </div>
-
-              <div className="mb-3 items-center">
-                <Label htmlFor="status">Order Status</Label>
-
-                <Select
-                  name="status"
-                  defaultValue={rowData?.payment_status}
-                  required
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Payment Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Payment Status</SelectLabel>
-                      {payment.map((paymentStatus) => (
-                        <SelectItem
-                          key={paymentStatus.value}
-                          value={paymentStatus.value}
-                        >
-                          <paymentStatus.icon className="mr-2 h-4 w-4" />
-                          {paymentStatus.label}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
 
             <Separator className="hidden md:block" orientation="vertical" />
+            <Separator className="my-2 md:hidden" />
 
             <div className="items-center py-4">
-              <ScrollArea className="h-[50%] rounded-md border">
+              <div className="flex items-end">
+                <div className="mr-2 items-center">
+                  <Label htmlFor="order_product">SKU:</Label>
+                  <Input
+                    id="order_product"
+                    name="order_product"
+                    disabled={!!rowData}
+                  />
+                </div>
+                <div className="w-[60px] items-center">
+                  <Label htmlFor="order_qty">Qty.</Label>
+                  <Input
+                    id="order_qty"
+                    name="order_qty"
+                    type="number"
+                    defaultValue={1}
+                    min={1}
+                    disabled={!!rowData}
+                  />
+                </div>
+                <div className="ml-2 items-center">
+                  <Button
+                    size="icon"
+                    type="button"
+                    onClick={orderProduct}
+                    disabled={!!rowData}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <ScrollArea className="my-3 h-[70%] w-full rounded-md border">
                 <div className="p-4">
                   <h4 className="mb-4 text-sm font-medium leading-none">
                     Products Ordered:
                   </h4>
 
                   {isLoading ? (
-                    <Loader2 className="my-4 animate-spin items-center justify-center" />
+                    <Loader2 className="mx-auto my-6 w-full animate-spin items-center justify-center" />
                   ) : (
                     <>
                       {/* list of products that were ordered */}
                       {orders?.map((order) => (
                         <>
-                          <div key={order.id} className="text-sm">
-                            <span>{order.products.sku}</span>
-                            <span className="text-right">x{order.qty}</span>
-                            <br />
-                            <span>{order.products.type}</span>
-                            <span className="text-right">
-                              {order.products.price * order.qty}
-                            </span>
+                          <div
+                            key={order.product.sku}
+                            className="w-full text-sm"
+                          >
+                            <div className="flex w-full items-center">
+                              {!rowData && (
+                                <Button
+                                  variant="ghost"
+                                  className="mr-2 text-red-500"
+                                  onClick={() =>
+                                    removeProductFromOrder(order.product.sku)
+                                  }
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              )}
+
+                              <div className="block w-full">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-bold">
+                                    {order.product.sku}
+                                  </span>
+                                  <span className="text-right">
+                                    x{order.qty}
+                                  </span>
+                                </div>
+
+                                <div className="flex items-center justify-between">
+                                  <span>
+                                    {order.product.name} / {order.product.type}
+                                  </span>
+                                  <span className="ml-auto text-right font-semibold">
+                                    {formatCurrency(
+                                      order.product.price * order.qty,
+                                    )}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
+
                           <Separator className="my-2" />
                         </>
                       ))}
@@ -285,37 +361,81 @@ export function DialogOrder({
                 </div>
               </ScrollArea>
 
-              <div className="flex items-center">
-                <div className="items-center">
-                  <Label htmlFor="product_item">Product:</Label>
-                  <Input
-                    id="product_item"
-                    name="product"
-                  />
+              <div className="my-2 flex items-center justify-between">
+                <div>
+                  <Label htmlFor="payment">Payment Method</Label>
+
+                  <Select
+                    name="payment"
+                    defaultValue={rowData?.payment}
+                    disabled={!!rowData}
+                    required
+                  >
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Payment Method" />
+                    </SelectTrigger>
+                    <SelectContent id="payment">
+                      <SelectGroup>
+                        <SelectLabel>Payment Method</SelectLabel>
+                        {payment.map((paymentStatus) => (
+                          <SelectItem
+                            key={paymentStatus.value}
+                            value={paymentStatus.value}
+                          >
+                            <div className="flex items-center">
+                              <paymentStatus.icon className="mr-2 h-4 w-4" />
+                              {paymentStatus.label}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
-                <div className="mb-3 items-center">
-                  <Label htmlFor="qty">Qty.</Label>
-                  <Input
-                    id="qty"
-                    name="qty"
-                    type="number"
-                    defaultValue={1}
-                    min={1}
-                  />
-                </div>
-                <div className="ml-1 items-center">
-                  <Button size="icon" onClick={orderProduct}>
-                    <Plus className="h-4 w-4" />
-                  </Button>
+
+                <div className="ml-2 text-right">
+                  <Label htmlFor="total_price" className="text-sm">
+                    Total.
+                  </Label>
+                  <p className="font-semibold">
+                    {rowData ? (
+                      <>{formatCurrency(rowData?.total_price ?? 0)}</>
+                    ) : (
+                      <>
+                        {formatCurrency(
+                          orders.reduce(
+                            (a, b) => a + b.product.price * b.qty,
+                            0,
+                          ),
+                        )}
+                      </>
+                    )}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
           <DialogFooter>
-            <Button disabled={loading} type="submit">
-              {loading ? <Loader2 className="animate-spin" /> : <>Save</>}
-            </Button>
+            <div className="flex place-content-end items-center">
+              <div className="flex items-center">
+                <Label htmlFor="payment_status" className="mx-2 capitalize">
+                  {paid ? 'Paid' : 'Unpaid'}
+                </Label>
+                <Switch
+                  id="payment_status"
+                  defaultChecked={paid}
+                  name="payment_status"
+                  onClick={() => setPaid(!paid)}
+                />
+              </div>
+
+              <div className="ml-3 items-center">
+                <Button disabled={loading} type="submit">
+                  {loading ? <Loader2 className="animate-spin" /> : <>Save</>}
+                </Button>
+              </div>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>

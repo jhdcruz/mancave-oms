@@ -19,10 +19,10 @@ export const orderColumns: ColumnDef<Orders>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Reference #" />
+      <DataTableColumnHeader column={column} title="Ref. #" />
     ),
     cell: ({ row }) => (
-      <div className="w-[110px] truncate font-semibold text-muted-foreground">
+      <div className="w-[120px] truncate font-semibold text-muted-foreground">
         {row.getValue('id')}
       </div>
     ),
@@ -34,7 +34,7 @@ export const orderColumns: ColumnDef<Orders>[] = [
       <DataTableColumnHeader column={column} title="Customer" />
     ),
     cell: ({ row }) => (
-      <div className="w-[110px]">{row.original.customers.full_name}</div>
+      <div className="w-[130px]">{row.original.customers.full_name}</div>
     ),
   },
   {
@@ -43,7 +43,7 @@ export const orderColumns: ColumnDef<Orders>[] = [
       <DataTableColumnHeader column={column} title="Payment Type" />
     ),
     cell: ({ row }) => (
-      <Badge variant="outline" className="capitalize">
+      <Badge variant="outline" className="w-[50px] capitalize">
         {row.getValue('payment')}
       </Badge>
     ),

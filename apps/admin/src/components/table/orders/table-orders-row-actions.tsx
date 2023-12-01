@@ -38,7 +38,7 @@ export function TableOrdersRowActions<TData>({
 
   const order = tableOrdersSchema.parse(row.original);
 
-  const deleteSelected = async (id: number) => {
+  const deleteSelected = async (id: string) => {
     setDeleteLoading(true);
 
     const supabase = browserClient();
@@ -131,7 +131,7 @@ export function TableOrdersRowActions<TData>({
         <DialogDelete
           open={deleteDialog}
           setOpen={setDeleteDialog}
-          item={`Reference #: ${order?.id}`}
+          item={`Ref. #: ${order?.id}`}
           deleteFn={() => deleteSelected(order?.id)}
           loading={deleteLoading}
         />
