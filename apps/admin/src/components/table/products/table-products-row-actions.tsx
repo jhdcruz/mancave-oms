@@ -1,6 +1,9 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
+import { redirect, RedirectType } from 'next/navigation';
+import { useLogger } from 'next-axiom';
+import { useSWRConfig } from 'swr';
 import { ClipboardEdit, Settings, Trash2 } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
@@ -13,16 +16,13 @@ import {
   DropdownMenuTrigger,
 } from '@mcsph/ui/components/dropdown-menu';
 import { tableProductsSchema } from './table-products-schema';
+import type { DataTableRowActionsProps } from '../data-table-props';
 
 import { DialogProduct } from '@/components/dialog/dialog-product';
-import type { DataTableRowActionsProps } from '../data-table-props';
+import { DialogDelete } from '@/components/dialog/dialog-delete';
 
 import { browserClient } from '@mcsph/supabase/lib/client';
 import { deleteProduct, updateProduct } from '@mcsph/supabase/ops/products';
-import { DialogDelete } from '@/components/dialog/dialog-delete';
-import { useLogger } from 'next-axiom';
-import { redirect, RedirectType } from 'next/navigation';
-import { useSWRConfig } from 'swr';
 
 export function TableProductsRowActions<TData>({
   row,

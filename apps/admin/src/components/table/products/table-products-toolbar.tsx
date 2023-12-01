@@ -8,6 +8,7 @@ import { Plus, X } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
 import { Input } from '@mcsph/ui/components/input';
+import { Separator } from '@mcsph/ui/components/separator';
 
 import { DialogProduct } from '@/components/dialog/dialog-product';
 
@@ -17,8 +18,7 @@ import { states, stocks } from './table-products-filters';
 import type { DataTableToolbarProps } from '../data-table-props';
 
 import { browserClient } from '@mcsph/supabase/lib/client';
-import { createProduct } from '@mcsph/supabase/ops/products';
-import { Separator } from '@mcsph/ui/components/separator';
+import { createProduct, updateProduct } from '@mcsph/supabase/ops/products';
 
 export function DataTableProductsToolbar<TData>({
   table,
@@ -32,7 +32,7 @@ export function DataTableProductsToolbar<TData>({
 
   const searchParams = useSearchParams();
 
-  const addProduct = async (formEvent: FormEvent) => {
+  const saveProduct = async (formEvent: FormEvent) => {
     formEvent.preventDefault();
 
     setLoading(true);
@@ -54,7 +54,14 @@ export function DataTableProductsToolbar<TData>({
     // include who updated the product
     formData.append('last_updated_by', session.user.id);
 
-    await createProduct(formData, { supabase });
+    if (formData.get('id') === null || formData.get('id') === '') {
+      await createProduct(formData, { supabase });
+    } else {
+      const id = formData.get('id') as number;
+      await updateProduct(id, formData, {
+        supabase,
+      });
+    }
 
     await mutate('/inventory/api');
 
@@ -100,7 +107,7 @@ export function DataTableProductsToolbar<TData>({
 
         {dialog && (
           <DialogProduct
-            save={(details) => addProduct(details)}
+            save={(details) => saveProduct(details)}
             open={dialog}
             setOpen={setDialog}
             loading={loading}

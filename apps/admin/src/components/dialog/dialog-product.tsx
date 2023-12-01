@@ -19,12 +19,18 @@ import { Textarea } from '@mcsph/ui/components/textarea';
 
 import { Products } from '../table/products/table-products-schema';
 
+import { browserClient } from '@mcsph/supabase/lib/client';
+
 /**
  * Modal dialog for product details.
  * Requires manual trigger of the dialog.
  *
  * optional `rowData` prop is a function that returns the data of the row
  * for editing/updating of the product.
+ *
+ * FIXME: This should use the <Form> component
+ *        instead of manually creating the form
+ *        in combination with react-hook-forms
  */
 export function DialogProduct({
   open = false,
@@ -43,7 +49,7 @@ export function DialogProduct({
   const [selectedImage, setSelectedImage] = useState<
     string | ArrayBuffer | null
   >(null);
-  const [published, setPublished] = useState(rowData?.published);
+  const [published, setPublished] = useState(rowData?.published ?? false);
 
   // handles selected image file previewing
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +66,51 @@ export function DialogProduct({
     } else {
       // No file selected, reset the preview
       setSelectedImage(null);
+    }
+  };
+
+  const checkExisting = async (event: ChangeEvent<HTMLInputElement>) => {
+    // prevent flooding the server with requests
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const sku = event.target.value;
+    const supabase = browserClient();
+
+    const { data: product, error } = await supabase
+      .from('products')
+      .select(
+        'id, sku, name, type, qty, price, description, image_url, published',
+      )
+      .eq('sku', sku)
+      .limit(1)
+      .single();
+
+    if (error) {
+      console.error(error);
+    }
+
+    if (product) {
+      // pre-fill all the fields with the existing data
+      const idInput = document.querySelector<HTMLInputElement>('#id');
+      const skuInput = document.querySelector<HTMLInputElement>('#sku');
+      const nameInput = document.querySelector<HTMLInputElement>('#name');
+      const typeInput = document.querySelector<HTMLInputElement>('#type');
+      const qtyInput = document.querySelector<HTMLInputElement>('#qty');
+      const priceInput = document.querySelector<HTMLInputElement>('#price');
+      const descriptionInput =
+        document.querySelector<HTMLTextAreaElement>('#description');
+
+      idInput.defaultValue = product.id;
+      skuInput.defaultValue = product.sku;
+      nameInput.defaultValue = product.name;
+      typeInput.defaultValue = product.type;
+      qtyInput.defaultValue = product.qty;
+      priceInput.defaultValue = product.price;
+      descriptionInput.value = product.description;
+      setPublished(product.published);
+
+      // update the preview image
+      setSelectedImage(product.image_url);
     }
   };
 
@@ -83,6 +134,11 @@ export function DialogProduct({
         <form onSubmit={save}>
           <div className="block md:grid md:grid-flow-col md:grid-cols-1 md:gap-4">
             <div className="py-4 md:col-span-2 md:grid">
+              {/* Hidden input for ID container for prefilled forms */}
+              <div className="mb-3 hidden items-center">
+                <Input name="id" id="id" onChange={checkExisting} />
+              </div>
+
               <div className="mb-3 items-center">
                 <Label htmlFor="sku">SKU</Label>
                 <Input
@@ -92,6 +148,7 @@ export function DialogProduct({
                   placeholder="TDM-09-B"
                   className="col-span-3"
                   minLength={4}
+                  onChange={checkExisting}
                   required
                 />
               </div>
@@ -222,7 +279,7 @@ export function DialogProduct({
                 </Label>
                 <Switch
                   id="published"
-                  defaultChecked={published}
+                  checked={published}
                   name="published"
                   onClick={() => setPublished(!published)}
                 />
