@@ -53,7 +53,7 @@ export const getProducts = async ({ supabase }: DatabaseSession = {}) => {
 };
 
 export const getProductBySku = async (
-  id: number,
+  sku: string,
   { supabase }: DatabaseSession = {},
 ) => {
   const log = new Logger();
@@ -66,7 +66,7 @@ export const getProductBySku = async (
   const { data, error } = await supabase
     .from('products')
     .select('id, sku, name, type, price')
-    .eq('id', id)
+    .eq('sku', sku)
     .eq('published', true)
     .single();
 

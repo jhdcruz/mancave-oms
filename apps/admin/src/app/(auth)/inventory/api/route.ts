@@ -30,10 +30,10 @@ export const GET = withAxiom(async (req: AxiomRequest) => {
   }
 
   if (productSku) {
-    const sku = parseInt(productSku);
-
-    const { data } = await getProductBySku(sku, { supabase: supabase });
-    return NextResponse.json({ data });
+    const { data, error } = await getProductBySku(productSku, {
+      supabase: supabase,
+    });
+    return NextResponse.json({ data, error });
   }
 
   const { data } = await getProducts({ supabase: supabase });
