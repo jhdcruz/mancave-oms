@@ -26,9 +26,7 @@ export const GET = withAxiom(async (req: AxiomRequest) => {
   }
 
   if (orderDetails) {
-    const orderId = parseInt(orderDetails);
-
-    const { data } = await getOrderDetails(orderId, {
+    const { data } = await getOrderDetails(orderDetails, {
       supabase: supabase,
     });
     return NextResponse.json({ data });

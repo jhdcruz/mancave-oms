@@ -62,7 +62,7 @@ export const getOrders = async ({ supabase }: DatabaseSession = {}) => {
 };
 
 export const getOrderDetails = async (
-  order_id: number,
+  order_id: string,
   { supabase }: DatabaseSession = {},
 ) => {
   const log = new Logger();
@@ -73,12 +73,12 @@ export const getOrderDetails = async (
   }
 
   const { data, error } = await supabase
-    .from('orders')
+    .from('order_items')
     .select(
       `
       id,
       qty,
-      products:product_id (
+      product:product_id (
         id,
         sku,
         name,
