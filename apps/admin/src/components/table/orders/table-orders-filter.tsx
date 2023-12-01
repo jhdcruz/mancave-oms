@@ -5,7 +5,8 @@ import {
   Package,
   PackageCheck,
   PackageSearch,
-  PackageX, Truck,
+  PackageX,
+  Truck,
   XCircle,
 } from 'lucide-react';
 
@@ -57,5 +58,24 @@ export const payment = [
     value: 'card',
     label: 'Credit/Debit Card',
     icon: CreditCard,
+  },
+];
+
+export const orderDue = [
+  {
+    value: 'recent',
+    label: 'Recent (24h)',
+  },
+  {
+    value: '3d',
+    label: '3 Days (3d)',
+  },
+  {
+    value: '7d',
+    label: 'Week (7d)',
+  },
+  {
+    value: 'overdue',
+    label: 'Overdue (1m+)',
   },
 ];

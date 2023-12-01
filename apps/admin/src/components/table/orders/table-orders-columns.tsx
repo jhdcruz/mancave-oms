@@ -113,6 +113,49 @@ export const orderColumns: ColumnDef<Orders>[] = [
         <div className="flex">{formatDate(row.getValue('created_at'))}</div>
       );
     },
+    filterFn: (row, id, value) => {
+      const nonFulfilledStatuses = [
+        'Processing',
+        'Packed',
+        'Shipped',
+        'Return Request',
+      ];
+
+      const ignored = nonFulfilledStatuses.includes(
+        row.getValue('order_status'),
+      );
+
+      const currentDate = new Date();
+      const oneDayAgo = new Date(
+        currentDate.setDate(currentDate.getDate() - 1),
+      );
+      const threeDaysAgo = new Date(
+        currentDate.setDate(currentDate.getDate() - 3),
+      );
+      const sevenDaysAgo = new Date(
+        currentDate.setDate(currentDate.getDate() - 7),
+      );
+      const thirtyDaysAgo = new Date(
+        currentDate.setDate(currentDate.getDate() - 30),
+      );
+
+      const rowDate = new Date(row.getValue(id));
+
+      switch (true) {
+        // filter items created within 24 hours
+        case value.includes('recent') && ignored:
+          return rowDate >= oneDayAgo;
+        // filter items created within 3 days but not within 24 hours
+        case value.includes('3d') && ignored:
+          return rowDate < oneDayAgo && rowDate >= threeDaysAgo;
+        // filter items created within 7 days but not within 3 days
+        case value.includes('7d') && ignored:
+          return rowDate < threeDaysAgo && rowDate >= sevenDaysAgo;
+        // filter items that are created over 30 days and so on but not within 7 days
+        case value.includes('overdue') && ignored:
+          return rowDate < sevenDaysAgo && rowDate >= thirtyDaysAgo;
+      }
+    },
   },
   {
     accessorKey: 'payment_status',
