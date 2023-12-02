@@ -64,7 +64,7 @@ const MainRoutes = ({ session }: { session: Session | null }) => {
         .filter((route: CommandProps) => route.trigger !== 'Dashboard')
         .map((route: CommandProps) => (
           <NavigationMenuItem key={route.href}>
-            <Link href={route.href} prefetch={false} passHref>
+            <Link href={route.href} passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 {route.trigger}
               </NavigationMenuLink>
@@ -82,7 +82,7 @@ const MainRoutes = ({ session }: { session: Session | null }) => {
         )
         .map((route: CommandProps) => (
           <NavigationMenuItem key={route.href}>
-            <Link href={route.href} prefetch={false} passHref>
+            <Link href={route.href} passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 {route.trigger}
               </NavigationMenuLink>
