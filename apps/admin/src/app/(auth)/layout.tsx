@@ -10,7 +10,6 @@ import { getCurrentSession } from '@mcsph/supabase/ops/user';
 import { defaultUrl } from '@mcsph/utils';
 
 import '@mcsph/ui/globals.css';
-import { Session } from '@sentry/nextjs';
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
