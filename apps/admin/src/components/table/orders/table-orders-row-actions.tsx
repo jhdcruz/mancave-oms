@@ -76,12 +76,19 @@ export function TableOrdersRowActions<TData>({
     setUpdateLoading(false);
   };
 
-  useEffect(() => {
+  const isUserAdmin = async () => {
     const supabase = browserClient();
-    const { data } = supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    setIsAdmin(data?.session?.user?.user_metadata?.role === 'Admin');
-  }, []);
+    setIsAdmin(session?.user?.user_metadata?.role === 'Admin');
+  };
+
+  useEffect(() => {
+    // noinspection JSIgnoredPromiseFromCall
+    isUserAdmin();
+  }, [isAdmin]);
 
   // We're only going to allow/show delete for admin,
   // else, default to edit without any dropdown, since its redundant

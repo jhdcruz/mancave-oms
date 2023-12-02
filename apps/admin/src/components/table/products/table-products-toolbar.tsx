@@ -54,11 +54,12 @@ export function DataTableProductsToolbar<TData>({
     // include who updated the product
     formData.append('last_updated_by', session.user.id);
 
-    if (formData.get('id') === null || formData.get('id') === '') {
+    const productId = Number(formData.get('id'));
+
+    if (productId) {
       await createProduct(formData, { supabase });
     } else {
-      const id = formData.get('id') as number;
-      await updateProduct(id, formData, {
+      await updateProduct(productId, formData, {
         supabase,
       });
     }

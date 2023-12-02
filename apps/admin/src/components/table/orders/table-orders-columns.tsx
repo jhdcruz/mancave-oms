@@ -154,6 +154,8 @@ export const orderColumns: ColumnDef<Orders>[] = [
         // filter items that are created over 30 days and so on but not within 7 days
         case value.includes('overdue') && ignored:
           return rowDate < sevenDaysAgo && rowDate >= thirtyDaysAgo;
+        default:
+          return value.includes(row.getValue(id));
       }
     },
   },
