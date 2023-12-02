@@ -3,6 +3,8 @@
   "name": "@mcsph/monorepo",
   "scripts": {
     "dev": "dotenv -- turbo dev",
+    "dev:admin": "dotenv -- turbo dev --filter @mcsph/admin",
+    "dev:web": "dotenv -- turbo dev --filter @mcsph/web",
     "build": "turbo build",
     "start": "turbo start",
     "lint": "turbo lint",
