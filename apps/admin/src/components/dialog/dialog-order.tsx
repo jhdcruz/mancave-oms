@@ -89,7 +89,7 @@ export function DialogOrder({
     // save the sku to the state which in turn
     // will be used to fetch the product details
     // when a change is detected
-    const { data: productDetails } = await getProductBySku(productSku, {
+    const { data: productDetails, error } = await getProductBySku(productSku, {
       supabase: browserClient(),
     });
 
@@ -115,11 +115,13 @@ export function DialogOrder({
 
         setOrders([...orders, productDetail]);
       }
-    } else {
+    }
+
+    if (error) {
       toast({
         variant: 'destructive',
         title: 'Product not found',
-        description: 'Please check the SKU and try again.',
+        description: error.message,
       });
     }
   };
