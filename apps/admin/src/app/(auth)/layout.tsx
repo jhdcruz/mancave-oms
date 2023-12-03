@@ -15,10 +15,6 @@ import '@mcsph/ui/globals.css';
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Man Cave Supplies PH, Inc. | Staff Portal',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
   icon: [
     {
       rel: 'icon',
