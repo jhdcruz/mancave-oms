@@ -7,7 +7,8 @@ import SWRProvider from '@/components/swr-provider';
 import ThemeProvider from '@mcsph/ui/containers/theme-provider';
 
 import { getCurrentSession } from '@mcsph/supabase/ops/user';
-import { defaultUrl } from '@mcsph/utils';
+import { Session } from '@mcsph/supabase/types';
+import { cn, defaultUrl } from '@mcsph/utils';
 
 import '@mcsph/ui/globals.css';
 
@@ -46,7 +47,10 @@ const LazyLoadNav = dynamic(() => import('@/components/nav/header-nav'), {
   loading: () => <header className="sticky top-0 z-50 h-16 w-full border-b" />,
 });
 
-const HeaderNav = memo(LazyLoadNav);
+const HeaderNav = memo(({ session }: { session: Session | null }) => {
+  return <LazyLoadNav session={session} />;
+});
+HeaderNav.displayName = 'HeaderNav';
 
 export default async function RootLayout({
   children,
@@ -56,7 +60,11 @@ export default async function RootLayout({
   const { session } = await getCurrentSession();
 
   return (
-    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={cn('antialiased', GeistSans.className)}
+      suppressHydrationWarning
+    >
       <AxiomWebVitals />
 
       <body>

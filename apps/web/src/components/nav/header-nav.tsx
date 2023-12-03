@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import Link from 'next/link';
-import { Boxes, ClipboardSignature } from 'lucide-react';
+import { Boxes } from 'lucide-react';
 
 import {
   NavigationMenu,
@@ -27,7 +27,7 @@ export type NavProps = {
   extRoutes?: ReactNode | Iterable<ReactNode>;
 };
 
-export default function HeaderNav({ session }: { session: Session }) {
+export default function HeaderNav({ session }: { session: Session | null }) {
   return (
     <MainNav
       session={session}
@@ -59,7 +59,7 @@ const MainNav = ({
   mainRoutes,
   extRoutes,
   session,
-}: { session: Session } & NavProps) => {
+}: { session: Session | null } & NavProps) => {
   // Google logins does not return first_name and last_name
   const getSessionName = (): string => {
     if (session?.user?.user_metadata?.first_name) {
