@@ -2,7 +2,7 @@
   "extends": "@mcsph/tooling/tsconfig/next.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {},
+    "paths": {}
   },
   "include": ["components", "containers", "globals.css"]
 }

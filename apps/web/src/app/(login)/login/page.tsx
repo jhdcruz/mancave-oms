@@ -20,8 +20,8 @@ const LoginScreen = dynamic(() => import('@mcsph/ui/containers/login-screen'), {
 });
 
 export default async function LoginPage({
-                                          searchParams,
-                                        }: {
+  searchParams,
+}: {
   searchParams: { title: string; message: string };
 }) {
   const cookieStore = cookies();

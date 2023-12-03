@@ -3,7 +3,11 @@
 import { useRouter } from 'next/navigation';
 import { UserCircle } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@mcsph/ui/components/avatar';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@mcsph/ui/components/avatar';
 import { Button } from '@mcsph/ui/components/button';
 import {
   DropdownMenu,
