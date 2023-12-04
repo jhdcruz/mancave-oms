@@ -14,5 +14,5 @@ import { createBrowserClient } from '@supabase/ssr';
 export const adminBrowserClient = () =>
   createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ADMIN_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE!,
   );

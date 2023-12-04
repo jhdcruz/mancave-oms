@@ -1,8 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
-import { redirect, useSearchParams, RedirectType } from 'next/navigation';
-import { useLogger } from 'next-axiom';
+import { useSearchParams } from 'next/navigation';
 import { useSWRConfig } from 'swr';
 import { Plus, X } from 'lucide-react';
 
@@ -10,25 +9,27 @@ import { Button } from '@mcsph/ui/components/button';
 import { Input } from '@mcsph/ui/components/input';
 import { Separator } from '@mcsph/ui/components/separator';
 
-import { DialogProduct } from '@/components/dialog/dialog-product';
-
 import { DataTableFacetedFilter } from '../data-table-faceted-filter';
 import { DataTableViewOptions } from '../data-table-view-options';
-import { states, stocks } from './table-products-filters';
+import { roles, active } from './table-employees-filters';
 import type { DataTableToolbarProps } from '../data-table-props';
 
 import { browserClient } from '@mcsph/supabase/lib/client';
-import { createProduct, updateProduct } from '@mcsph/supabase/ops/products';
+import { updateEmployee } from '@mcsph/supabase/ops/user';
+import { DialogEmployee } from '@/components/dialog/dialog-employee';
+import { uploadAndGetAvatarImageUrl } from '@mcsph/supabase/ops/user/utils/storage';
+import { useToast } from '@mcsph/ui/components/use-toast';
 
-export function DataTableProductsToolbar<TData>({
+export function DataTableEmployeesToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
-  const log = useLogger();
   const { mutate } = useSWRConfig();
 
   const [dialog, setDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const isFiltered = table.getState().columnFilters.length > 0;
+
+  const { toast } = useToast();
 
   const searchParams = useSearchParams();
 
@@ -38,33 +39,67 @@ export function DataTableProductsToolbar<TData>({
     setLoading(true);
 
     const supabase = browserClient();
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (!session) {
-      // if it gets to this point (which is not supposed to),
-      // cookie probably expired or something tampered with it
-      log.info('Session data not found');
-      return redirect('/login', RedirectType.replace);
-    }
-
     const formData = new FormData(formEvent.target as HTMLFormElement);
 
-    // include who updated the product
-    formData.append('last_updated_by', session.user.id);
+    const userId = formData.get('id') as string;
 
-    const productId = Number(formData.get('id'));
-
-    if (!productId) {
-      await createProduct(formData, { supabase: supabase });
-    } else {
-      await updateProduct(productId, formData, {
+    if (userId.trim()) {
+      const { employee } = await updateEmployee(userId, formData, {
         supabase: supabase,
       });
+
+      const res: Record<string, any> = await fetch('/admin/api/auth/update', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(employee),
+      });
+
+      if (res.error) {
+        toast({
+          title: 'Invalid user details submitted',
+          description: res.error.message,
+          variant: 'destructive',
+        });
+      } else {
+        const email = formData.get('email') as string;
+        const image = formData.get('image') as File;
+
+        const url = await uploadAndGetAvatarImageUrl(email, image, {
+          supabase: supabase,
+        });
+
+        // we already have triggers in database to create entry in employees table
+        const res: Record<string, any> = await fetch('/admin/api/auth/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            avatar_url: url as string,
+            first_name: formData.get('first_name') as string,
+            last_name: formData.get('last_name') as string,
+            middle_name: formData.get('middle_name') as string,
+            email: formData.get('email') as string,
+            phone: formData.get('phone') as string,
+            role: formData.get('role') as string,
+            active: formData.get('active') as unknown as boolean,
+            password: formData.get('password') as string,
+          }),
+        });
+
+        if (res.error) {
+          toast({
+            title: 'Invalid user details submitted',
+            description: res.error.message,
+            variant: 'destructive',
+          });
+        }
+      }
     }
 
-    await mutate('/inventory/api');
+    await mutate('/admin/api?q=employees');
 
     setLoading(false);
     setDialog(false);
@@ -81,7 +116,7 @@ export function DataTableProductsToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="block w-full items-center md:flex md:w-auto md:flex-1 md:space-x-2">
         <Input
-          placeholder="Filter products..."
+          placeholder="Filter employees..."
           value={
             ((table.getColumn('sku')?.getFilterValue() as string) ?? '') ||
             ((table.getColumn('name')?.getFilterValue() as string) ?? '')
@@ -98,7 +133,7 @@ export function DataTableProductsToolbar<TData>({
           onClick={() => setDialog(true)}
         >
           <Plus className="mr-2 h-4 w-4" />
-          Add Product
+          Add User
         </Button>
 
         <Separator
@@ -107,7 +142,7 @@ export function DataTableProductsToolbar<TData>({
         />
 
         {dialog && (
-          <DialogProduct
+          <DialogEmployee
             save={(details) => saveProduct(details)}
             open={dialog}
             setOpen={setDialog}
@@ -117,21 +152,19 @@ export function DataTableProductsToolbar<TData>({
 
         <span className="mr-2 text-sm text-muted-foreground">Filters:</span>
 
-        {/* Allow filtering between product states*/}
-        {table.getColumn('published') && (
+        {table.getColumn('role') && (
           <DataTableFacetedFilter
-            column={table.getColumn('published')}
-            title="Status"
-            options={states}
+            column={table.getColumn('role')}
+            title="Roles"
+            options={roles}
           />
         )}
 
-        {/* Allow filtering between stocks */}
-        {table.getColumn('qty') && (
+        {table.getColumn('active') && (
           <DataTableFacetedFilter
-            column={table.getColumn('qty')}
-            title="Stocks"
-            options={stocks}
+            column={table.getColumn('active')}
+            title="Active"
+            options={active}
           />
         )}
 

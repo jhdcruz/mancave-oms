@@ -16,6 +16,8 @@ import { Label } from '@mcsph/ui/components/label';
 import { Separator } from '@mcsph/ui/components/separator';
 import { Switch } from '@mcsph/ui/components/switch';
 import { Textarea } from '@mcsph/ui/components/textarea';
+import { Skeleton } from '@mcsph/ui/components/skeleton';
+import { cn } from '@mcsph/utils';
 
 import { Products } from '../table/products/table-products-schema';
 
@@ -245,10 +247,13 @@ export function DialogProduct({
                     {rowData?.image_url ? (
                       <>
                         {imgLoad && (
-                          <Loader2 className="mx-auto my-3 h-8 w-8 animate-spin" />
+                          <Skeleton className="mx-auto my-3 h-[320px] w-[320px]" />
                         )}
                         <Image
-                          className="mx-auto my-3 rounded-md object-cover"
+                          className={cn(
+                            imgLoad ? 'w-0 h-0' : '',
+                            'mx-auto my-3 rounded-md object-cover',
+                          )}
                           src={rowData?.image_url}
                           width={320}
                           height={320}

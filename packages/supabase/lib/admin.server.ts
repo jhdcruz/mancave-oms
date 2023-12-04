@@ -18,7 +18,7 @@ export const adminServerClient = (cookieStore: ReturnType<typeof cookies>) => {
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ADMIN_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE!,
     {
       cookies: {
         get(name: string) {

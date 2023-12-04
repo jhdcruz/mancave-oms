@@ -87,15 +87,9 @@ export const mainRoutes: CommandProps[] = [
       ...externalRoutes,
       {
         icon: <UserPlus className="mr-2 h-4 w-4" />,
-        href: '/employees?action=new',
+        href: '/admin?action=new',
         title: 'Employees',
         description: 'View lis of employed employees.',
-      },
-      {
-        icon: <Users2 className="mr-2 h-4 w-4" />,
-        href: '/customers',
-        title: 'Customers',
-        description: 'View your customers.',
       },
     ],
   },
