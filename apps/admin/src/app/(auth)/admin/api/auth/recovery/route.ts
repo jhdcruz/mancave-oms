@@ -26,5 +26,9 @@ export const POST = withAxiom(async (req: AxiomRequest) => {
         },
       );
       return NextResponse.json({ passwordError });
+    default:
+      break;
   }
+
+  return NextResponse.json({});
 });

@@ -24,4 +24,6 @@ export const GET = withAxiom(async (req: AxiomRequest) => {
     const { data } = await getEmployees({ supabase: supabase });
     return NextResponse.json({ data });
   }
+
+  return NextResponse.json({});
 });
