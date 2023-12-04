@@ -19,6 +19,10 @@ module.exports = withAxiom({
         protocol: 'https',
         hostname: 'ysuydfdtwhnssryeucop.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: '*.googleusercontent.com',
+      },
     ],
   },
 
