@@ -1,15 +1,14 @@
 import { memo, ReactNode } from 'react';
-import dynamic from 'next/dynamic';
 import { AxiomWebVitals } from 'next-axiom';
 import { GeistSans } from 'geist/font/sans';
 
-import SWRProvider from '@/components/swr-provider';
 import ThemeProvider from '@mcsph/ui/containers/theme-provider';
+import SWRProvider from '@/components/swr-provider';
 
-import { getCurrentSession } from '@mcsph/supabase/ops/user';
 import { Session } from '@mcsph/supabase/types';
 import { cn, defaultUrl } from '@mcsph/utils';
 
+import Nav from '@/components/nav/Nav';
 import '@mcsph/ui/globals.css';
 
 export const metadata = {
@@ -38,23 +37,13 @@ export const metadata = {
   ],
 };
 
-const LazyLoadNav = dynamic(() => import('@/components/nav/header-nav'), {
-  ssr: false,
-  loading: () => <header className="sticky top-0 z-50 h-16 w-full border-b" />,
-});
-
-const HeaderNav = memo(({ session }: { session: Session | null }) => {
-  return <LazyLoadNav session={session} />;
-});
-HeaderNav.displayName = 'HeaderNav';
+const SiteNav = memo(Nav);
 
 export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const { session } = await getCurrentSession();
-
   return (
     <html
       lang="en"
@@ -66,7 +55,7 @@ export default async function RootLayout({
       <body>
         <SWRProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <HeaderNav session={session} />
+            <SiteNav />
 
             <main>{children}</main>
           </ThemeProvider>

@@ -82,7 +82,7 @@ export const mainRoutes: CommandProps[] = [
     icon: <ShieldPlus className="mr-2 h-4 w-4" />,
     name: 'User Management',
     description: 'Manage system employees and users.',
-    href: '/employees',
+    href: '/admin',
     actions: [
       ...externalRoutes,
       {

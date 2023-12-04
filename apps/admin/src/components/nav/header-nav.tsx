@@ -40,7 +40,7 @@ export default function HeaderNav({ session }: { session: Session | null }) {
       user={{
         avatar: session?.user?.user_metadata?.avatar_url,
         name: getSessionName(),
-        email: session?.user.email,
+        email: session?.user?.email,
       }}
     />
   );
