@@ -10,7 +10,7 @@ export const GET = withAxiom(async (req: AxiomRequest) => {
 
   const { error } = await supabase.auth.signOut();
 
-  req.log.error('User had an error in signing out', { error });
+  if (error) req.log.error('User had an error in signing out', { error });
 
   // URL to redirect to after sign in process completes
   return NextResponse.redirect(new URL('/login', req.url));
