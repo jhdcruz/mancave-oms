@@ -219,7 +219,7 @@ export function DialogCustomer({
               </div>
 
               <div className="mb-3 items-center">
-                <Label htmlFor="full_name">Customer</Label>
+                <Label htmlFor="full_name">Full Name</Label>
                 <Input
                   id="full_name"
                   name="full_name"

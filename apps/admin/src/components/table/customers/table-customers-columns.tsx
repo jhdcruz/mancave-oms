@@ -75,7 +75,7 @@ export const customersColumn: ColumnDef<Customer>[] = [
   {
     accessorKey: 'full_name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last Name" />
+      <DataTableColumnHeader column={column} title="Full Name" />
     ),
     cell: ({ row }) => (
       <div className="w-[120px] truncate font-semibold">
