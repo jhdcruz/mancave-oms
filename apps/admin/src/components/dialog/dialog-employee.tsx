@@ -217,12 +217,7 @@ export function DialogEmployee({
 
               {/* Hidden input for ID container for prefilled forms */}
               <div className="mb-3 hidden items-center">
-                <Input
-                  name="id"
-                  id="id"
-                  defaultValue={rowData?.id}
-                  onChange={checkExisting}
-                />
+                <Input name="id" id="id" defaultValue={rowData?.id} />
               </div>
 
               <div className="mb-3 items-center">
@@ -246,6 +241,7 @@ export function DialogEmployee({
                     id="password"
                     name="password"
                     type="password"
+                    minLength={7}
                     autoComplete="current-password"
                   />
                 </div>

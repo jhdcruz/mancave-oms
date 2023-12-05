@@ -20,23 +20,34 @@ export const POST = withAxiom(async (req: AxiomRequest) => {
   const role = body.role;
   const active = body.active;
 
+  const userData = {
+    avatar_url: avatar_url,
+    first_name: first_name,
+    last_name: last_name,
+    middle_name: middle_name,
+    email: email,
+    phone: phone,
+    role: role,
+    active: active,
+  };
+
   const { data: user, error } = await supabase.auth.admin.createUser({
     email: email,
     password: password,
     email_confirm: true,
-    user_metadata: {
-      avatar_url: avatar_url,
-      first_name: first_name,
-      last_name: last_name,
-      middle_name: middle_name,
-      email: email,
-      phone: phone,
-      role: role,
-      active: active,
-    },
+    user_metadata: userData,
   });
 
-  if (error) req.log.error('Error creating user to auth.users', { error });
+  if (error) {
+    req.log.error('Error creating user to auth.users', { error });
+  } else {
+    const { error: dbError } = await supabase.from('employees').insert({
+      id: user.user.id,
+      ...userData,
+    });
+
+    if (dbError) req.log.error('Error creating user to employees', { dbError });
+  }
 
   return NextResponse.json({ user, error });
 });

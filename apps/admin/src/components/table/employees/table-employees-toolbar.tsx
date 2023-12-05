@@ -43,7 +43,7 @@ export function DataTableEmployeesToolbar<TData>({
 
     const userId = formData.get('id') as string;
 
-    if (userId.trim()) {
+    if (userId) {
       const { employee } = await updateEmployee(userId, formData, {
         supabase: supabase,
       });
@@ -53,7 +53,16 @@ export function DataTableEmployeesToolbar<TData>({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(employee),
+        body: JSON.stringify({
+          avatar_url: employee.avatar_url,
+          first_name: employee.first_name,
+          last_name: employee.last_name,
+          middle_name: employee.middle_name,
+          email: employee.email,
+          phone: employee.phone,
+          role: employee.role,
+          active: employee.active,
+        }),
       });
 
       if (res.error) {
@@ -62,40 +71,44 @@ export function DataTableEmployeesToolbar<TData>({
           description: res.error.message,
           variant: 'destructive',
         });
-      } else {
-        const email = formData.get('email') as string;
-        const image = formData.get('image') as File;
+      }
+    } else {
+      const email = formData.get('email') as string;
+      const image = formData.get('image') as File;
 
-        const url = await uploadAndGetAvatarImageUrl(email, image, {
+      let imageUrl;
+
+      if (image.size > 0) {
+        imageUrl = await uploadAndGetAvatarImageUrl(email, image, {
           supabase: supabase,
         });
+      }
 
-        // we already have triggers in database to create entry in employees table
-        const res: Record<string, any> = await fetch('/admin/api/auth/create', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            avatar_url: url as string,
-            first_name: formData.get('first_name') as string,
-            last_name: formData.get('last_name') as string,
-            middle_name: formData.get('middle_name') as string,
-            email: formData.get('email') as string,
-            phone: formData.get('phone') as string,
-            role: formData.get('role') as string,
-            active: formData.get('active') as unknown as boolean,
-            password: formData.get('password') as string,
-          }),
+      // we already have triggers in database to create entry in employees table
+      const res: Record<string, any> = await fetch('/admin/api/auth/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          avatar_url: imageUrl as string,
+          first_name: formData.get('first_name') as string,
+          last_name: formData.get('last_name') as string,
+          middle_name: formData.get('middle_name') as string,
+          email: formData.get('email') as string,
+          phone: formData.get('phone') as string,
+          role: formData.get('role') as string,
+          active: !!formData.get('active'),
+          password: formData.get('password') as string,
+        }),
+      });
+
+      if (res.error) {
+        toast({
+          title: 'Invalid user details submitted',
+          description: res.error.message,
+          variant: 'destructive',
         });
-
-        if (res.error) {
-          toast({
-            title: 'Invalid user details submitted',
-            description: res.error.message,
-            variant: 'destructive',
-          });
-        }
       }
     }
 

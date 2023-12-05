@@ -26,7 +26,7 @@ export const processUserData = async (
       email: userData.get('email') as string,
       phone: userData.get('phone') as string,
       role: userData.get('role') as string,
-      active: (userData.get('active') as unknown as boolean) ?? true,
+      active: (userData.get('active') as unknown as boolean) ?? false,
     };
   } else {
     // return FormData without the avatar url
@@ -37,7 +37,7 @@ export const processUserData = async (
       email: userData.get('email') as string,
       phone: userData.get('phone') as string,
       role: userData.get('role') as string,
-      active: (userData.get('active') as unknown as boolean) ?? true,
+      active: (userData.get('active') as unknown as boolean) ?? false,
     };
   }
 };

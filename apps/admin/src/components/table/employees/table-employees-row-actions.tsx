@@ -40,15 +40,15 @@ export function TableEmployeeRowActions<TData>({
 
     const supabase = browserClient();
 
-    await deleteEmployee(id, { supabase: supabase });
-
     await fetch('/admin/api/auth/delete', {
-      method: 'DELETE',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ id: id }),
     });
+
+    await deleteEmployee(id, { supabase: supabase });
 
     await mutate('/admin/api?q=employees');
 

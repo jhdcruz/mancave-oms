@@ -4,8 +4,8 @@ import { cookies } from 'next/headers';
 
 import { adminServerClient } from '@mcsph/supabase/lib/admin.server';
 
-export const DELETE = withAxiom(async (req: AxiomRequest) => {
-  const body: Record<string, any> = req.json();
+export const POST = withAxiom(async (req: AxiomRequest) => {
+  const body: Record<string, string> = await req.json();
 
   const cookieStore = cookies();
   const supabase = adminServerClient(cookieStore);

@@ -139,7 +139,7 @@ export function DialogProduct({
             <div className="py-4 md:col-span-2 md:grid">
               {/* Hidden input for ID container for prefilled forms */}
               <div className="mb-3 hidden items-center">
-                <Input name="id" id="id" onChange={checkExisting} />
+                <Input name="id" id="id" />
               </div>
 
               <div className="mb-3 items-center">
@@ -251,7 +251,7 @@ export function DialogProduct({
                         )}
                         <Image
                           className={cn(
-                            imgLoad ? 'w-0 h-0' : '',
+                            imgLoad ? 'h-0 w-0' : '',
                             'mx-auto my-3 rounded-md object-cover',
                           )}
                           src={rowData?.image_url}
