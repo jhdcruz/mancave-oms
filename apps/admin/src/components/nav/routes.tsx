@@ -99,7 +99,7 @@ export const mainRoutes: CommandProps[] = [
     name: 'Customers',
     description: 'Manage system customers.',
     href: '/customers',
-    action: [
+    actions: [
       {
         icon: <UserPlus className="mr-2 h-4 w-4" />,
         href: '/customers?action=new',

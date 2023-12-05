@@ -51,7 +51,7 @@ const Commands = ({ session }: { session: Session | null }) => {
     return mainRoutes;
   } else {
     return mainRoutes.filter(
-      (route: CommandProps) => route.trigger !== 'Admin',
+      (route: CommandProps) => route.trigger !== 'Staff',
     );
   }
 };
@@ -78,7 +78,7 @@ const MainRoutes = ({ session }: { session: Session | null }) => {
         // Don't show admin routes when user is not admin
         .filter(
           (route: CommandProps) =>
-            route.trigger !== 'Dashboard' && route.trigger !== 'Admin',
+            route.trigger !== 'Dashboard' && route.trigger !== 'Staff',
         )
         .map((route: CommandProps) => (
           <NavigationMenuItem key={route.href}>

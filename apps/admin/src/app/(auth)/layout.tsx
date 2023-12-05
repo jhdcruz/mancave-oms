@@ -5,10 +5,9 @@ import { GeistSans } from 'geist/font/sans';
 import ThemeProvider from '@mcsph/ui/containers/theme-provider';
 import SWRProvider from '@/components/swr-provider';
 
-import { Session } from '@mcsph/supabase/types';
 import { cn, defaultUrl } from '@mcsph/utils';
 
-import Nav from '@/components/nav/Nav';
+import Nav from '@/components/nav/nav';
 import '@mcsph/ui/globals.css';
 
 export const metadata = {
