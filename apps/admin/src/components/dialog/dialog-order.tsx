@@ -150,6 +150,7 @@ export function DialogOrder({
       .from('customers')
       .select()
       .eq('email', email)
+      .eq('active', true)
       .limit(1)
       .single();
 
