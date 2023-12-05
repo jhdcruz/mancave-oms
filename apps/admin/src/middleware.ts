@@ -51,10 +51,11 @@ export const middleware = withAxiom(async (req: AxiomRequest) => {
     const isNotInternalEmail = !session?.user?.email?.endsWith('@tip.edu.ph');
     const isNotAdmin = session?.user?.user_metadata?.role !== 'Admin';
     const isNotStaff = session?.user?.user_metadata?.role !== 'Staff';
+    const isNotActive = session?.user?.user_metadata?.active !== true;
 
     // destroy session and redirect to login if user is not admin or staff
     // or if user is not using an internal email (if google auth is used)
-    if (isNotAdmin && isNotStaff && isNotInternalEmail) {
+    if (isNotActive && isNotAdmin && isNotStaff && isNotInternalEmail) {
       await supabase.auth.signOut();
 
       return NextResponse.redirect(

@@ -25,9 +25,10 @@ export default async function LoginPage({
   searchParams: { title: string; message: string };
 }) {
   const cookieStore = cookies();
+  const supabase = serverClient(cookieStore);
   const {
     data: { session },
-  } = await serverClient(cookieStore).auth.getSession();
+  } = await supabase.auth.getSession();
 
   // redirect to home if user is already logged in
   if (session) redirect('/');

@@ -19,7 +19,7 @@ export default function LoginScreen({
   processing,
 }: {
   alert: { title: string; message: string };
-  status: () => Promise<boolean> | Promise<boolean> | boolean;
+  status: () => Promise<boolean> | boolean;
   formAction: ((formData: FormData) => Promise<void>) | undefined;
   processing?: boolean;
 }) {
