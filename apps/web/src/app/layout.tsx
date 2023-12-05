@@ -1,5 +1,6 @@
 import { memo, ReactNode } from 'react';
 import dynamic from 'next/dynamic';
+import { cookies } from 'next/headers';
 import { AxiomWebVitals } from 'next-axiom';
 import { GeistSans } from 'geist/font/sans';
 
@@ -56,7 +57,10 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const { session } = await getCurrentSession();
+  const cookieStore = await cookies();
+  const supabase = await serverClient(cookieStore);
+
+  const { session } = await getCurrentSession({ supabase: supabase });
 
   return (
     <html
