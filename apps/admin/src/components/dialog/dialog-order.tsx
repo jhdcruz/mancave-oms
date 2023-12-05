@@ -286,7 +286,7 @@ export function DialogOrder({
                   name="id"
                   id="id"
                   value={rowData?.id}
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
 
@@ -321,7 +321,7 @@ export function DialogOrder({
               </div>
 
               <div className="mb-3 hidden items-center">
-                <Input name="customer_id" id="customer_id" autocomplete="off" />
+                <Input name="customer_id" id="customer_id" autoComplete="off" />
               </div>
 
               <div className="mb-3 items-center">
