@@ -1,5 +1,5 @@
-import { FormEvent, useEffect, useState } from 'react';
-import useSWR from 'swr';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import useSWR, { useSWRConfig } from 'swr';
 import { Loader2, Plus, Trash2 } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
@@ -53,6 +53,8 @@ import { getProductBySku } from '@mcsph/supabase/ops/products';
  * FIXME: This should use the <Form> component
  *        instead of manually creating the form
  *        in combination with react-hook-forms
+ *
+ * FIXME: AAAAAAAAAAAAAAAAAAAAA DEADLINEEEE
  */
 export function DialogOrder({
   open = false,
@@ -63,14 +65,19 @@ export function DialogOrder({
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  loading: boolean;
-  save: (formEvent: FormEvent) => Promise<unknown>;
+  loading?: boolean;
+  save?: (formEvent: FormEvent) => Promise<unknown>;
   rowData?: Orders;
 }) {
+  const [dialog, setDialog] = useState(open ?? false);
+  const [formLoad, setFormLoad] = useState(loading ?? false);
   const [orders, setOrders] = useState<OrderDetails[]>([]);
   const [paid, setPaid] = useState(rowData?.payment_status);
 
+  const { mutate } = useSWRConfig();
   const { toast } = useToast();
+
+  if (!save) save = (event) => submitOrder(event);
 
   // gets the product orders for specific id
   const { data: productOrders, isLoading } = useSWR(
@@ -133,13 +140,104 @@ export function DialogOrder({
     setOrders(updatedOrders);
   };
 
+  const checkExisting = async (event: ChangeEvent<HTMLInputElement>) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const email = event.target.value;
+    const supabase = browserClient();
+
+    const { data: customer } = await supabase
+      .from('customers')
+      .select()
+      .eq('email', email)
+      .limit(1)
+      .single();
+
+    if (customer) {
+      const customerIdInput =
+        document.querySelector<HTMLInputElement>('#customer_id');
+      const nameInput =
+        document.querySelector<HTMLInputElement>('#customer_name');
+      const phoneInput = document.querySelector<HTMLInputElement>('#phone');
+      const shippingInput =
+        document.querySelector<HTMLTextAreaElement>('#shipping_address');
+      const billingInput =
+        document.querySelector<HTMLTextAreaElement>('#billing_address');
+
+      if (customerIdInput) customerIdInput.value = customer.id;
+      if (nameInput) nameInput.value = customer.full_name;
+      if (phoneInput) phoneInput.value = customer.phone;
+      if (shippingInput) shippingInput.value = customer.shipping_address;
+      if (billingInput) billingInput.value = customer.billing_address;
+    }
+  };
+
+  const submitOrder = async (formEvent: FormEvent) => {
+    formEvent.preventDefault();
+
+    setFormLoad(true);
+
+    const supabase = browserClient();
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    const formData = new FormData(formEvent.target as HTMLFormElement);
+
+    const customerId = formData.get('customer_id') as string;
+    const orderStatus = formData.get('order_status') as string;
+    const payment = formData.get('payment') as string;
+    const paymentStatus = formData.get('payment_status') as unknown as boolean;
+
+    // get total_price from p element with id of total_price
+    const priceElement = document.querySelector('#total_price') as HTMLElement;
+    // remove the peso sign
+    const totalPrice = priceElement.innerText.replace('₱', '');
+
+    const { data: createdOrder, error: orderError } = await supabase
+      .from('orders')
+      .insert({
+        customer: customerId,
+        total_price: +Number(totalPrice).toFixed(2),
+        order_status: orderStatus,
+        payment: payment,
+        payment_status: paymentStatus ?? false,
+        last_updated_by: session?.user?.id,
+      })
+      .select()
+      .single();
+
+    if (orderError) throw orderError;
+
+    const orderItems = [
+      ...orders.map((order) => ({
+        order_id: createdOrder.id,
+        product_id: order.product.id,
+        qty: order.qty,
+      })),
+    ];
+
+    const { error: orderItemsError } = await supabase
+      .from('order_items')
+      .insert(orderItems);
+
+    if (orderItemsError) throw orderItemsError;
+
+    await mutate('/orders/api');
+
+    open = false;
+    setFormLoad(false);
+    setDialog(false);
+  };
+
   useEffect(() => {
     setOrders(productOrders?.data ?? []);
   }, [productOrders, rowData]);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="data-[state=open]:animate-show data-[state=closed]:animate-hide h-max max-h-screen w-screen overflow-y-scroll rounded-lg md:min-h-max md:min-w-[750px] md:overflow-y-auto">
+    <Dialog open={open || dialog} onOpenChange={setOpen || setDialog}>
+      <DialogContent className="data-[state=open]:animate-show data-[state=closed]:animate-hide h-max max-h-screen w-screen overflow-x-hidden overflow-y-scroll rounded-lg md:min-h-max md:min-w-[750px] md:overflow-y-auto">
         <form onSubmit={save}>
           <DialogHeader>
             <DialogTitle>Order Details</DialogTitle>
@@ -182,6 +280,16 @@ export function DialogOrder({
                 </>
               )}
 
+              {/* Hidden input for ID container for prefilled forms */}
+              <div className="mb-3 hidden items-center">
+                <Input
+                  name="id"
+                  id="id"
+                  value={rowData?.id}
+                  autocomplete="off"
+                />
+              </div>
+
               <div className="mb-3 items-center">
                 <Label htmlFor="order_status">Order Status</Label>
 
@@ -212,15 +320,8 @@ export function DialogOrder({
                 </Select>
               </div>
 
-              <div className="mb-3 items-center">
-                <Label htmlFor="customer_name">Customer</Label>
-                <Input
-                  id="customer_name"
-                  name="customer_name"
-                  defaultValue={rowData?.customers?.full_name}
-                  className="col-span-3"
-                  disabled={!!rowData}
-                />
+              <div className="mb-3 hidden items-center">
+                <Input name="customer_id" id="customer_id" autocomplete="off" />
               </div>
 
               <div className="mb-3 items-center">
@@ -231,6 +332,18 @@ export function DialogOrder({
                   defaultValue={rowData?.customers?.email}
                   className="col-span-3"
                   disabled={!!rowData}
+                  onChange={checkExisting}
+                />
+              </div>
+
+              <div className="mb-3 items-center">
+                <Label htmlFor="customer_name">Customer</Label>
+                <Input
+                  id="customer_name"
+                  name="customer_name"
+                  defaultValue={rowData?.customers?.full_name}
+                  className="col-span-3"
+                  disabled={true}
                 />
               </div>
 
@@ -241,7 +354,7 @@ export function DialogOrder({
                   name="phone"
                   defaultValue={rowData?.customers?.phone}
                   className="col-span-3"
-                  disabled={!!rowData}
+                  disabled={true}
                 />
               </div>
 
@@ -252,7 +365,7 @@ export function DialogOrder({
                   id="shipping_address"
                   defaultValue={rowData?.customers?.shipping_address ?? ''}
                   name="shipping_address"
-                  disabled={!!rowData}
+                  disabled={true}
                   required
                 />
               </div>
@@ -264,7 +377,7 @@ export function DialogOrder({
                   id="billing_address"
                   defaultValue={rowData?.customers?.billing_address ?? ''}
                   name="billing_address"
-                  disabled={!!rowData}
+                  disabled={true}
                 />
               </div>
             </div>
@@ -335,7 +448,10 @@ export function DialogOrder({
                                 </Button>
                               )}
 
-                              <div className="block w-full">
+                              <div
+                                className="block w-full"
+                                key={order.product.sku}
+                              >
                                 <div className="flex items-center justify-between">
                                   <span className="font-bold">
                                     {order.product.sku}
@@ -403,7 +519,7 @@ export function DialogOrder({
                   <Label htmlFor="total_price" className="text-sm">
                     Total.
                   </Label>
-                  <p className="font-semibold">
+                  <p className="font-semibold" id="total_price">
                     {rowData ? (
                       <>{formatCurrency(rowData?.total_price ?? 0)}</>
                     ) : (
@@ -437,8 +553,8 @@ export function DialogOrder({
               </div>
 
               <div className="ml-3 items-center">
-                <Button disabled={loading} type="submit">
-                  {loading ? <Loader2 className="animate-spin" /> : <>Save</>}
+                <Button disabled={formLoad} type="submit">
+                  {formLoad ? <Loader2 className="animate-spin" /> : <>Save</>}
                 </Button>
               </div>
             </div>

@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { formatCurrency, formatDate } from '@mcsph/utils/lib/format';
 
 import { Badge } from '@mcsph/ui/components/badge';
+import { cn } from '@mcsph/utils';
 
 import { DataTableColumnHeader } from '../data-table-column-header';
 import { TableOrdersRowActions } from './table-orders-row-actions';
@@ -22,7 +23,7 @@ export const orderColumns: ColumnDef<Orders>[] = [
       <DataTableColumnHeader column={column} title="Ref. #" />
     ),
     cell: ({ row }) => (
-      <div className="w-[120px] truncate font-semibold text-muted-foreground">
+      <div className="w-[160px] truncate font-semibold text-muted-foreground">
         {row.getValue('id')}
       </div>
     ),
@@ -47,7 +48,7 @@ export const orderColumns: ColumnDef<Orders>[] = [
       <DataTableColumnHeader column={column} title="Customer" />
     ),
     cell: ({ row }) => (
-      <div className="w-[130px]">{row.original.customers.full_name}</div>
+      <div className="w-[160px]">{row.original.customers.full_name}</div>
     ),
   },
   {
@@ -107,7 +108,7 @@ export const orderColumns: ColumnDef<Orders>[] = [
       }
 
       return (
-        <div className="w-[80px]">
+        <div className="w-max">
           <Badge className={statusVariant}>{status}</Badge>
         </div>
       );

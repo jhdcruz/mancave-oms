@@ -28,8 +28,6 @@ export function TableOrdersRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
   const { mutate } = useSWRConfig();
 
-  const [isAdmin, setIsAdmin] = useState(false);
-
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -41,10 +39,8 @@ export function TableOrdersRowActions<TData>({
   const deleteSelected = async (id: string) => {
     setDeleteLoading(true);
 
-    if (isAdmin) {
-      await deleteOrder(id, { supabase: browserClient() });
-      await mutate('/orders/api');
-    }
+    await deleteOrder(id, { supabase: browserClient() });
+    await mutate('/orders/api');
 
     setDeleteDialog(false);
     setDeleteLoading(false);
@@ -62,7 +58,8 @@ export function TableOrdersRowActions<TData>({
     // as well as to prevent any form of tampering with the order,
     // If editing is desired, the order should be cancelled and a new one created
     const body = {
-      payment_status: formData.get('payment_status'),
+      payment_status:
+        (formData.get('payment_status') as unknown as boolean) ?? false,
       order_status: formData.get('order_status'),
     };
 
@@ -76,67 +73,42 @@ export function TableOrdersRowActions<TData>({
     setUpdateLoading(false);
   };
 
-  const isUserAdmin = async () => {
-    const supabase = browserClient();
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    setIsAdmin(session?.user?.user_metadata?.role === 'Admin');
-  };
-
-  useEffect(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    isUserAdmin();
-  }, [isAdmin]);
-
   // We're only going to allow/show delete for admin,
   // else, default to edit without any dropdown, since its redundant
   return (
     <>
-      {isAdmin ? (
-        <Button
-          variant="ghost"
-          className="flex px-4 py-2 data-[state=open]:bg-muted"
-          onClick={() => setUpdateDialog(true)}
-        >
-          <Settings size={16} />
-          <span className="sr-only">Edit order</span>
-        </Button>
-      ) : (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="flex px-4 py-2 data-[state=open]:bg-muted"
-            >
-              <Settings size={16} />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[160px]">
-            <DropdownMenuLabel className="truncate">
-              {order?.id}
-            </DropdownMenuLabel>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="flex px-4 py-2 data-[state=open]:bg-muted"
+          >
+            <Settings size={16} />
+            <span className="sr-only">Open menu</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-[160px]">
+          <DropdownMenuLabel className="truncate">
+            {order?.id}
+          </DropdownMenuLabel>
 
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setUpdateDialog(true)}>
-              <ClipboardEdit className="mr-2 h-4 w-4" />
-              Edit
-            </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => setUpdateDialog(true)}>
+            <ClipboardEdit className="mr-2 h-4 w-4" />
+            Edit
+          </DropdownMenuItem>
 
-            <DropdownMenuSeparator />
+          <DropdownMenuSeparator />
 
-            <DropdownMenuItem
-              className="text-red-600"
-              onClick={() => setDeleteDialog(true)}
-            >
-              <Trash2 className="mr-2 h-4 w-4" />
-              <span>Delete</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+          <DropdownMenuItem
+            className="text-red-600"
+            onClick={() => setDeleteDialog(true)}
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            <span>Delete</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       {/* Dialogs */}
       {updateDialog && (
@@ -149,7 +121,7 @@ export function TableOrdersRowActions<TData>({
         />
       )}
 
-      {isAdmin && deleteDialog && (
+      {deleteDialog && (
         <DialogDelete
           open={deleteDialog}
           setOpen={setDeleteDialog}

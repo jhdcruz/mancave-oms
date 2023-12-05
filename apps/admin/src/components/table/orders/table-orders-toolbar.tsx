@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useSWRConfig } from 'swr';
 import { Plus, X } from 'lucide-react';
 
 import { Button } from '@mcsph/ui/components/button';
@@ -20,23 +19,13 @@ import { DataTableFacetedFilter } from '../data-table-faceted-filter';
 import { DataTableViewOptions } from '../data-table-view-options';
 import type { DataTableToolbarProps } from '../data-table-props';
 
-import { browserClient } from '@mcsph/supabase/lib/client';
-
 export function DataTableOrdersToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
-  const { mutate } = useSWRConfig();
-
   const [dialog, setDialog] = useState(false);
-  const [loading, setLoading] = useState(false);
   const isFiltered = table.getState().columnFilters.length > 0;
 
   const searchParams = useSearchParams();
-
-  const addOrder = async (props: any) => {
-    // TODO
-    return props;
-  };
 
   useEffect(() => {
     // handles the new product action in command bar
@@ -70,14 +59,7 @@ export function DataTableOrdersToolbar<TData>({
           className="ml-4 hidden h-8 md:block"
         />
 
-        {dialog && (
-          <DialogOrder
-            save={(details) => addOrder(details)}
-            open={dialog}
-            setOpen={setDialog}
-            loading={loading}
-          />
-        )}
+        {dialog && <DialogOrder open={dialog} setOpen={setDialog} />}
 
         <span className="mr-2 text-sm text-muted-foreground">Filters:</span>
 
