@@ -21,11 +21,14 @@ import { DialogDelete } from '@/components/dialog/dialog-delete';
 
 import { deleteCustomer, updateCustomer } from '@mcsph/supabase/ops/user';
 import { browserClient } from '@mcsph/supabase/lib/client';
+import { useToast } from '@mcsph/ui/components/use-toast';
 
 export function TableCustomersRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const { mutate } = useSWRConfig();
+
+  const { toast } = useToast();
 
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -40,17 +43,29 @@ export function TableCustomersRowActions<TData>({
 
     const supabase = browserClient();
 
-    await fetch('/admin/api/auth/delete', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: id }),
-    });
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    await deleteCustomer(id, { supabase: supabase });
+    if (session?.user?.user_metadata?.role !== 'Admin') {
+      toast({
+        title: 'Action not allowed',
+        description: 'You are not allowed to delete customers.',
+        variant: 'destructive',
+      });
+    } else {
+      await fetch('/admin/api/auth/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id }),
+      });
 
-    await mutate('/customers/api?q=customers');
+      await deleteCustomer(id, { supabase: supabase });
+
+      await mutate('/customers/api?q=customers');
+    }
 
     setDeleteDialog(false);
     setDeleteLoading(false);
