@@ -28,6 +28,20 @@ export const employeeColumns: ColumnDef<Employee>[] = [
     cell: ({ row }) => <div className="hidden w-0">{row.getValue('id')}</div>,
     enableSorting: false,
     enableHiding: false,
+    filterFn: (row, id, value) => {
+      // allow search from first name to last name column
+      const firstName = row.getValue('first_name') as string;
+      const lastName = row.getValue('last_name') as string;
+      const middleName = row.getValue('middle_name') as string;
+      const email = row.getValue('email') as string;
+
+      return (
+        firstName.toLowerCase().includes(value.toLowerCase()) ||
+        lastName.toLowerCase().includes(value.toLowerCase()) ||
+        middleName.toLowerCase().includes(value.toLowerCase()) ||
+        email.toLowerCase().includes(value.toLowerCase())
+      );
+    },
   },
   {
     accessorKey: 'avatar_url',

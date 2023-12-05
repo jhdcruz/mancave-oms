@@ -50,13 +50,9 @@ export function DataTableOrdersToolbar<TData>({
       <div className="block w-full items-center md:flex md:w-auto md:flex-1 md:space-x-2">
         <Input
           placeholder="Filter orders..."
-          value={
-            ((table.getColumn('id')?.getFilterValue() as string) ?? '') ||
-            ((table.getColumn('full_name')?.getFilterValue() as string) ?? '')
-          }
+          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('id')?.setFilterValue(event.target.value) &&
-            table.getColumn('full_name')?.setFilterValue(event.target.value)
+            table.getColumn('id')?.setFilterValue(event.target.value)
           }
           className="w-full md:w-[250px] lg:w-[300px]"
         />

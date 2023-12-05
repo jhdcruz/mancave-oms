@@ -24,6 +24,23 @@ export const productColumns: ColumnDef<Products>[] = [
     cell: ({ row }) => <div className="hidden">{row.getValue('id')}</div>,
     enableSorting: false,
     enableHiding: false,
+    filterFn: (row, id, value) => {
+      const sku = row.getValue('sku') as string;
+      const name = row.getValue('name') as string;
+      const type = row.getValue('type') as string;
+
+      // allow case-insensitive search for sku and type
+      // and continue to allow case-insensitive search
+      // with splitting for name,
+      return (
+        sku.toLowerCase().includes(value.toLowerCase()) ||
+        name
+          .toLowerCase()
+          .split(' ')
+          .some((word) => word.includes(value.toLowerCase())) ||
+        type.toLowerCase().includes(value.toLowerCase())
+      );
+    },
   },
   {
     accessorKey: 'sku',

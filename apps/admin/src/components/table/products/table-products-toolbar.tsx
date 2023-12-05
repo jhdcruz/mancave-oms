@@ -82,13 +82,9 @@ export function DataTableProductsToolbar<TData>({
       <div className="block w-full items-center md:flex md:w-auto md:flex-1 md:space-x-2">
         <Input
           placeholder="Filter products..."
-          value={
-            ((table.getColumn('sku')?.getFilterValue() as string) ?? '') ||
-            ((table.getColumn('name')?.getFilterValue() as string) ?? '')
-          }
+          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('sku')?.setFilterValue(event.target.value) &&
-            table.getColumn('name')?.setFilterValue(event.target.value)
+            table.getColumn('id')?.setFilterValue(event.target.value)
           }
           className="w-full md:w-[250px] lg:w-[300px]"
         />

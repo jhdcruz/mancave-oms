@@ -27,6 +27,19 @@ export const orderColumns: ColumnDef<Orders>[] = [
       </div>
     ),
     enableSorting: false,
+    filterFn: (row, id, value) => {
+      const orderId = row.getValue('id') as string;
+      const customer = row.original.customers.full_name as string;
+
+      // allow case-insensitive search and search between split words
+      return (
+        orderId.toLowerCase().includes(value.toLowerCase()) ||
+        customer
+          .toLowerCase()
+          .split(' ')
+          .some((word) => word.includes(value.toLowerCase()))
+      );
+    },
   },
   {
     accessorKey: 'customers.full_name',
