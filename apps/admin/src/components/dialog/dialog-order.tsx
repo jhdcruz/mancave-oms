@@ -69,7 +69,6 @@ export function DialogOrder({
   save?: (formEvent: FormEvent) => Promise<unknown>;
   rowData?: Orders;
 }) {
-  const [dialog, setDialog] = useState(open ?? false);
   const [formLoad, setFormLoad] = useState(loading ?? false);
   const [orders, setOrders] = useState<OrderDetails[]>([]);
   const [paid, setPaid] = useState(rowData?.payment_status);
@@ -191,18 +190,18 @@ export function DialogOrder({
     const payment = formData.get('payment') as string;
     const paymentStatus = formData.get('payment_status') as unknown as boolean;
 
-    // get total_price from p element with id of total_price
-    const priceElement = document.querySelector('#total_price') as HTMLElement;
-    // remove the peso sign
-    const totalPrice = priceElement.innerText.replace('₱', '');
+    // TODO: get the element, undo the formatting
+    const totalPrice = () => {
+      return orders.reduce((a, b) => a + b.product.price * b.qty, 0);
+    };
 
     const { data: createdOrder, error: orderError } = await supabase
       .from('orders')
       .insert({
         customer: customerId,
-        total_price: +Number(totalPrice).toFixed(2),
+        total_price: totalPrice(),
         order_status: orderStatus,
-        payment: payment,
+        payment: payment.toLowerCase(),
         payment_status: paymentStatus ?? false,
         last_updated_by: session?.user?.id,
       })
@@ -227,9 +226,8 @@ export function DialogOrder({
 
     await mutate('/orders/api');
 
-    open = false;
+    setOpen(false);
     setFormLoad(false);
-    setDialog(false);
   };
 
   useEffect(() => {
@@ -237,7 +235,7 @@ export function DialogOrder({
   }, [productOrders, rowData]);
 
   return (
-    <Dialog open={open || dialog} onOpenChange={setOpen || setDialog}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="data-[state=open]:animate-show data-[state=closed]:animate-hide h-max max-h-screen w-screen overflow-x-hidden overflow-y-scroll rounded-lg md:min-h-max md:min-w-[750px] md:overflow-y-auto">
         <form onSubmit={save}>
           <DialogHeader>
