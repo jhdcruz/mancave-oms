@@ -42,6 +42,41 @@ export const processUserData = async (
   }
 };
 
+export const processCustomerData = async (
+  userData: FormData,
+  { supabase }: { supabase: SupabaseClient },
+) => {
+  const image = userData.get('image') as File;
+  const email = userData.get('email') as string;
+
+  if (image.size > 0) {
+    const url = await uploadAndGetAvatarImageUrl(email, image, {
+      supabase: supabase,
+    });
+
+    // return FormData with updated image_url
+    return {
+      avatar_url: url as string,
+      full_name: userData.get('full_name') as string,
+      email: userData.get('email') as string,
+      phone: userData.get('phone') as string,
+      shipping_address: userData.get('shipping_address') as string,
+      billing_address: userData.get('billing_address') as string,
+      active: (userData.get('active') as unknown as boolean) ?? false,
+    };
+  } else {
+    // return FormData without the avatar url
+    return {
+      full_name: userData.get('full_name') as string,
+      email: userData.get('email') as string,
+      phone: userData.get('phone') as string,
+      shipping_address: userData.get('shipping_address') as string,
+      billing_address: userData.get('billing_address') as string,
+      active: (userData.get('active') as unknown as boolean) ?? false,
+    };
+  }
+};
+
 /**
  * Upload userData image to userDatas bucket.
  *

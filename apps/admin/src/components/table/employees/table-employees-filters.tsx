@@ -2,11 +2,11 @@ import { AlertTriangle, Contact } from 'lucide-react';
 
 export const active = [
   {
-    value: true,
+    value: false,
     label: 'Disabled',
   },
   {
-    value: false,
+    value: true,
     label: 'Active',
   },
 ];

@@ -1,6 +1,5 @@
-import { serverClient } from '../../lib/server';
-import { DatabaseSession, SupabaseClient } from '../../types';
-import { processUserData, uploadAndGetAvatarImageUrl } from './utils/storage';
+import { SupabaseClient } from '../../types';
+import { processCustomerData, processUserData } from './utils/storage';
 
 /**
  * This method is useful for checking if the user is authorized
@@ -82,10 +81,9 @@ export const createEmployee = async (
 
   const { data: employee, error } = await supabase
     .from('employees')
-    .insert(formData)
+    .insert(formData);
 
   // return the employee
-  
 
   return { employee, error };
 };
@@ -124,6 +122,69 @@ export const disableEmployee = async (
     .from('employees')
     .update({ disabled: true })
     .eq('id', id);
+
+  return { error };
+};
+
+export const getTotalCustomers = async ({
+  supabase,
+}: {
+  supabase: SupabaseClient;
+}) => {
+  const { count, error } = await supabase
+    .from('customers')
+    .select('id', { count: 'exact' });
+
+  return { count, error };
+};
+
+export const getCustomers = async ({
+  supabase,
+}: {
+  supabase: SupabaseClient;
+}) => {
+  const { data, error } = await supabase.from('customers').select();
+
+  return { data, error };
+};
+
+export const createCustomer = async (
+  data: FormData,
+  { supabase }: { supabase: SupabaseClient },
+) => {
+  const formData = await processCustomerData(data, { supabase: supabase });
+
+  const { data: customer, error } = await supabase
+    .from('customers')
+    .insert(formData)
+    .select()
+    .single();
+
+  return { customer, error };
+};
+
+export const updateCustomer = async (
+  id: string,
+  data: FormData,
+  { supabase }: { supabase: SupabaseClient },
+) => {
+  const formData = await processCustomerData(data, { supabase: supabase });
+
+  const { data: customer, error } = await supabase
+    .from('customers')
+    .update(formData)
+    .eq('id', id)
+    .select()
+    .single();
+
+  return { customer, error };
+};
+
+export const deleteCustomer = async (
+  id: string,
+  { supabase }: { supabase: SupabaseClient },
+) => {
+  const { error } = await supabase.from('customers').delete().eq('id', id);
 
   return { error };
 };

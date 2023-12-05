@@ -78,10 +78,10 @@ export const mainRoutes: CommandProps[] = [
     ],
   },
   {
-    trigger: 'Admin',
+    trigger: 'Staffs',
     icon: <ShieldPlus className="mr-2 h-4 w-4" />,
     name: 'User Management',
-    description: 'Manage system employees and users.',
+    description: 'Manage system users/employees',
     href: '/admin',
     actions: [
       ...externalRoutes,
@@ -89,10 +89,25 @@ export const mainRoutes: CommandProps[] = [
         icon: <UserPlus className="mr-2 h-4 w-4" />,
         href: '/admin?action=new',
         title: 'Employees',
-        description: 'View lis of employed employees.',
+        description: 'Add new employee.',
       },
     ],
   },
+  {
+    trigger: 'Customers',
+    icon: <Users2 className="mr-2 h-4 w-4" />,
+    name: 'Customers',
+    description: 'Manage system customers.',
+    href: '/customers',
+    action: [
+      {
+        icon: <UserPlus className="mr-2 h-4 w-4" />,
+        href: '/customers?action=new',
+        title: 'Customers',
+        description: 'Add new customer.',
+      },
+    ]
+  }
 ];
 
 const routes = [...mainRoutes, ...externalRoutes];

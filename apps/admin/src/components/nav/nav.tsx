@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Session } from '@mcsph/supabase/types';
 import HeaderNav from './header-nav';
 import { browserClient } from '@mcsph/supabase/lib/client';

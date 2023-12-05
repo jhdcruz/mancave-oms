@@ -22,24 +22,14 @@ import { Label } from '@mcsph/ui/components/label';
 import { Separator } from '@mcsph/ui/components/separator';
 import { Switch } from '@mcsph/ui/components/switch';
 
-import { Employee } from '../table/employees/table-employees-schema';
-
 import { adminBrowserClient } from '@mcsph/supabase/lib/admin.client';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectGroup,
-  SelectLabel,
-  SelectItem,
-} from '@mcsph/ui/components/select';
-import { roles } from '../table/employees/table-employees-filters';
 import { Badge } from '@mcsph/ui/components/badge';
 import { formatDateTime } from '@mcsph/utils/lib/format';
 import { cn } from '@mcsph/utils';
 import { Skeleton } from '@mcsph/ui/components/skeleton';
 import { useToast } from '@mcsph/ui/components/use-toast';
+import { Customer } from '@/components/table/customers/table-customers-schema';
+import { Textarea } from '@mcsph/ui/components/textarea';
 
 /**
  * Modal dialog for employee details.
@@ -52,7 +42,7 @@ import { useToast } from '@mcsph/ui/components/use-toast';
  *        instead of manually creating the form
  *        in combination with react-hook-forms
  */
-export function DialogEmployee({
+export function DialogCustomer({
   open = false,
   setOpen,
   loading,
@@ -63,7 +53,7 @@ export function DialogEmployee({
   setOpen: (open: boolean) => void;
   loading: boolean;
   save: (formEvent: FormEvent) => Promise<unknown>;
-  rowData?: Employee;
+  rowData?: Customer;
 }) {
   const [imgLoad, setImgLoader] = useState(true);
   const [selectedImage, setSelectedImage] = useState<
@@ -93,45 +83,40 @@ export function DialogEmployee({
 
   const checkExisting = async (event: ChangeEvent<HTMLInputElement>) => {
     // prevent flooding the server with requests
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const email = event.target.value;
     const supabase = adminBrowserClient();
 
-    const { data: employee, error } = await supabase
-      .from('employees')
-      .select(
-        'id, first_name, last_name, middle_name, email, avatar_url, phone, role, active',
-      )
+    const { data: customer } = await supabase
+      .from('customers')
+      .select()
       .eq('email', email)
       .limit(1)
       .single();
 
-    if (employee) {
+    if (customer) {
       // pre-fill all the fields with the existing data
       const idInput = document.querySelector<HTMLInputElement>('#id');
-      const firstNameInput =
-        document.querySelector<HTMLInputElement>('#first_name');
-      const lastNameInput =
-        document.querySelector<HTMLInputElement>('#last_name');
-      const middleNameInput =
-        document.querySelector<HTMLInputElement>('#middle_name');
+      const nameInput = document.querySelector<HTMLInputElement>('#full_name');
+      const shippingInput =
+        document.querySelector<HTMLTextAreaElement>('#shipping_address');
+      const billingInput =
+        document.querySelector<HTMLTextAreaElement>('#billing_address');
       const emailInput = document.querySelector<HTMLInputElement>('#email');
       const phoneInput = document.querySelector<HTMLInputElement>('#phone');
-      const roleInput = document.querySelector<HTMLInputElement>('#role');
 
-      if (idInput) idInput.defaultValue = employee.id;
-      if (firstNameInput) firstNameInput.defaultValue = employee.first_name;
-      if (lastNameInput) lastNameInput.defaultValue = employee.last_name;
-      if (middleNameInput) middleNameInput.defaultValue = employee.middle_name;
-      if (emailInput) emailInput.defaultValue = employee.email;
-      if (phoneInput) phoneInput.defaultValue = employee.phone;
-      if (roleInput) roleInput.value = employee.role;
+      if (idInput) idInput.defaultValue = customer.id;
+      if (emailInput) emailInput.defaultValue = customer.email;
+      if (nameInput) nameInput.defaultValue = customer.full_name;
+      if (phoneInput) phoneInput.defaultValue = customer.phone;
+      if (shippingInput) shippingInput.value = customer.shipping_address;
+      if (billingInput) billingInput.value= customer.billing_address;
 
-      setActive(employee.active);
+      setActive(customer.active);
 
       // update the preview image
-      setSelectedImage(employee.avatar_url);
+      setSelectedImage(customer.avatar_url);
     }
   };
 
@@ -188,8 +173,8 @@ export function DialogEmployee({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="data-[state=open]:animate-show data-[state=closed]:animate-hide h-max max-h-screen w-screen overflow-y-scroll rounded-lg md:min-h-max md:min-w-[790px] md:overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Employee Details</DialogTitle>
-          <DialogDescription>Information about the employee.</DialogDescription>
+          <DialogTitle>Customer Details</DialogTitle>
+          <DialogDescription>Information about the customer.</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={save}>
@@ -223,99 +208,57 @@ export function DialogEmployee({
               <div className="mb-3 items-center">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  name="email"
                   id="email"
+                  name="email"
+                  type="email"
                   defaultValue={rowData?.email}
-                  placeholder="john.doe@mancave.com"
                   className="col-span-3"
-                  minLength={4}
                   onChange={checkExisting}
                   required
                 />
               </div>
 
-              {!rowData && (
-                <div className="my-3 w-full items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    minLength={7}
-                    autoComplete="current-password"
-                  />
-                </div>
-              )}
-
-              <Separator className="my-2" />
-
               <div className="mb-3 items-center">
-                <Label htmlFor="last_name">Last Name</Label>
+                <Label htmlFor="full_name">Customer</Label>
                 <Input
-                  id="last_name"
-                  name="last_name"
-                  defaultValue={rowData?.last_name}
-                  placeholder="Doe"
+                  id="full_name"
+                  name="full_name"
+                  defaultValue={rowData?.full_name}
                   className="col-span-3"
-                  minLength={2}
                   required
                 />
               </div>
-              <div className="mb-3 items-center">
-                <Label htmlFor="frst_name">First Name</Label>
-                <Input
-                  className="col-span-3"
-                  id="first_name"
-                  name="first_name"
-                  defaultValue={rowData?.first_name}
-                  placeholder="John"
-                  minLength={2}
-                  required
-                />
-              </div>
-              <div className="mb-3 items-center">
-                <Label htmlFor="middle_name">Middle Name</Label>
-                <Input
-                  className="col-span-3"
-                  id="middle_name"
-                  name="middle_name"
-                  defaultValue={rowData?.middle_name}
-                />
-              </div>
 
               <div className="mb-3 items-center">
-                <Label htmlFor="phone">Phone #.</Label>
+                <Label htmlFor="phone">Phone #</Label>
                 <Input
-                  className="col-span-3"
                   id="phone"
                   name="phone"
                   defaultValue={rowData?.phone}
-                  pattern="^(\d{11,15}$)"
+                  className="col-span-3"
+                />
+              </div>
+
+              <div className="mb-3 items-center">
+                <Label htmlFor="shipping_address">Shipping Address</Label>
+                <Textarea
+                  className="resize-none"
+                  id="shipping_address"
+                  defaultValue={rowData?.shipping_address}
+                  name="shipping_address"
                   required
                 />
               </div>
 
               <div className="mb-3 items-center">
-                <Label htmlFor="role">Access Level</Label>
-
-                <Select name="role" defaultValue={rowData?.role} required>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="User Role" />
-                  </SelectTrigger>
-                  <SelectContent id="role">
-                    <SelectGroup>
-                      <SelectLabel>User Role</SelectLabel>
-                      {roles.map((role) => (
-                        <SelectItem key={role.value} value={role.value}>
-                          <div className="flex items-center">
-                            <role.icon className="mr-2 h-4 w-4" />
-                            {role.label}
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="billing_address">Billing Address</Label>
+                <Textarea
+                  className="resize-none"
+                  id="billing_address"
+                  defaultValue={rowData?.billing_address ?? ''}
+                  name="billing_address"
+                  required
+                />
               </div>
             </div>
 
