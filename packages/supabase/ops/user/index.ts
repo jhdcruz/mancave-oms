@@ -64,11 +64,7 @@ export const getEmployees = async ({
 }: {
   supabase: SupabaseClient;
 }) => {
-  const { data, error } = await supabase
-    .from('employees')
-    .select(
-      'id, first_name, last_name, middle_name, email, phone, role, avatar_url, active, created_at, last_updated',
-    );
+  const { data, error } = await supabase.from('employees').select();
 
   return { data, error };
 };

@@ -60,6 +60,7 @@ export function DialogCustomer({
     string | ArrayBuffer | null
   >(null);
   const [active, setActive] = useState(rowData?.active ?? true);
+  const [recoveryRequested, setRecoveryRequested] = useState(false);
 
   const { toast } = useToast();
 
@@ -111,7 +112,7 @@ export function DialogCustomer({
       if (nameInput) nameInput.defaultValue = customer.full_name;
       if (phoneInput) phoneInput.defaultValue = customer.phone;
       if (shippingInput) shippingInput.value = customer.shipping_address;
-      if (billingInput) billingInput.value= customer.billing_address;
+      if (billingInput) billingInput.value = customer.billing_address;
 
       setActive(customer.active);
 
@@ -121,25 +122,7 @@ export function DialogCustomer({
   };
 
   const sendRecovery = async () => {
-    // send a post request to a url
-    const res = await fetch('/admin/api/auth/recovery', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ action: 'recovery', email: rowData?.email }),
-    });
-
-    if (res.status < 400) {
-      toast({
-        title: 'Recovery email sent',
-        description: `A recovery email has been sent to ${rowData?.email}`,
-      });
-    }
-  };
-
-  const changePassword = async () => {
-    const newPassword = window.prompt('Enter the new password below:');
+    setRecoveryRequested(true);
 
     // send a post request to a url
     const res = await fetch('/admin/api/auth/recovery', {
@@ -148,20 +131,57 @@ export function DialogCustomer({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        action: 'password',
-        id: rowData?.id,
-        password: newPassword,
+        action: 'recovery',
+        email: rowData?.email,
       }),
     });
 
     if (res.status < 400) {
       toast({
-        title: 'Password forcefully changed',
-        description: `Password has been forcefully changed for ${rowData?.email}`,
+        title: 'Recovery email sent',
+        description: `A recovery email has been sent to ${rowData?.email}`,
       });
+
+      setRecoveryRequested(false);
+      setOpen(false);
+    } else {
+      toast({
+        title: 'Recovery email failed',
+        description: `Failed to send recovery email to ${rowData?.email}`,
+        variant: 'destructive',
+      });
+
+      setRecoveryRequested(false);
     }
   };
 
+  const changePassword = async () => {
+    const newPassword = window.prompt('Enter the new password below:');
+
+    if (newPassword) {
+      // send a post request to a url
+      const res = await fetch('/admin/api/auth/recovery', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'password',
+          id: rowData?.id,
+          password: newPassword,
+        }),
+      });
+
+      if (res.status < 400) {
+        toast({
+          title: 'Password forcefully changed',
+          description: `Password has been forcefully changed for ${rowData?.email}`,
+        });
+
+        setOpen(false);
+      }
+    }
+  };
   // Reset the selectedImage when the component unmounts
   useEffect(() => {
     return () => {
@@ -317,15 +337,23 @@ export function DialogCustomer({
 
               {rowData && (
                 <div className="mx-auto w-[300px] items-center">
-                  <Button className="mb-2 w-[300px]" onClick={sendRecovery}>
+                  <Button
+                    type="button"
+                    className="mb-2 w-[300px]"
+                    onClick={() => sendRecovery()}
+                    disabled={recoveryRequested}
+                  >
                     <Mail className="mr-2 h-4 w-4" />
-                    Send recovery email
+                    {recoveryRequested
+                      ? 'Sending request...'
+                      : 'Send recovery email'}
                   </Button>
 
                   <Button
+                    type="button"
                     variant="outline"
                     className="w-[300px]"
-                    onClick={changePassword}
+                    onClick={() => changePassword()}
                   >
                     <KeyRound className="mr-2 h-4 w-4" />
                     Change password

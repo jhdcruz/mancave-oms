@@ -12,6 +12,7 @@ export const tableEmployeesSchema = z.object({
   last_updated: z.string(),
   active: z.boolean().default(false),
   role: z.string().default(''),
+  auth_provider: z.boolean().default(false),
 });
 
 export type Employee = z.infer<typeof tableEmployeesSchema>;
