@@ -257,7 +257,7 @@ export function DialogEmployee({
                   required
                 />
                 {authProvided && (
-                  <p className="text-sm mt-1 ml-1 text-muted-foreground">
+                  <p className="ml-1 mt-1 text-sm text-muted-foreground">
                     * Third-party auth provider used.
                   </p>
                 )}
@@ -407,7 +407,7 @@ export function DialogEmployee({
                     type="button"
                     className="mb-2 w-[300px]"
                     onClick={() => sendRecovery()}
-                    disabled={recoveryRequested}
+                    disabled={recoveryRequested || authProvided}
                   >
                     <Mail className="mr-2 h-4 w-4" />
                     {recoveryRequested
@@ -420,6 +420,7 @@ export function DialogEmployee({
                     variant="outline"
                     className="w-[300px]"
                     onClick={() => changePassword()}
+                    disabled={authProvided}
                   >
                     <KeyRound className="mr-2 h-4 w-4" />
                     Change password
