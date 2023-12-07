@@ -73,7 +73,7 @@ const MainNav = ({
     }
   };
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container flex h-16 items-center px-4">
         <NavigationMenu className="mx-auto flex max-w-full flex-auto items-center space-x-4">
           <div className="text-md flex items-center font-medium">
