@@ -245,21 +245,37 @@ export function DialogEmployee({
 
               <div className="mb-3 items-center">
                 <Label htmlFor="email">Email</Label>
-                <Input
-                  name="email"
-                  id="email"
-                  defaultValue={rowData?.email}
-                  placeholder="john.doe@mancave.com"
-                  className="col-span-3"
-                  minLength={4}
-                  disabled={authProvided}
-                  onChange={checkExisting}
-                  required
-                />
-                {authProvided && (
-                  <p className="ml-1 mt-1 text-sm text-muted-foreground">
-                    * Third-party auth provider used.
-                  </p>
+
+                {authProvided ? (
+                  <>
+                    <p className="my-1 font-medium">{rowData?.email}</p>
+                    <Input
+                      name="email"
+                      id="email"
+                      type="email"
+                      defaultValue={rowData?.email}
+                      placeholder="john.doe@mancave.com"
+                      className="col-span-3 hidden"
+                      minLength={4}
+                      onChange={checkExisting}
+                      required
+                    />
+                    <p className="ml-1 mt-1 text-sm text-muted-foreground">
+                      * Third-party auth provider used.
+                    </p>
+                  </>
+                ) : (
+                  <Input
+                    name="email"
+                    id="email"
+                    type="email"
+                    defaultValue={rowData?.email}
+                    placeholder="john.doe@mancave.com"
+                    className="col-span-3"
+                    minLength={4}
+                    onChange={checkExisting}
+                    required
+                  />
                 )}
               </div>
 
@@ -320,7 +336,6 @@ export function DialogEmployee({
                   name="phone"
                   defaultValue={rowData?.phone}
                   pattern="^(\d{11,15}$)"
-                  required
                 />
               </div>
 
