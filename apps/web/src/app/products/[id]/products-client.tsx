@@ -171,9 +171,9 @@ function ProductsClientComponent() {
                   <Button onClick={() => handleQuantityChange(item.id, item.quantity - 1)} disabled={item.quantity === 1} style={{ fontSize: '1em', padding: '5px' }}>
                     -
                   </Button>
-                  <Badge style={{ color: '#000', margin: '0 10px', fontSize: '1.2em' }}>{item.quantity}</Badge>
+                  <Badge style={{ margin: '0 10px', fontSize: '1.2em' }}>{item.quantity}</Badge>
                   <Button onClick={() => handleQuantityChange(item.id, item.quantity + 1)} style={{ fontSize: '1em', padding: '5px' }}>+</Button>
-                  <Button onClick={() => handleRemoveFromCart(item.id)} style={{ marginLeft: '10px', color: 'red', fontSize: '1em', padding: '5px' }}>
+                  <Button variant="destructive" onClick={() => handleRemoveFromCart(item.id)} style={{ marginLeft: '10px', fontSize: '1em', padding: '5px' }}>
                     Delete
                   </Button>
                 </div>
