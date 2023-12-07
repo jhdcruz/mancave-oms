@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
-import { useSearchParams } from 'next/navigation';
 import { Logger } from 'next-axiom';
 
 import { Button } from '@mcsph/ui/components/button';
@@ -9,17 +7,9 @@ import { Input } from '@mcsph/ui/components/input';
 import { Separator } from '@mcsph/ui/components/separator';
 
 import { serverClient } from '@mcsph/supabase/lib/server';
+import { redirect } from 'next/navigation';
 
 export default async function ResetPage() {
-  const params = useSearchParams();
-  const code = params.get('code') as string;
-
-  const cookieStore = cookies();
-  const supabase = serverClient(cookieStore);
-
-  // exchange code for session
-  await supabase.auth.exchangeCodeForSession(code);
-
   const resetPassword = async (formData: FormData) => {
     'use server';
 
@@ -38,7 +28,7 @@ export default async function ResetPage() {
       if (error) {
         log.error('Error password reset action', { error });
       } else {
-        NextResponse.redirect('/inventory');
+        redirect('/inventory');
       }
     }
   };
