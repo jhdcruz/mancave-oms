@@ -8,6 +8,7 @@ import ThemeProvider from '@mcsph/ui/containers/theme-provider';
 import { cn, defaultUrl } from '@mcsph/utils';
 
 import { getCurrentSession } from '@mcsph/supabase/ops/user';
+import { serverClient } from '@mcsph/supabase/lib/server';
 import { Session } from '@mcsph/supabase/types';
 
 import '@mcsph/ui/globals.css';
