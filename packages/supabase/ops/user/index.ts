@@ -64,7 +64,10 @@ export const getEmployees = async ({
 }: {
   supabase: SupabaseClient;
 }) => {
-  const { data, error } = await supabase.from('employees').select();
+  const { data, error } = await supabase
+    .from('employees')
+    .select()
+    .order('created_at', { ascending: false });
 
   return { data, error };
 };
@@ -139,8 +142,10 @@ export const getCustomers = async ({
 }: {
   supabase: SupabaseClient;
 }) => {
-  const { data, error } = await supabase.from('customers').select();
-
+  const { data, error } = await supabase
+    .from('customers')
+    .select()
+    .order('created_at', { ascending: false });
   return { data, error };
 };
 

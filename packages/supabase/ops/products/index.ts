@@ -43,9 +43,8 @@ export const getProducts = async ({ supabase }: DatabaseSession = {}) => {
 
   const { data, error } = await supabase
     .from('products')
-    .select(
-      'id, sku, image_url, name, description, price, type, qty, last_updated, published',
-    );
+    .select()
+    .order('created_at', { ascending: false });
 
   if (error) log.error('Error fetching products', { error });
 

@@ -39,7 +39,10 @@ export const getOrders = async ({ supabase }: DatabaseSession = {}) => {
     supabase = serverClient(cookieStore);
   }
 
-  const { data, error } = await supabase.from('orders').select(`
+  const { data, error } = await supabase
+    .from('orders')
+    .select(
+      `
       id, 
       total_price, 
       payment,
@@ -54,7 +57,9 @@ export const getOrders = async ({ supabase }: DatabaseSession = {}) => {
         shipping_address,
         billing_address
       )
-    `);
+    `,
+    )
+    .order('created_at', { ascending: false });
 
   if (error) log.error('Error fetching orders', { error });
 
