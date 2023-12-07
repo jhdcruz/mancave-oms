@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Image from 'next/image';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -13,6 +12,13 @@ import { serverClient } from '@mcsph/supabase/lib/server';
 
 export default async function ResetPage() {
   const params = useSearchParams();
+  const code = params.get('code') as string;
+
+  const cookieStore = cookies();
+  const supabase = serverClient(cookieStore);
+
+  // exchange code for session
+  await supabase.auth.exchangeCodeForSession(code);
 
   const resetPassword = async (formData: FormData) => {
     'use server';
@@ -36,21 +42,6 @@ export default async function ResetPage() {
       }
     }
   };
-
-  useEffect(() => {
-    // get searchparams code
-    const code = params.get('code') as string;
-
-    const sessionCode = async () => {
-      const cookieStore = cookies();
-      const supabase = serverClient(cookieStore);
-
-      // exchange code for session
-      await supabase.auth.exchangeCodeForSession(code);
-    };
-
-    sessionCode();
-  }, [params]);
 
   return (
     <div className="container mx-auto flex h-screen place-items-center items-center justify-center">
