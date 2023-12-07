@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { UserCircle } from 'lucide-react';
+import { LogOut, UserCircle } from 'lucide-react';
 
 import {
   Avatar,
@@ -54,14 +54,14 @@ export default function UserNav({ avatar, name, email }: UserNavProps) {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem onSelect={() => router.push('/profile')}>
-            Profile
+          <DropdownMenuItem
+            className="items-center"
+            onSelect={() => router.push('/logout')}
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Log out
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => router.push('/logout')}>
-          Log out
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
