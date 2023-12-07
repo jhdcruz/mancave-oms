@@ -460,10 +460,8 @@ export function DialogOrder({
                                   </span>
                                 </div>
 
-                                <div className="flex items-center justify-between">
-                                  <span>
-                                    {order.product.name} / {order.product.type}
-                                  </span>
+                                <div className="flex items-center justify-between truncate">
+                                  <span>{order.product.name}</span>
                                   <span className="ml-auto text-right font-semibold">
                                     {formatCurrency(
                                       order.product.price * order.qty,
