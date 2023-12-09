@@ -16,7 +16,7 @@
   "devDependencies": {
     "@mcsph/tooling": "workspace:*",
     "@mcsph/utils": "workspace:*",
-    "@types/node": "20.10.3"
+    "@types/node": "20.10.4"
   },
   "repository": {
     "type": "git",
