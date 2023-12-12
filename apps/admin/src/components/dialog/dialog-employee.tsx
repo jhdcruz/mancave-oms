@@ -24,6 +24,7 @@ import { Switch } from '@mcsph/ui/components/switch';
 
 import { Employee } from '../table/employees/table-employees-schema';
 
+import { browserClient } from '@mcsph/supabase/lib/client';
 import { adminBrowserClient } from '@mcsph/supabase/lib/admin.client';
 import { getCurrentSession } from '@mcsph/supabase/ops/user';
 
@@ -42,6 +43,12 @@ import { formatDateTime } from '@mcsph/utils/lib/format';
 import { cn } from '@mcsph/utils';
 import { Skeleton } from '@mcsph/ui/components/skeleton';
 import { useToast } from '@mcsph/ui/components/use-toast';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@mcsph/ui/components/tooltip';
 
 /**
  * Modal dialog for employee details.
@@ -195,25 +202,13 @@ export function DialogEmployee({
 
       if (res.status < 400) {
         toast({
-          title: 'Password forcefully changed',
-          description: `Password has been forcefully changed for ${rowData?.email}`,
+          title: 'Password has been updated!',
+          description: `Password has been changed for ${rowData?.email}`,
         });
 
         setOpen(false);
       }
     }
-  };
-
-  const allowPasswordChange = async () => {
-    // get the email input value
-    const emailInput =
-      document.querySelector<HTMLInputElement>('#email')?.value;
-    const supabase = adminBrowserClient();
-
-    const { session } = await getCurrentSession({ supabase: supabase });
-    const currentUser = session?.user?.email;
-
-    return emailInput === currentUser;
   };
 
   // Reset the selectedImage when the component unmounts
@@ -224,8 +219,30 @@ export function DialogEmployee({
   }, []);
 
   useEffect(() => {
-    // call your async function in the 'useEffect' hook
-    allowPasswordChange().then((result) => allowChangePass(result));
+    // show change password button only for current logged-in user
+    const allowPasswordChange = async () => {
+      // get the email input value
+      const emailInput = document.querySelector<HTMLInputElement>('#email')
+        ?.value as string;
+      const providerEmailInput = document.querySelector<HTMLInputElement>(
+        '#provider_email',
+      )?.innerHTML as string;
+
+      const supabase = browserClient();
+
+      const { session } = await getCurrentSession({ supabase: supabase });
+      const currentUser = session?.user?.email;
+
+      // check inputs for both manual users and google auth users,
+      // since google auth emails are rendered in a <p> tag.
+      const isAllowed =
+        currentUser === providerEmailInput || currentUser === emailInput;
+
+      allowChangePass(isAllowed);
+    };
+
+    // noinspection JSIgnoredPromiseFromCall
+    allowPasswordChange();
   }, []);
 
   return (
@@ -269,7 +286,9 @@ export function DialogEmployee({
 
                 {authProvided ? (
                   <>
-                    <p className="my-1 font-medium">{rowData?.email}</p>
+                    <p id="provider_email" className="my-1 font-medium">
+                      {rowData?.email}
+                    </p>
                     <Input
                       name="email"
                       id="email"
@@ -278,7 +297,6 @@ export function DialogEmployee({
                       placeholder="john.doe@mancave.com"
                       className="col-span-3 hidden"
                       minLength={4}
-                      onChange={checkExisting}
                       required
                     />
                     <p className="ml-1 mt-1 text-sm text-muted-foreground">
@@ -451,16 +469,30 @@ export function DialogEmployee({
                       : 'Send recovery email'}
                   </Button>
 
+                  {/* Prevent changing of password for Google auths */}
                   {changePass && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="w-[300px]"
-                      onClick={() => changePassword()}
-                    >
-                      <KeyRound className="mr-2 h-4 w-4" />
-                      Change password
-                    </Button>
+                    <>
+                      {authProvided ? (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>Hover</TooltipTrigger>
+                            <TooltipContent>
+                              <p>Add to library</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ) : (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="w-[300px]"
+                          onClick={() => changePassword()}
+                        >
+                          <KeyRound className="mr-2 h-4 w-4" />
+                          Change password
+                        </Button>
+                      )}
+                    </>
                   )}
                 </div>
               )}
