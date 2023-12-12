@@ -1,0 +1,35 @@
+-- schema: public
+-- security: definer
+-- return_type: trigger
+
+-- NOTE: create an SQL trigger in 'schema: auth'
+-- Name	                    Table       	 Function 	          Events	         
+-- on_auth_user_created     users        handle_google_users    AFTER INSERT
+
+BEGIN
+  -- handle staff google login, get proper creds from google
+  -- TODO: Change the domain to your googgle's internal domain without the '@'.
+  IF new.raw_user_meta_data->'custom_claims'->>'hd' = 'DOMAIN' AND new.raw_app_meta_data->>'provider' = 'google' THEN
+    INSERT INTO public.employees (id, email, first_name, role, avatar_url, auth_provider)
+    VALUES (
+      new.id,
+      new.email,
+      new.raw_user_meta_data->>'name',
+      'Staff',
+      new.raw_user_meta_data->>'avatar_url',
+      TRUE
+    );
+  
+  ELSE
+    INSERT INTO public.customers (id, full_name, email, avatar_url)
+    VALUES (
+      new.id,
+      new.raw_user_meta_data->>'name',
+      new.email,
+      new.raw_user_meta_data->>'avatar_url'
+    );
+
+  END IF;
+
+  RETURN new;
+END;

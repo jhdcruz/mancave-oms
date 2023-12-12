@@ -1,0 +1,12 @@
+-- schema: public
+-- security: invoker
+-- return_type: trigger
+
+BEGIN
+    -- Reduce product quantity based on the new order_items quantity
+    UPDATE products
+    SET qty = qty - NEW.qty
+    WHERE id = NEW.product_id;
+
+    RETURN NEW;
+END;

@@ -1,0 +1,14 @@
+-- schema: public
+-- security: invoker
+-- return_type: trigger
+
+-- TODO: Combine with handle_product_qty_orders using IF based on INSERT/DELETE
+
+BEGIN
+    -- Increase product quantity based on the deleted order_items quantity
+    UPDATE products
+    SET qty = qty + OLD.qty
+    WHERE id = OLD.product_id;
+
+    RETURN OLD;
+END;
