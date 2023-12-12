@@ -61,6 +61,9 @@ export const orderColumns: ColumnDef<Orders>[] = [
         {row.getValue('payment')}
       </Badge>
     ),
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: 'total_price',

@@ -501,7 +501,7 @@ export function DialogOrder({
                             key={paymentStatus.value}
                             value={paymentStatus.value}
                           >
-                            <div className="flex items-center">
+                            <div className="flex items-center capitalize">
                               <paymentStatus.icon className="mr-2 h-4 w-4" />
                               {paymentStatus.label}
                             </div>

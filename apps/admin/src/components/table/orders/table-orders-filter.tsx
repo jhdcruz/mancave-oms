@@ -50,12 +50,12 @@ export const orderStatuses = [
 
 export const payment = [
   {
-    value: 'Cash',
+    value: 'cash',
     label: 'Cash',
     icon: Banknote,
   },
   {
-    value: 'Card',
+    value: 'card',
     label: 'Credit/Debit Card',
     icon: CreditCard,
   },
