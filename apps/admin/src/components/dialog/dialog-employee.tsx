@@ -475,9 +475,19 @@ export function DialogEmployee({
                       {authProvided ? (
                         <TooltipProvider>
                           <Tooltip>
-                            <TooltipTrigger>Hover</TooltipTrigger>
+                            <TooltipTrigger>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="w-[300px]"
+                          onClick={() => changePassword()}
+                        >
+                          <KeyRound className="mr-2 h-4 w-4" />
+                          Change password
+                        </Button>
+                            </TooltipTrigger>
                             <TooltipContent>
-                              <p>Add to library</p>
+                              <p>3rd-party auth provider is used.</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
