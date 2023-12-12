@@ -349,16 +349,6 @@ export function DialogCustomer({
                       ? 'Sending request...'
                       : 'Send recovery email'}
                   </Button>
-
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="w-[300px]"
-                    onClick={() => changePassword()}
-                  >
-                    <KeyRound className="mr-2 h-4 w-4" />
-                    Change password
-                  </Button>
                 </div>
               )}
             </div>
