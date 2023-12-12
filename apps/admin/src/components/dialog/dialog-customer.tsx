@@ -256,6 +256,7 @@ export function DialogCustomer({
                   name="phone"
                   defaultValue={rowData?.phone}
                   className="col-span-3"
+                  required
                 />
               </div>
 
