@@ -2,8 +2,6 @@
 
 An ordering management system for Man Cave Supplies PH, Inc.
 
-> In compliance to the course: `CIT 305 System Integration and Architecture`.
-
 > [!NOTE]\
 > The company mentioned above is imaginary, any similarity or conflict of a real-life company is purely coincidental.
 
