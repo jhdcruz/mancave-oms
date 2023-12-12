@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import * as Sentry from '@sentry/nextjs';
 
-export default function Error({
+export default function GlobalError({
   error,
 }: {
   error: Error & { digest?: string };
