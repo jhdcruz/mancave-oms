@@ -25,6 +25,8 @@ import { Switch } from '@mcsph/ui/components/switch';
 import { Employee } from '../table/employees/table-employees-schema';
 
 import { adminBrowserClient } from '@mcsph/supabase/lib/admin.client';
+import { getCurrentSession } from '@mcsph/supabase/ops/user';
+
 import {
   Select,
   SelectTrigger,
@@ -73,6 +75,8 @@ export function DialogEmployee({
   const [authProvided, setAuthProvided] = useState(
     rowData?.auth_provider ?? false,
   );
+
+  const [changePass, allowChangePass] = useState(false);
   const [recoveryRequested, setRecoveryRequested] = useState(false);
 
   const { toast } = useToast();
@@ -102,7 +106,7 @@ export function DialogEmployee({
     const email = event.target.value;
     const supabase = adminBrowserClient();
 
-    const { data: employee, error } = await supabase
+    const { data: employee } = await supabase
       .from('employees')
       .select()
       .eq('email', email)
@@ -141,7 +145,7 @@ export function DialogEmployee({
   const sendRecovery = async () => {
     setRecoveryRequested(true);
 
-    // send a post request to a url
+    // send a post request to an url
     const res = await fetch('/admin/api/auth/recovery', {
       method: 'POST',
       headers: {
@@ -176,7 +180,7 @@ export function DialogEmployee({
     const newPassword = window.prompt('Enter the new password below:');
 
     if (newPassword) {
-      // send a post request to a url
+      // send a post request to an url
       const res = await fetch('/admin/api/auth/recovery', {
         method: 'POST',
         headers: {
@@ -200,11 +204,28 @@ export function DialogEmployee({
     }
   };
 
+  const allowPasswordChange = async () => {
+    // get the email input value
+    const emailInput =
+      document.querySelector<HTMLInputElement>('#email')?.value;
+    const supabase = adminBrowserClient();
+
+    const { session } = await getCurrentSession({ supabase: supabase });
+    const currentUser = session?.user?.email;
+
+    return emailInput === currentUser;
+  };
+
   // Reset the selectedImage when the component unmounts
   useEffect(() => {
     return () => {
       setSelectedImage(null);
     };
+  }, []);
+
+  useEffect(() => {
+    // call your async function in the 'useEffect' hook
+    allowPasswordChange().then((result) => allowChangePass(result));
   }, []);
 
   return (
@@ -430,16 +451,18 @@ export function DialogEmployee({
                       : 'Send recovery email'}
                   </Button>
 
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="w-[300px]"
-                    onClick={() => changePassword()}
-                    disabled={authProvided}
-                  >
-                    <KeyRound className="mr-2 h-4 w-4" />
-                    Change password
-                  </Button>
+                  {changePass && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-[300px]"
+                      onClick={() => changePassword()}
+                      disabled={authProvided}
+                    >
+                      <KeyRound className="mr-2 h-4 w-4" />
+                      Change password
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
