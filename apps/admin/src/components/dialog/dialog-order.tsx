@@ -89,8 +89,8 @@ export function DialogOrder({
     // then add to the orders state
     const getSku = document.getElementById('order_product') as HTMLInputElement;
     const getQty = document.getElementById('order_qty') as HTMLInputElement;
-    const productSku = getSku.value;
-    const orderQty = getQty.value;
+    const productSku = getSku.value.trim();
+    const orderQty = getQty.value.trim();
 
     // save the sku to the state which in turn
     // will be used to fetch the product details
