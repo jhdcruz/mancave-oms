@@ -2,6 +2,7 @@ import { memo, ReactNode } from 'react';
 import { AxiomWebVitals } from 'next-axiom';
 import { GeistSans } from 'geist/font/sans';
 
+import { Toaster } from '@mcsph/ui/components/toaster';
 import ThemeProvider from '@mcsph/ui/containers/theme-provider';
 import SWRProvider from '@/components/swr-provider';
 
@@ -57,6 +58,7 @@ export default async function RootLayout({
             <SiteNav />
 
             <main>{children}</main>
+            <Toaster />
           </ThemeProvider>
         </SWRProvider>
       </body>
