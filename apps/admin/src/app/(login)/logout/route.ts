@@ -5,6 +5,8 @@ import { type AxiomRequest, withAxiom } from 'next-axiom';
 import { serverClient } from '@mcsph/supabase/lib/server';
 
 export const GET = withAxiom(async (req: AxiomRequest) => {
+  const requestUrl = new URL(req.url);
+
   const cookieStore = cookies();
   const supabase = serverClient(cookieStore);
 
@@ -13,5 +15,5 @@ export const GET = withAxiom(async (req: AxiomRequest) => {
   if (error) req.log.error('User had an error in signing out', { error });
 
   // URL to redirect to after sign in process completes
-  return NextResponse.redirect(new URL('/login', req.url));
+  return NextResponse.redirect(new URL('/login', requestUrl.origin));
 });
