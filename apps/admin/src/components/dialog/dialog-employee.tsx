@@ -443,7 +443,7 @@ export function DialogEmployee({
                     type="button"
                     className="mb-2 w-[300px]"
                     onClick={() => sendRecovery()}
-                    disabled={recoveryRequested || authProvided}
+                    disabled={recoveryRequested}
                   >
                     <Mail className="mr-2 h-4 w-4" />
                     {recoveryRequested
@@ -457,7 +457,6 @@ export function DialogEmployee({
                       variant="outline"
                       className="w-[300px]"
                       onClick={() => changePassword()}
-                      disabled={authProvided}
                     >
                       <KeyRound className="mr-2 h-4 w-4" />
                       Change password
