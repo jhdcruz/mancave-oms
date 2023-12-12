@@ -64,7 +64,7 @@ export const getProductBySku = async (
 
   const { data, error } = await supabase
     .from('products')
-    .select('id, sku, name, type, price')
+    .select('id, sku, name, type, price, qty')
     .eq('sku', sku)
     .eq('published', true)
     .single();
