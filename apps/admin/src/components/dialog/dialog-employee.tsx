@@ -480,7 +480,7 @@ export function DialogEmployee({
                           type="button"
                           variant="outline"
                           className="w-[300px]"
-                          onClick={() => changePassword()}
+                          disabled={true}
                         >
                           <KeyRound className="mr-2 h-4 w-4" />
                           Change password
