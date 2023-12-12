@@ -100,6 +100,15 @@ export function DialogOrder({
     });
 
     if (productDetails) {
+      // check if there is enough product stock
+      if (orderQty > productDetails.qty) {
+        return toast({
+          variant: 'destructive',
+          title: 'Insufficient product stock',
+          description: `There is not enough product stock in the inventory for ${productDetails.sku} - ${productDetails.name}.`,
+        });
+      }
+
       // Check if the product with the same SKU already exists in the orders array
       const existingOrderIndex = orders.findIndex(
         (order) => order.product.sku === productDetails.sku,
@@ -172,6 +181,7 @@ export function DialogOrder({
     }
   };
 
+  // save orders to order_items table
   const submitOrder = async (formEvent: FormEvent) => {
     formEvent.preventDefault();
 
@@ -195,6 +205,7 @@ export function DialogOrder({
       return orders.reduce((a, b) => a + b.product.price * b.qty, 0);
     };
 
+    // insert an order entry, information about the orders
     const { data: createdOrder, error: orderError } = await supabase
       .from('orders')
       .insert({
@@ -210,6 +221,7 @@ export function DialogOrder({
 
     if (orderError) throw orderError;
 
+    // consolidate order items into a single array
     const orderItems = [
       ...orders.map((order) => ({
         order_id: createdOrder.id,
@@ -218,6 +230,7 @@ export function DialogOrder({
       })),
     ];
 
+    // insert the order order details (products ordered) in order_items
     const { error: orderItemsError } = await supabase
       .from('order_items')
       .insert(orderItems);
