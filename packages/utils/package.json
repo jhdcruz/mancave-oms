@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@mcsph/tooling": "workspace:*",
-    "@types/node": "20.10.4"
+    "@types/node": "20.10.5"
   },
   "peerDependencies": {
     "tailwindcss": "3.3.5"
