@@ -213,10 +213,10 @@ importers:
     dependencies:
       '@supabase/ssr':
         specifier: 0.0.10
-        version: 0.0.10(@supabase/supabase-js@2.39.0)
+        version: 0.0.10(@supabase/supabase-js@2.39.1)
       '@supabase/supabase-js':
-        specifier: 2.39.0
-        version: 2.39.0
+        specifier: 2.39.1
+        version: 2.39.1
       next:
         specifier: ^14
         version: 14.0.4(react-dom@18.2.0)(react@18.2.0)
@@ -2360,12 +2360,12 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@supabase/ssr@0.0.10(@supabase/supabase-js@2.39.0):
+  /@supabase/ssr@0.0.10(@supabase/supabase-js@2.39.1):
     resolution: {integrity: sha512-eVs7+bNlff8Fd79x8K3Jbfpmf8P8QRA1Z6rUDN+fi4ReWvRBZyWOFfR6eqlsX6vTjvGgTiEqujFSkv2PYW5kbQ==}
     peerDependencies:
       '@supabase/supabase-js': ^2.33.1
     dependencies:
-      '@supabase/supabase-js': 2.39.0
+      '@supabase/supabase-js': 2.39.1
       cookie: 0.5.0
       ramda: 0.29.1
     dev: false
@@ -2376,8 +2376,8 @@ packages:
       '@supabase/node-fetch': 2.6.15
     dev: false
 
-  /@supabase/supabase-js@2.39.0:
-    resolution: {integrity: sha512-cYfnwWRW5rYBbPT/BNIejtRT9ULdD9PnIExQV28PZpqcqm3PLwS4f3pY7WGB01Da63VYdvktZPKuYvreqsj/Zg==}
+  /@supabase/supabase-js@2.39.1:
+    resolution: {integrity: sha512-nz0aQPButJWjChX+bLXqvhHutfiOuiJwzibyJs0uhFrQ6JRDZZsl9+nX2jgyox2v2V+e4PEwbn/eaEOFVUr8iA==}
     dependencies:
       '@supabase/functions-js': 2.1.5
       '@supabase/gotrue-js': 2.60.1
