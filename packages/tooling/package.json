@@ -11,6 +11,6 @@
     "@types/node": "20.10.4"
   },
   "peerDependencies": {
-    "tailwindcss": "3.3.7"
+    "tailwindcss": "3.4.0"
   }
 }
