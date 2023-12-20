@@ -18,7 +18,7 @@
     "@sentry/nextjs": "7.86.0",
     "@sentry/node": "7.86.0",
     "@sentry/profiling-node": "1.2.6",
-    "@tanstack/react-table": "8.10.7",
+    "@tanstack/react-table": "8.11.2",
     "geist": "1.2.0",
     "lucide-react": "0.294.0",
     "next": "14.0.4",
