@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Custom eslint configuration for ERP.",
   "dependencies": {
-    "tailwind-merge": "2.1.0",
+    "tailwind-merge": "2.2.0",
     "tailwindcss-animate": "1.0.7"
   },
   "devDependencies": {
