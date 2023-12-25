@@ -18,7 +18,7 @@
     "@sentry/node": "7.86.0",
     "@sentry/profiling-node": "1.2.6",
     "geist": "1.2.0",
-    "lucide-react": "0.294.0",
+    "lucide-react": "0.302.0",
     "next": "14.0.4",
     "next-axiom": "1.1.1",
     "next-themes": "0.2.1",
